@@ -1,0 +1,20 @@
+emacs-test
+cd emacs-test
+..
+emacs-test
+python s.py 
+conda activate py38
+source activate py38
+conda activate py38
+conda init zsh
+conda activate py38
+conda activate py38
+conda init zsh
+source activate py38
+python s.py 
+python s.py 
+python s.py 
+python s.py 
+python s.py
+python preprocessing.py 
+conda activate py38
