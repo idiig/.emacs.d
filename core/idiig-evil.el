@@ -164,6 +164,6 @@
   ;; 具体可以看文档
   (evil-collection-company-use-tng nil)
   :config
-  (evil-collection-init '(magit calendar ibuffer custom deft)))
+  (evil-collection-init '(magit calendar ibuffer custom)))
 
 (provide 'idiig-evil)
