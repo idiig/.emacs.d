@@ -35,7 +35,6 @@
 
 ;; mode-line
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-env-version nil)
   (doom-modeline-buffer-file-name-style 'buffer-name)
@@ -46,6 +45,7 @@
   (doom-modeline-workspace-name nil)
   :config
   (progn
+    (doom-modeline-mode 1)
     (line-number-mode 1)
     (column-number-mode 0)))
 
@@ -93,7 +93,7 @@
   (setq fci-rule-color "gray30") ; 縦線の色
   )
 
-;; sky-colo;; r-clock
+;; ;; sky-color-clock
 ;; (use-package sky-color-clock
 ;;   :requires sky-color-clock
 ;;   :quelpa (sky-color-clock :fetcher github :repo "zk-phi/sky-color-clock")
