@@ -17,7 +17,7 @@
 ;; pyim
 (use-package pyim
   :defer 2
-  :diminish
+  :diminish (pyim-isearch-mode)
   :config
   (progn
     (setq default-input-method "pyim")
