@@ -1,0 +1,67 @@
+;;; -*- coding: utf-8 -*-
+(("/Users/idiig/Nutstore/org-notes/notes.org" . 1856)
+ ("/Users/idiig/Nutstore/org-notes/journal.org" . 134)
+ ("/Users/idiig/Nutstore/org-notes/gtd.org" . 1724)
+ ("/Users/idiig/Nutstore/org-notes/bibnote.org" . 36096)
+ ("/Users/idiig/.emacs.d/core/idiig-evil.el" . 6949)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/tk_vec.py" . 3319)
+ ("/Users/idiig/.emacs.d/.cache/recentf" . 9115)
+ ("/Users/idiig/.emacs.d/.gitignore" . 195)
+ ("/Users/idiig/.emacs.d/modules/idiig-git.el" . 3351)
+ ("/Users/idiig/.orhc-bibtex-cache" . 26218)
+ ("/Users/idiig/.gitignore" . 102)
+ ("/Users/idiig/.emacs.d/core/"
+  (dired-filename . "/Users/idiig/.emacs.d/core/idiig-evil.el"))
+ ("/Users/idiig/.emacs.d/.git/"
+  (dired-filename . "/Users/idiig/.emacs.d/.git/description"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.org" . 2293)
+ ("/Users/idiig/.emacs.d/core/idiig-better-search.el" . 6353)
+ ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 5805)
+ ("/Users/idiig/.emacs.d/init.el" . 1503)
+ ("/Users/idiig/.emacs.d/modules/idiig-prog.el" . 6372)
+ ("/Users/idiig/git/spacemacs/init.el" . 353)
+ ("/usr/local/Cellar/emacs-plus@27/27.2/share/emacs/27.2/lisp/loaddefs.el" . 1006904)
+ ("/Users/idiig/git/spacemacs/layers/+readers/deft/packages.el" . 1100)
+ ("/Users/idiig/.emacs.d/core/idiig-global-keybindings.el" . 1725)
+ ("/Users/idiig/git/spacemacs_config-based-on-zilongshanren-/"
+  (dired-filename . "/Users/idiig/git/spacemacs_config-based-on-zilongshanren-/init.el"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/preprocessing.py" . 2555)
+ ("/Users/idiig/"
+  (dired-filename . "/Users/idiig/.oh-my-zsh"))
+ ("/Users/idiig/.emacs.d/modules/idiig-japanese.el" . 521)
+ ("/Users/idiig/.emacs.d/core/idiig-better-default.el" . 210)
+ ("/Users/idiig/emacs-test/s.org" . 655)
+ ("/Users/idiig/.emacs.d/modules/idiig-python.el" . 31)
+ ("/Users/idiig/.emacs.d/modules/idiig-ess.el" . 450)
+ ("/usr/local/Cellar/emacs-plus@27/27.2/share/emacs/27.2/etc/TODO" . 2)
+ ("/Users/idiig/.emacs.d/modules/"
+  (dired-filename . "/Users/idiig/.emacs.d/modules/idiig-git.el"))
+ ("/Users/idiig/anaconda3/lib/python3.8/site-packages/pandas/core/frame.py" . 11054)
+ ("/Users/idiig/.emacs.d/"
+  (dired-filename . "/Users/idiig/.emacs.d/dependencies"))
+ ("/Users/idiig/.emacs.d/core/idiig-auto-complete.el" . 9880)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/hds_eval_exp.py"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/engo.txt" . 70)
+ ("/Users/idiig/.emacs.d/.cache/"
+  (dired-filename . "/Users/idiig/.emacs.d/.cache/.DS_Store"))
+ ("/Users/idiig/.zshrc" . 765)
+ ("/Users/idiig/.emacs.d/core/idiig-ui.el" . 1178)
+ ("/Users/idiig/Nutstore/works/on_work/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka"))
+ ("/Users/idiig/Nutstore/works/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/khky-train.txt" . 21588)
+ ("/Users/idiig/emacs-test/s.py" . 237)
+ ("/Users/idiig/emacs-test/test.org" . 127)
+ ("/Users/idiig/emacs-test/s.r" . 64)
+ ("/Users/idiig/Nutstore/org-notes/gtd.html" . 15562)
+ ("/Users/idiig/Nutstore/org-notes/gtd.org_archive" . 1248)
+ ("/Users/idiig/Nutstore/bibfolder/bibliography.bib" . 18400)
+ ("/Users/idiig/emacs-backup/init.el" . 3571)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.bib" . 9594)
+ ("/usr/local/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" . 1732)
+ ("/Users/idiig/Downloads/"
+  (dired-filename . "/Users/idiig/Downloads/文本-F3F46926A5D2-1.txt")))

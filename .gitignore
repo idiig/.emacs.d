@@ -1,11 +1,6 @@
-/.cache/*.el
-/.cache
 /auto-save-list/.saves-17515-Xudongs-MacBook-Air.local~
 /auto-save-list/.saves-57575-Xudongs-MacBook-Air.local~
 /auto-save-list/.saves-59480-Xudongs-MacBook-Air.local~
 /elpa/
-/.cache/
-/.dap-breakpoints
 /.elpa/
-/.lsp-session-v1
 /auto-save-list/

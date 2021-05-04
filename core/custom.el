@@ -3,7 +3,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(dap-breakpoints-file "/Users/idiig/.emacs.d/.cache/.dap-breakpoints")
+ '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
+ '(lsp-session-file "/Users/idiig/.emacs.d/.cache/.lsp-session-v1")
  '(package-selected-packages
    '(pyim-basedict org-plus-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish counsel company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete)))
 (custom-set-faces
