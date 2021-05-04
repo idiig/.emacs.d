@@ -34,8 +34,8 @@
                pytest-module
                pytest-pdb-module)
     :init
-    (which-key-declare-prefixes ",t" "pytest")
-    (which-key-declare-prefixes "SPC mt" "pytest")
+    (which-key-declare-prefixes-for-mode 'python-mode ",t" "pytest")
+    (which-key-declare-prefixes-for-mode 'python-mode "SPC mt" "pytest")
     (evil-leader/set-key-for-mode 'python-mode
       "tA" 'pytest-pdb-all
       "ta" 'pytest-all
