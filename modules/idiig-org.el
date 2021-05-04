@@ -180,8 +180,7 @@
   (which-key-declare-prefixes-for-mode 'org-mode ",b" "babel")
   (which-key-declare-prefixes-for-mode 'org-mode ",T" "toggle")
   (which-key-declare-prefixes-for-mode 'org-mode ",x" "region manipulation")
-  (which-key-declare-prefixes-for-mode 'org-mode ",f" "feed")
-  (which-key-declare-prefixes-for-mode 'org-mode ",z" "zetteldeft"))
+  (which-key-declare-prefixes-for-mode 'org-mode ",f" "feed"))
 
 ;; org functions
 ;; evil surround 对应 org src
@@ -226,6 +225,17 @@
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'idiig/org-ispell)
 
+;; mac抓取
+(defun idiig-org/init-org-mac-link ()
+  (use-package org-mac-link
+    :commands org-mac-grab-link
+    :init
+    (progn
+      (add-hook 'org-mode-hook
+                (lambda ()
+                  (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
+    :defer t))
+
 ;; gtd agenda文件设定
 (defvar org-agenda-dir ""
   "gtd org files location")
@@ -236,9 +246,13 @@
 (defvar blog-admin-dir ""
   "blog-admin files location")
 
+(defvar roam-file ""
+  "org roam file locaiton")
+
 (setq org-agenda-dir "~/Nutstore/org-notes"
       deft-dir "~/Nutstore/org-notes"
-      blog-admin-dir "~/Nutstore/blog")
+      blog-admin-dir "~/Nutstore/blog"
+      org-roam-file-name "~/Nutstore/org-notes/org-roam-server.org")
 
 ;; deft
 (use-package deft
@@ -258,7 +272,7 @@
     (evil-leader/set-key "odd" 'deft)
     (evil-leader/set-key "odc" 'deft-new-file)
     (evil-define-key 'normal deft-mode-map "q" 'quit-window)
-    (evil-leader/set-key-for-mode 'deft-mode-map
+    (evil-leader/set-key-for-mode 'deft-mode
       "c" 'deft-filter-clear
       "d" 'deft-delete-file
       "i" 'deft-toggle-incremental-search
@@ -271,16 +285,23 @@
 ;; zetteldeft
 (use-package zetteldeft
   :defer t
-  :after (deft org)
-  :config
+  ;; :after (org deft)
+  :init
   (progn
     (zetteldeft-set-classic-keybindings)
     ;; zetteldeft actions in deft mode
+    (which-key-declare-prefixes-for-mode 'deft-mode
+      ",z" "zetteldeft"
+      "SPC mz" "zetteldeft")
     (evil-leader/set-key-for-mode 'deft-mode
       "zT" 'zetteldeft-tag-buffer
       "zn" 'zetteldeft-new-file
       )
+    
     ;; zetteldeft actions in org mode
+    (which-key-declare-prefixes-for-mode 'org-mode
+      ",z" "zetteldeft"
+      "SPC mz" "zetteldeft")
     (evil-leader/set-key-for-mode 'org-mode
       "zc" 'zetteldeft-search-current-id
       "zf" 'zetteldeft-follow-link
@@ -296,16 +317,81 @@
       )
     ))
 
-;; mac抓取
-(defun idiig-org/init-org-mac-link ()
-  (use-package org-mac-link
-    :commands org-mac-grab-link
-    :init
-    (progn
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
-    :defer t))
+(use-package org-roam
+  :defer t
+  :diminish (org-roam-mode)
+  :hook (after-init . org-roam-mode)
+  :init
+  (progn
+    (which-key-declare-prefixes "SPC or" "org-roam")
+    (which-key-declare-prefixes "SPC ord" "org-roam-dailies")
+    (which-key-declare-prefixes "SPC ort" "org-roam-tags")
+    (which-key-declare-prefixes "C-SPC or" "org-roam")
+    (which-key-declare-prefixes "C-SPC ord" "org-roam-dailies")
+    (which-key-declare-prefixes "C-SPC ort" "org-roam-tags")
+    (evil-leader/set-key
+      "ordy" 'org-roam-dailies-find-yesterday
+      "ordt" 'org-roam-dailies-find-today
+      "ordT" 'org-roam-dailies-find-tomorrow
+      "ordd" 'org-roam-dailies-find-date
+      "orf" 'org-roam-find-file
+      "org" 'org-roam-graph
+      "ori" 'org-roam-insert
+      "orI" 'org-roam-insert-immediate
+      "orl" 'org-roam-buffer-toggle-display
+      "orta" 'org-roam-tag-add
+      "ortd" 'org-roam-tag-delete
+      "ora" 'org-roam-alias-add)
+
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrd" "org-roam-dailies")
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrt" "org-roam-tags")
+    (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
+    (which-key-declare-prefixes-for-mode 'org-mode ",rd" "org-roam-dailies")
+    (which-key-declare-prefixes-for-mode 'org-mode ",rt" "org-roam-tags")
+    (evil-leader/set-key-for-mode 'org-mode
+      "rb" 'org-roam-switch-to-buffer
+      "rdy" 'org-roam-dailies-find-yesterday
+      "rdt" 'org-roam-dailies-find-today
+      "rdT" 'org-roam-dailies-find-tomorrow
+      "rdd" 'org-roam-dailies-find-date
+      "rf" 'org-roam-find-file
+      "rg" 'org-roam-graph
+      "ri" 'org-roam-insert
+      "rI" 'org-roam-insert-immediate
+      "rl" 'org-roam-buffer-toggle-display
+      "rta" 'org-roam-tag-add
+      "rtd" 'org-roam-tag-delete
+      "ra" 'org-roam-alias-add)))
+
+(use-package org-journal
+  :defer t
+  :commands (org-journal-new-entry org-journal-search-forever)
+  :init
+  (progn
+    (which-key-declare-prefixes "SPC oj" "org-journal")
+    (which-key-declare-prefixes "C-SPC oj" "org-journal")
+    (evil-leader/set-key
+      "ojf" 'org-journal-open-current-journal-file
+      "ojj" 'org-journal-new-entry
+      "ojs" 'org-journal-search-forever
+      "ojt" 'org-journal-new-scheduled-entry
+      "ojv" 'org-journal-schedule-view)
+
+    (evil-leader/set-key-for-mode 'calendar-mode
+      "r" 'org-journal-read-entry
+      "i" 'org-journal-new-date-entry
+      "n" 'org-journal-next-entry
+      "p" 'org-journal-previous-entry
+      "s" 'org-journal-search-forever
+      "w" 'org-journal-search-calendar-week
+      "m" 'org-journal-search-calendar-month
+      "y" 'org-journal-search-calendar-year)
+
+    (evil-leader/set-key-for-mode 'org-journal-mode
+      "j" 'org-journal-new-entry
+      "n" 'org-journal-next-entry
+      "p" 'org-journal-previous-entry)))
 
 ;; evil-org 设置
 (use-package evil-org
