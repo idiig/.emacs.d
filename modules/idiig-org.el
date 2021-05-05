@@ -236,6 +236,28 @@
                   (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
     :defer t))
 
+;; chrome url 抓取
+(defun idiig/insert-chrome-current-tab-url()
+  "Get the URL of the active tab of the first window"
+  (interactive)
+  (insert (idiig/retrieve-chrome-current-tab-url)))
+
+(defun idiig/retrieve-chrome-current-tab-url()
+  "Get the URL of the active tab of the first window"
+  (interactive)
+  (let ((result (do-applescript
+                 (concat
+                  "set frontmostApplication to path to frontmost application\n"
+                  "tell application \"Google Chrome\"\n"
+                  "	set theUrl to get URL of active tab of first window\n"
+                  "	set theResult to (get theUrl) \n"
+                  "end tell\n"
+                  "activate application (frontmostApplication as text)\n"
+                  "set links to {}\n"
+                  "copy theResult to the end of links\n"
+                  "return links as string\n"))))
+    (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+
 ;; deft
 (use-package deft
   :defer t
@@ -361,16 +383,12 @@
 
     ;; org mode keybindings
     (which-key-declare-prefixes-for-mode 'org-mode
-      ",R" "org-ref"
-      "SPC mR" "org-ref"
-      ",Rnb" "org-ref-bib-notes"
-      "SPC mRb" "org-ref-bib-pdf")
+      ",r" "org-ref/roam"
+      "SPC mr" "org-ref/roam")
     
     (evil-leader/set-key-for-mode 'org-mode
-      "Rn" 'org-ref-open-notes-at-point
-      "Rp" 'org-ref-open-pdf-at-point
-      "Rbn" 'org-ref-open-bibtex-notes
-      "Rbp" 'org-ref-open-bibtex-pdf
+      "rn" 'org-ref-open-notes-at-point
+      "rp" 'org-ref-open-pdf-at-point
       "ic" 'org-ref-helm-insert-cite-link)
 
     ;; markdown-mode keybindings
@@ -421,30 +439,11 @@
   (defvar org-roam-directory nil)
   :init
   (progn 
-    (which-key-declare-prefixes "SPC or" "org-roam")
-    (which-key-declare-prefixes "SPC ord" "org-roam-dailies")
-    (which-key-declare-prefixes "SPC ort" "org-roam-tags")
-    (which-key-declare-prefixes "C-SPC or" "org-roam")
-    (which-key-declare-prefixes "C-SPC ord" "org-roam-dailies")
-    (which-key-declare-prefixes "C-SPC ort" "org-roam-tags")
-    (evil-leader/set-key
-      "ordy" 'org-roam-dailies-find-yesterday
-      "ordt" 'org-roam-dailies-find-today
-      "ordT" 'org-roam-dailies-find-tomorrow
-      "ordd" 'org-roam-dailies-find-date
-      "orf" 'org-roam-find-file
-      "org" 'org-roam-graph
-      "ori" 'org-roam-insert
-      "orI" 'org-roam-insert-immediate
-      "orl" 'org-roam-buffer-toggle-display
-      "orta" 'org-roam-tag-add
-      "ortd" 'org-roam-tag-delete
-      "ora" 'org-roam-alias-add)
 
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
+    ;; (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
     (which-key-declare-prefixes-for-mode 'org-mode "SPC mrd" "org-roam-dailies")
     (which-key-declare-prefixes-for-mode 'org-mode "SPC mrt" "org-roam-tags")
-    (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
+    ;; (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
     (which-key-declare-prefixes-for-mode 'org-mode ",rd" "org-roam-dailies")
     (which-key-declare-prefixes-for-mode 'org-mode ",rt" "org-roam-tags")
     (evil-leader/set-key-for-mode 'org-mode
