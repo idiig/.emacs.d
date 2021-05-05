@@ -515,7 +515,7 @@ current frame."
 ;; 表格对齐
 (use-package valign
   :defer t
-  :after (org-mode org-agenda-mode markdown-mode)
+  ;; :after (org-mode org-agenda-mode markdown-mode)
   :init
   (progn
     (add-hook 'org-mode-hook #'valign-mode)
