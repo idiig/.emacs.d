@@ -228,4 +228,39 @@ the automatic filling of the current paragraph."
           magic-latex-enable-block-align nil
           magic-latex-enable-inline-image nil)))
 
+;; cdlatex
+(use-package cdlatex
+  :after (:any org-mode LaTeX-mode)
+  :hook
+  ((LaTeX-mode . turn-on-cdlatex)
+   (org-mode . turn-on-org-cdlatex)))
+
+;; bibtex
+(use-package helm-bibtex
+  :defer t
+  :after (:any org markdown LaTeX)
+  :config
+  (progn
+    (setq
+     bibtex-completion-notes-path "~/Nutstore/org-notes/roam-notes"
+     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
+     bibtex-completion-pdf-field "file"
+     bibtex-completion-notes-template-multiple-files
+     (concat
+      "#+TITLE: ${title}\n"
+      "#+ROAM_KEY: cite:${=key=}\n"
+      "* TODO Notes\n"
+      ":PROPERTIES:\n"
+      ":Custom_ID: ${=key=}\n"
+      ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+      ":AUTHOR: ${author-abbrev}\n"
+      ":JOURNAL: ${journaltitle}\n"
+      ":DATE: ${date}\n"
+      ":YEAR: ${year}\n"
+      ":DOI: ${doi}\n"
+      ":URL: ${url}\n"
+      ":END:\n\n"
+      )
+     )))
+
 (provide 'idiig-tex)
