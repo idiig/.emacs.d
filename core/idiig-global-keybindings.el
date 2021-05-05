@@ -109,7 +109,7 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
  "bp" 'hydra-buffer/previous-buffer
  "bn" 'hydra-buffer/next-buffer
  "bx" 'kill-buffer-and-window
- "bC-d" 'kill-other-buffers
+ "bD" 'kill-other-buffers
  "b TAB" 'idiig/alternate-buffer
  "b." 'hydra-buffer/body
  "fR" 'idiig/rename-file-and-buffer

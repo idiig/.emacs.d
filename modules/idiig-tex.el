@@ -320,8 +320,8 @@ the automatic filling of the current paragraph."
     (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
     ;; see org-ref for use of these variables
     (setq
-     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
-     org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
+     org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
+     ;; org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
      org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
      ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
      bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
@@ -337,7 +337,11 @@ the automatic filling of the current paragraph."
 ;; helm bibtex
 (use-package helm-bibtex
   :defer t
-  :after (:any org markdown LaTeX)
+  :hook (
+         (org-mode-hook . (lambda () (require 'helm-bibtex)))
+         (markdown-mode-hook . (lambda () (require 'helm-bibtex)))
+         (LaTeX-mode-hook . (lambda () (require 'helm-bibtex)))
+         )
   :config
   (progn
     (setq
@@ -367,34 +371,31 @@ the automatic filling of the current paragraph."
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
-  (require 'org-ref)
-  (setq org-roam-bibtex-preformat-keywords
-        '("citekey" "keywords" "title" "file" "author" "doi" "url")
-        orb-process-file-field t
-        orb-process-file-keyword t
-        orb-file-field-extensions '("pdf"))
-  (setq orb-templates
-        '(("n" "ref+noter" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "${slug}"
-           :head
-           (concat
-            "#+TITLE: ${citekey}: ${title}"
-            "#+ROAM_KEY: ${ref}\n"
-            "#+ROAM_TAGS:\n"
-            "  - tags :: ${keywords}\n"
-            "* TODO Notes\n"
-            "  :PROPERTIES:\n"
-            "  :Custom_ID: ${citekey}\n"
-            "  :NOTER_DOCUMENT: ${file}\n"
-            "  :AUTHOR: ${author-abbrev}\n"
-            "  :JOURNAL: ${journaltitle}\n"
-            ;; ":DATE: ${date}\n"
-            "  :YEAR: ${year}\n"
-            "  :DOI: ${doi}\n"
-            "  :URL: ${url}\n"
-            "  :END:\n\n"
-            )
-           :unnarrowed t))))
+  (progn
+    (require 'org-ref)
+    (require 'yasnippet-snippets)
+    (setq org-roam-bibtex-preformat-keywords
+          '("citekey" "keywords" "title" "file" "author" "doi" "url")
+          orb-process-file-field t
+          orb-process-file-keyword t
+          orb-file-field-extensions '("pdf"))
+    (setq orb-templates
+          '(("n" "ref+noter" plain (function org-roam-capture--get-point)
+             ""
+             :file-name "${slug}"
+             :head "#+TITLE: ${citekey}: ${title}
+#+ROAM_KEY: ${ref}
+#+ROAM_TAGS:
+- tags :: ${keywords}
+* TODO Notes
+  :PROPERTIES:
+  :Custom_ID: ${citekey}
+  :NOTER_DOCUMENT: ${file}
+  :NOTER_PAGE:
+  :AUTHOR: ${author-abbrev}
+  :DOI: ${doi}
+  :URL: ${url}
+  :END:\n\n"
+             :unnarrowed t)))))
 
 (provide 'idiig-tex)

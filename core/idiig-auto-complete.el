@@ -171,34 +171,12 @@
     (add-hook 'eshell-mode-hook 'idiig/force-yasnippet-off)
     (add-hook 'org-mode-hook 'idiig/load-yasnippet)
     (add-hook 'prog-mode-hook 'idiig/load-yasnippet)
-    (add-hook 'markdown-mode-hook 'idiig/load-yasnippet))
+    (add-hook 'markdown-mode-hook 'idiig/load-yasnippet)
+    (add-hook 'bibtex-mode-hook 'idiig/load-yasnippet))
   :config
-  (use-package yasnippet-snippets)
+  (progn
+    (use-package yasnippet-snippets))
   )
-;; ;; yasnippet
-;; (use-package yasnippet
-;;   :commands (yas-global-mode yas-minor-mode yas-activate-extra-mode)
-;;   :init
-;;   (progn
-;;     (defvar yas-global-mode nil)
-;;     (setq yas-triggers-in-field t
-;;           yas-wrap-around-region t
-;;           helm-yas-display-key-on-candidate t)
-;;     (setq yas-prompt-functions '(yas-completing-prompt))
-;;     (setq yas-minor-mode-map (make-sparse-keymap))
-;;     (define-key yas-minor-mode-map (kbd "M-s-/") 'yas-next-field)
-;;     (setq-yas-snippet-dirs
-;;      '("~/.emacs.d/snippets/"
-;;        "~/.emacs.d/snippet/"))
-;;     ;; (spacemacs/add-to-hooks
-;;     ;;  'spacemacs/force-yasnippet-off '(term-mode-hook
-;;     ;;                                   shell-mode-hook
-;;     ;;                                   eshell-mode-hook))
-;;     ;; (spacemacs|require-when-dumping 'yasnippet)
-;;     ;; (spacemacs/add-to-hooks 'spacemacs/load-yasnippet '(prog-mode-hook
-;;     ;;                                                     markdown-mode-hook
-;;     ;;                                                     org-mode-hook))
-;;     ))
 
 ;; https://emacs.stackexchange.com/a/7925/12854
 (defun check-expansion ()
