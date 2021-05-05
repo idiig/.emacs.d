@@ -237,22 +237,23 @@
     :defer t))
 
 ;; gtd agenda文件设定
-(defvar org-agenda-dir ""
-  "gtd org files location")
+;; (defvar org-agenda-dir ""
+;;   "gtd org files location")
 
-(defvar deft-dir ""
-  "deft org files locaiton")
+;; (defvar deft-dir ""
+;;   "deft org files locaiton")
 
-(defvar blog-admin-dir ""
-  "blog-admin files location")
+;; (defvar blog-admin-dir ""
+;;   "blog-admin files location")
 
-(defvar roam-file ""
-  "org roam file locaiton")
+;; (defvar roam-file ""
+;;   "org roam file locaiton")
 
-(setq org-agenda-dir "~/Nutstore/org-notes"
-      deft-dir "~/Nutstore/org-notes"
-      blog-admin-dir "~/Nutstore/blog"
-      org-roam-file-name "~/Nutstore/org-notes/org-roam-server.org")
+;; (setq org-agenda-dir "~/Nutstore/org-notes"
+;;       deft-dir "~/Nutstore/org-notes"
+;;       blog-admin-dir "~/Nutstore/blog"
+;;       org-roam-dir "~/Nutstore/org-notes"
+;;       org-journal-dir "~/Nutstore/org-notes")
 
 ;; deft
 (use-package deft
@@ -264,7 +265,7 @@
     (setq deft-use-filter-string-for-filename t)
     (setq deft-recursive t)
     (setq deft-extension "org")
-    (setq deft-directory deft-dir)
+    (setq deft-directory "~/Nutstore/org-notes")
     (setq deft-text-mode 'org-mode)
     ;; keybindings
     (which-key-declare-prefixes "SPC od" "deft")
@@ -323,6 +324,7 @@
   :hook (after-init . org-roam-mode)
   :init
   (progn
+    (setq org-roam-directory "~/Nutstore/org-notes")
     (which-key-declare-prefixes "SPC or" "org-roam")
     (which-key-declare-prefixes "SPC ord" "org-roam-dailies")
     (which-key-declare-prefixes "SPC ort" "org-roam-tags")
@@ -369,6 +371,7 @@
   :commands (org-journal-new-entry org-journal-search-forever)
   :init
   (progn
+    (setq org-journal-dir "~/Nutstore/org-notes")
     (which-key-declare-prefixes "SPC oj" "org-journal")
     (which-key-declare-prefixes "C-SPC oj" "org-journal")
     (evil-leader/set-key
@@ -703,6 +706,7 @@
     (setq org-imenu-depth 8)
 
     ;; define the refile targets
+    (defvar org-agenda-dir "~/Nutstore/org-notes")
     (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
     (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
     (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
