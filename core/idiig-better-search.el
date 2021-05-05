@@ -143,7 +143,7 @@ open and unsaved."
   (evil-define-key 'normal dired-mode-map "J" 'counsel-find-file)
   ;; (evil-define-key 'normal dired-mode-map "f" 'idiig/open-file-with-projectile-or-counsel-git)
   (evil-define-key 'normal dired-mode-map ")" 'dired-omit-mode)
-  (evil-define-key 'normal dired-mode-map "q" 'quit-window)
+  ;; (evil-define-key 'normal dired-mode-map "q" 'quit-window)
   (defvar dired-filelist-cmd
     '(("vlc" "-L"))))
 
