@@ -55,17 +55,17 @@
          ;; 统一拉丁字母和汉CJK
          ;; http://chenzaichun.github.io/2011-12-30-mac-os-x-emacs-chinese-font-setting.html
 	 (let ((my-font-height 160)
-               (my-font (cond
-                         (t   "Monaco")  ;; XCode 3.1 
-                         (nil "Menlo")   ;; XCode 3.2
-                         ))
+               (my-font "Menlo")
                (my-font-ja
                 ;; "STHeiti"
                 "Takaoゴシック-10"
+                ;; "hiragino Kaku Gothic ProN"
+                ;; "微软雅黑"
                 ))
            (setq mac-allow-anti-aliasing t)
            (setq face-font-rescale-alist
 		 '(("^-apple-hiragino.*" . 1.2)
+                   ;; (".*Hiragino Kaku Gothic ProN.*" . 1.6)
                    (".*osaka-bold.*" . 1.2)
                    (".*osaka-medium.*" . 1.2)
                    (".*courier-bold-.*-mac-roman" . 1.0)
@@ -74,7 +74,6 @@
                    ("-cdac$" . 1.3)))
            (when my-font
              (set-face-attribute 'default nil :family my-font :height my-font-height)
-             ;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
              )
            (when my-font-ja
              (let ((fn (frame-parameter nil 'font))
@@ -82,7 +81,6 @@
                (set-fontset-font fn 'chinese-gb2312 `(,my-font-ja . ,rg))
                (set-fontset-font fn 'chinese-gbk `(,my-font-ja . ,rg)))))
 	 )))
-
 
 ;; 80字数提示线
 (use-package fill-column-indicator
@@ -92,18 +90,5 @@
   (setq fci-rule-width 1)
   (setq fci-rule-color "gray30") ; 縦線の色
   )
-
-;; ;; sky-color-clock
-;; (use-package sky-color-clock
-;;   :requires sky-color-clock
-;;   :quelpa (sky-color-clock :fetcher github :repo "zk-phi/sky-color-clock")
-;;   :custom
-;;   (setq sky-color-clock-enable-emoji-icon nil)
-;;   :hook
-;;   (doom-modeline-mode . sky-color-clock)
-;;   :config
-;;   (sky-color-clock-initialize 35)
-;;   (push '(:eval (sky-color-clock)) (default-value 'mode-line-format))
-;;   )
 
 (provide 'idiig-ui)
