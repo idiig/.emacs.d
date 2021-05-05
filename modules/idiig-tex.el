@@ -235,32 +235,166 @@ the automatic filling of the current paragraph."
   ((LaTeX-mode . turn-on-cdlatex)
    (org-mode . turn-on-org-cdlatex)))
 
-;; bibtex
+;; org-ref 设定
+(use-package org-ref
+  :diminish
+  :hook (org-mode-hook . (lambda () (require 'org-ref)))
+  :defer t
+  ;; :after org
+  :commands (org-ref-bibtex-next-entry
+             org-ref-bibtex-previous-entry
+             org-ref-open-in-browser
+             org-ref-open-bibtex-notes
+             org-ref-open-bibtex-pdf
+             org-ref-bibtex-hydra/body
+             org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+             org-ref-sort-bibtex-entry
+             arxiv-add-bibtex-entry
+             arxiv-get-pdf-add-bibtex-entry
+             doi-utils-add-bibtex-entry-from-doi
+             isbn-to-bibtex
+             pubmed-insert-bibtex-from-pmid)
+  :init
+  (defun org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point if it exists."
+    (interactive)
+    (let* ((results (org-ref-get-bibtex-key-and-file))
+           (key (car results))
+           (pdf-file (car (bibtex-completion-find-pdf key))))
+      (if (file-exists-p pdf-file)
+          (org-open-file pdf-file)
+        (message "No PDF found for %s" key))))
+  (progn
+    ;; bibtex keybindings
+    (evil-define-key 'normal bibtex-mode-map
+      (kbd "C-j") 'org-ref-bibtex-next-entry
+      (kbd "C-k") 'org-ref-bibtex-previous-entry
+      "M-j" 'org-ref-bibtex-next-entry
+      "M-k" 'org-ref-bibtex-previous-entry)
+
+    ;; bibtex-mode keybindings
+    (evil-leader/set-key-for-mode 'bibtex-mode
+      ;; Navigation
+      "j" 'org-ref-bibtex-next-entry
+      "k" 'org-ref-bibtex-previous-entry
+
+      ;; Open
+      "b" 'org-ref-open-in-browser
+      "n" 'org-ref-open-bibtex-notes
+      "p" 'org-ref-open-bibtex-pdf
+
+      ;; Misc
+      "h" 'org-ref-bibtex-hydra/body
+      "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+      "s" 'org-ref-sort-bibtex-entry
+
+      ;; Lookup utilities
+      "la" 'arxiv-add-bibtex-entry
+      "lA" 'arxiv-get-pdf-add-bibtex-entry
+      "ld" 'doi-utils-add-bibtex-entry-from-doi
+      "li" 'isbn-to-bibtex
+      "lp" 'pubmed-insert-bibtex-from-pmid)
+
+    ;; org mode keybindings
+    (which-key-declare-prefixes-for-mode 'org-mode
+      ",r" "org-ref/roam"
+      "SPC mr" "org-ref/roam")
+    
+    (evil-leader/set-key-for-mode 'org-mode
+      "rn" 'org-ref-open-notes-at-point
+      "rp" 'org-ref-open-pdf-at-point
+      "ic" 'org-ref-helm-insert-cite-link)
+
+    ;; markdown-mode keybindings
+    (evil-leader/set-key-for-mode 'markdown-mode
+      "ic" 'org-ref-helm-insert-cite-link)
+
+    ;; latex-mode keybindings 
+    (evil-leader/set-key-for-mode 'latex-mode
+      "ic" 'org-ref-helm-insert-cite-link))
+
+  :config
+  (progn
+    (setq org-ref-completion-library 'org-ref-ivy-cite
+          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
+    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
+    ;; see org-ref for use of these variables
+    (setq
+     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
+     org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
+     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
+     ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
+     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
+     bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
+     )
+    (setq org-ref-note-title-format
+          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+          )
+    (setq org-ref-notes-directory "~/Nutstore/org-files/research-notes"
+          org-ref-notes-function 'orb-edit-notes)
+    (setq org-ref-default-citation-link "citep")))
+
+;; helm bibtex
 (use-package helm-bibtex
   :defer t
   :after (:any org markdown LaTeX)
   :config
   (progn
     (setq
-     bibtex-completion-notes-path "~/Nutstore/org-notes/roam-notes"
+     bibtex-completion-notes-path "~/Nutstore/org-files/research-notes"
      bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
      bibtex-completion-pdf-field "file"
      bibtex-completion-notes-template-multiple-files
      (concat
       "#+TITLE: ${title}\n"
-      "#+ROAM_KEY: cite:${=key=}\n"
+      "#+ROAM_KEY: cite:${citekey}\n"
       "* TODO Notes\n"
       ":PROPERTIES:\n"
-      ":Custom_ID: ${=key=}\n"
-      ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+      ":Custom_ID: ${citekey}\n"
+      ":NOTER_DOCUMENT: ${file}\n"
       ":AUTHOR: ${author-abbrev}\n"
       ":JOURNAL: ${journaltitle}\n"
-      ":DATE: ${date}\n"
+      ;; ":DATE: ${date}\n"
       ":YEAR: ${year}\n"
       ":DOI: ${doi}\n"
       ":URL: ${url}\n"
       ":END:\n\n"
       )
      )))
+
+;; org-roam with bibtex creating notes for individual bibtex
+(use-package org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (require 'org-ref)
+  (setq org-roam-bibtex-preformat-keywords
+        '("citekey" "keywords" "title" "file" "author" "doi" "url")
+        orb-process-file-field t
+        orb-process-file-keyword t
+        orb-file-field-extensions '("pdf"))
+  (setq orb-templates
+        '(("n" "ref+noter" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "${slug}"
+           :head
+           (concat
+            "#+TITLE: ${citekey}: ${title}"
+            "#+ROAM_KEY: ${ref}\n"
+            "#+ROAM_TAGS:\n"
+            "  - tags :: ${keywords}\n"
+            "* TODO Notes\n"
+            "  :PROPERTIES:\n"
+            "  :Custom_ID: ${citekey}\n"
+            "  :NOTER_DOCUMENT: ${file}\n"
+            "  :AUTHOR: ${author-abbrev}\n"
+            "  :JOURNAL: ${journaltitle}\n"
+            ;; ":DATE: ${date}\n"
+            "  :YEAR: ${year}\n"
+            "  :DOI: ${doi}\n"
+            "  :URL: ${url}\n"
+            "  :END:\n\n"
+            )
+           :unnarrowed t))))
 
 (provide 'idiig-tex)

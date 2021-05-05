@@ -301,7 +301,7 @@
 ;;       "zT" 'zetteldeft-tag-buffer
 ;;       "zn" 'zetteldeft-new-file
 ;;       )
-    
+
 ;;     ;; zetteldeft actions in org mode
 ;;     (which-key-declare-prefixes-for-mode 'org-mode
 ;;       ",z" "zetteldeft"
@@ -320,105 +320,6 @@
 ;;       "zo" 'zetteldeft-find-file
 ;;       )
 ;;     ))
-
-;; org-ref 设定
-(use-package org-ref
-  :diminish
-  :hook (org-mode-hook . (lambda () (require 'org-ref)))
-  :defer t
-  ;; :after org
-  :commands (org-ref-bibtex-next-entry
-             org-ref-bibtex-previous-entry
-             org-ref-open-in-browser
-             org-ref-open-bibtex-notes
-             org-ref-open-bibtex-pdf
-             org-ref-bibtex-hydra/body
-             org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
-             org-ref-sort-bibtex-entry
-             arxiv-add-bibtex-entry
-             arxiv-get-pdf-add-bibtex-entry
-             doi-utils-add-bibtex-entry-from-doi
-             isbn-to-bibtex
-             pubmed-insert-bibtex-from-pmid)
-  :init
-  (defun org-ref-open-pdf-at-point ()
-    "Open the pdf for bibtex key under point if it exists."
-    (interactive)
-    (let* ((results (org-ref-get-bibtex-key-and-file))
-           (key (car results))
-           (pdf-file (car (bibtex-completion-find-pdf key))))
-      (if (file-exists-p pdf-file)
-          (org-open-file pdf-file)
-        (message "No PDF found for %s" key))))
-  (progn
-    ;; bibtex keybindings
-    (evil-define-key 'normal bibtex-mode-map
-      (kbd "C-j") 'org-ref-bibtex-next-entry
-      (kbd "C-k") 'org-ref-bibtex-previous-entry
-      "M-j" 'org-ref-bibtex-next-entry
-      "M-k" 'org-ref-bibtex-previous-entry)
-
-    ;; bibtex-mode keybindings
-    (evil-leader/set-key-for-mode 'bibtex-mode
-      ;; Navigation
-      "j" 'org-ref-bibtex-next-entry
-      "k" 'org-ref-bibtex-previous-entry
-
-      ;; Open
-      "b" 'org-ref-open-in-browser
-      "n" 'org-ref-open-bibtex-notes
-      "p" 'org-ref-open-bibtex-pdf
-
-      ;; Misc
-      "h" 'org-ref-bibtex-hydra/body
-      "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
-      "s" 'org-ref-sort-bibtex-entry
-
-      ;; Lookup utilities
-      "la" 'arxiv-add-bibtex-entry
-      "lA" 'arxiv-get-pdf-add-bibtex-entry
-      "ld" 'doi-utils-add-bibtex-entry-from-doi
-      "li" 'isbn-to-bibtex
-      "lp" 'pubmed-insert-bibtex-from-pmid)
-
-    ;; org mode keybindings
-    (which-key-declare-prefixes-for-mode 'org-mode
-      ",r" "org-ref/roam"
-      "SPC mr" "org-ref/roam")
-    
-    (evil-leader/set-key-for-mode 'org-mode
-      "rn" 'org-ref-open-notes-at-point
-      "rp" 'org-ref-open-pdf-at-point
-      "ic" 'org-ref-helm-insert-cite-link)
-
-    ;; markdown-mode keybindings
-    (evil-leader/set-key-for-mode 'markdown-mode
-      "ic" 'org-ref-helm-insert-cite-link)
-
-    ;; latex-mode keybindings 
-    (evil-leader/set-key-for-mode 'latex-mode
-      "ic" 'org-ref-helm-insert-cite-link))
-
-  :config
-  (progn
-    (setq org-ref-completion-library 'org-ref-ivy-cite
-          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
-    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
-    ;; see org-ref for use of these variables
-    (setq
-     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
-     org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
-     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
-     ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
-     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-     bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
-     )
-    (setq org-ref-note-title-format
-          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-          )
-    (setq org-ref-notes-directory "~/Nutstore/org-files/research-notes"
-          org-ref-notes-function 'orb-edit-notes)
-    (setq org-ref-default-citation-link "citep")))
 
 ;; org-roam for linking notes
 (use-package org-roam
@@ -459,7 +360,8 @@
       "rl" 'org-roam-buffer-toggle-display
       "rta" 'org-roam-tag-add
       "rtd" 'org-roam-tag-delete
-      "ra" 'org-roam-alias-add))
+      "ra" 'org-roam-alias-add
+      "rc" 'org-roam-capture))
 
   :config
   (progn
@@ -468,34 +370,13 @@
           org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
           org-roam-completion-system 'default)))
 
-;; org-roam with bibtex creating notes for individual bibtex
-(use-package org-roam-bibtex
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-  (require 'org-ref)
-  (setq org-roam-bibtex-preformat-keywords
-        '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "${slug}"
-           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-
-- tags ::
-- keywords :: ${keywords}
-
-\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
-
-           :unnarrowed t))))
-
 ;; noter
 (use-package org-noter
   :after (:any org pdf-view)
   :config
   (setq
    ;; The WM can handle splits
-   org-noter-notes-window-location 'other-frame
+   org-noter-notes-window-location 'right
    ;; Please stop opening frames
    org-noter-always-create-frame nil
    ;; I want to see the whole file
@@ -598,6 +479,7 @@
     (evil-define-key 'motion org-agenda-mode-map (kbd "gd") 'org-agenda-toggle-time-grid)
     (evil-define-key 'motion org-agenda-mode-map (kbd "gr") 'org-agenda-redo)
     (evil-define-key 'motion org-agenda-mode-map (kbd "gw") 'org-agenda-week-view)
+    (evil-define-key 'motion org-agenda-mode-map (kbd "gm") 'org-agenda-month-view)
     (evil-define-key 'motion org-agenda-mode-map (kbd "M-RET") 'org-agenda-show-and-scroll-up)
     (evil-define-key 'motion org-agenda-mode-map (kbd "q") '(lambda () (interactive)
                                                               (org-save-all-org-buffers)
@@ -995,6 +877,12 @@ holding contextual information."
                                 (local-set-key (kbd "C-c i s")
                                                'idiig/org-insert-src-block)))
 
+    ;; 不询问eval
+    (setq org-confirm-babel-evaluate nil)
+
+    ;; org Babel输出图片
+    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+
     ;; ;; 可使用代码
     ;; (org-babel-do-load-languages
     ;;  'org-babel-load-languages
@@ -1018,13 +906,8 @@ holding contextual information."
     ;;         (:session . "*org-R*")
     ;;         ))
 
-    ;; 不询问eval
-    (setq org-confirm-babel-evaluate nil)
-
-    ;; org Babel输出图片
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-    (add-hook 'org-mode-hook 'org-display-inline-images)
     ;; org mode 图片输出展示
+    (add-hook 'org-mode-hook 'org-display-inline-images)
     (when org-inline-image-overlays
       (org-redisplay-inline-images))
 
