@@ -348,38 +348,7 @@
       "rtd" 'org-roam-tag-delete
       "ra" 'org-roam-alias-add)))
 
-;; org-journal
-(use-package org-journal
-  :defer t
-  :commands (org-journal-new-entry org-journal-search-forever)
-  :init
-  (progn
-    (setq org-journal-dir "~/Nutstore/org-notes")
-    (which-key-declare-prefixes "SPC oj" "org-journal")
-    (which-key-declare-prefixes "C-SPC oj" "org-journal")
-    (evil-leader/set-key
-      "ojf" 'org-journal-open-current-journal-file
-      "ojj" 'org-journal-new-entry
-      "ojs" 'org-journal-search-forever
-      "ojt" 'org-journal-new-scheduled-entry
-      "ojv" 'org-journal-schedule-view)
-
-    (evil-leader/set-key-for-mode 'calendar-mode
-      "r" 'org-journal-read-entry
-      "i" 'org-journal-new-date-entry
-      "n" 'org-journal-next-entry
-      "p" 'org-journal-previous-entry
-      "s" 'org-journal-search-forever
-      "w" 'org-journal-search-calendar-week
-      "m" 'org-journal-search-calendar-month
-      "y" 'org-journal-search-calendar-year)
-
-    (evil-leader/set-key-for-mode 'org-journal-mode
-      "j" 'org-journal-new-entry
-      "n" 'org-journal-next-entry
-      "p" 'org-journal-previous-entry)))
-
-;; org-ref 设定
+; org-ref 设定
 (use-package org-ref
   :diminish
   :hook (org-mode-hook . (lambda () (require 'org-ref)))
@@ -522,7 +491,7 @@
   (org-agenda-span 'day) 
   (org-agenda-window-setup 'current-window)
   ;; face
-  (org-agenda-current-time-string "<<<< now")
+  (org-agenda-current-time-string "<<<<<<<< now")
   (org-agenda-time-grid ;; Format is changed from 9.1
    '((daily today require-timed)
      (0100 0300 0500 0700 0900 1100 1200
