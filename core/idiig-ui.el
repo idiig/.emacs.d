@@ -54,13 +54,19 @@
        (progn
          ;; 统一拉丁字母和汉CJK
          ;; http://chenzaichun.github.io/2011-12-30-mac-os-x-emacs-chinese-font-setting.html
-	 (let ((my-font-height 160)
-               (my-font "Menlo")
+	 (let ((my-font-height 200)
+               (my-font
+                ;; "Menlo"
+                ;; "Noto Sans Mono"
+                "Sarasa Mono SC Nerd"
+                )
                (my-font-ja
                 ;; "STHeiti"
-                "Takaoゴシック-10"
+                ;; "Takaoゴシック-10"
                 ;; "hiragino Kaku Gothic ProN"
                 ;; "微软雅黑"
+                ;; "Noto Sans"
+                "Sarasa Mono SC Nerd"
                 ))
            (setq mac-allow-anti-aliasing t)
            (setq face-font-rescale-alist
