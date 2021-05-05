@@ -483,9 +483,11 @@
 
 ;; noter
 (use-package org-noter
-  )
+  :config
+  (progn
+    (setq org-noter-auto-save-last-location "~/Nutstore/org-notes/bibnotes")))
 
-
+;; evil-org
 (use-package evil-org
   :diminish (evil-org-mode)
   :after org
@@ -523,10 +525,10 @@
   (org-agenda-current-time-string "<<<< now")
   (org-agenda-time-grid ;; Format is changed from 9.1
    '((daily today require-timed)
-     (0000 0100 0200 0300 0400 0500 0600 0700 0800 0900 1000 1100 1200
-           1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400)
+     (0100 0300 0500 0700 0900 1100 1200
+           1300 1400 1500 1600 1700 1800 1900 2000 2200 2400)
      "-"
-     "────────"))
+     "────────────"))
   :hook
   (org-agenda-mode-hook . (lambda ()
                             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
