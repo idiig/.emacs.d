@@ -451,6 +451,14 @@
                   "-activate" "org.gnu.Emacs"))
   (progn
     (setq org-agenda-restore-windows-after-quit t)
+    (which-key-declare-prefixes-for-mode 'org-agenda-mode
+      ",C" "clock"
+      "SPC mC" "clock"
+      ",d" "schedule/deadline"
+      "SPC md" "schedule/deadline"
+      ",i" "tag/property/priority"
+      "SPC md" "tag/property/priority"
+      ",s" "refile")
     (evil-leader/set-key-for-mode 'org-agenda-mode
       "," 'org-agenda-ctrl-c-ctrl-c
       "a" 'org-agenda
