@@ -512,6 +512,17 @@ current frame."
   ;; enable the /inline english/ mode for all buffers
   (sis-global-inline-mode t))
 
+;; 表格对齐
+(use-package valign
+  :defer t
+  :after (org-mode org-agenda-mode markdown-mode)
+  :init
+  (progn
+    (add-hook 'org-mode-hook #'valign-mode)
+    (add-hook 'org-agenda-mode-hook #'valign-mode)
+    (add-hook 'markdown-mode-hook #'valign-mode)
+    ))
+
 ;; multi cursor
 (use-package multiple-cursors
   :custom
