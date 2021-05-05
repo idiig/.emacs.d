@@ -53,6 +53,7 @@
 (require 'idiig-prog)
 (require 'idiig-org)
 (require 'idiig-git)
+(require 'idiig-tex)
 (require 'idiig-python)
 (require 'idiig-ess)
 

@@ -236,25 +236,6 @@
                   (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
     :defer t))
 
-;; gtd agenda文件设定
-;; (defvar org-agenda-dir ""
-;;   "gtd org files location")
-
-;; (defvar deft-dir ""
-;;   "deft org files locaiton")
-
-;; (defvar blog-admin-dir ""
-;;   "blog-admin files location")
-
-;; (defvar roam-file ""
-;;   "org roam file locaiton")
-
-;; (setq org-agenda-dir "~/Nutstore/org-notes"
-;;       deft-dir "~/Nutstore/org-notes"
-;;       blog-admin-dir "~/Nutstore/blog"
-;;       org-roam-dir "~/Nutstore/org-notes"
-;;       org-journal-dir "~/Nutstore/org-notes")
-
 ;; deft
 (use-package deft
   :defer t
@@ -283,7 +264,7 @@
       "o" 'deft-open-file-other-window
       "r" 'deft-rename-file)))
 
-;; zetteldeft
+;; zetteldeft for linking notes
 (use-package zetteldeft
   :defer t
   ;; :after (org deft)
@@ -318,6 +299,7 @@
       )
     ))
 
+;; org-roam for linking notes
 (use-package org-roam
   :defer t
   :diminish (org-roam-mode)
@@ -366,6 +348,7 @@
       "rtd" 'org-roam-tag-delete
       "ra" 'org-roam-alias-add)))
 
+;; org-journal
 (use-package org-journal
   :defer t
   :commands (org-journal-new-entry org-journal-search-forever)
@@ -560,39 +543,6 @@
                                                                        "org-pomodoro"
                                                                        "继。。继续。。。。。")))))
 
-;; org-ref 设定
-(use-package org-ref
-  :diminish
-  :after org
-  ;; :commands (org-ref-insert-cite-link)
-  :init
-  (evil-leader/set-key-for-mode 'org-mode-map "no" 'org-ref-open-notes-at-point)
-  (evil-leader/set-key-for-mode 'org-mode-map "po" 'org-ref-open-pdf-at-point)
-  (evil-leader/set-key-for-mode 'org-mode-map "nb" 'org-ref-open-bibtex-notes)
-  (evil-leader/set-key-for-mode 'org-mode-map "pb" 'org-ref-open-bibtex-pdf)
-  (evil-leader/set-key-for-mode 'org-mode-map "C-c ]" 'org-ref-insert-cite-key)
-  :config
-  (progn
-    (setq org-ref-completion-library 'org-ref-ivy-cite)
-    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
-    ;; see org-ref for use of these variables
-    (setq org-ref-bibliography-notes "~/Nutstore/org-notes/bibnote.org"
-          org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
-          org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf")
-    (setq bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-          bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
-          bibtex-completion-notes-path "~/Nutstore/org-notes/bibnote.org")
-    (setq org-ref-default-citation-link "citep")
-    (defun org-ref-open-pdf-at-point ()
-      "Open the pdf for bibtex key under point if it exists."
-      (interactive)
-      (let* ((results (org-ref-get-bibtex-key-and-file))
-             (key (car results))
-             (pdf-file (car (bibtex-completion-find-pdf key))))
-        (if (file-exists-p pdf-file)
-            (org-open-file pdf-file)
-          (message "No PDF found for %s" key))))))
-
 ;; ;; FIXME
 ;; ;; org-proectile
 ;; (use-package org-projectile
@@ -706,7 +656,7 @@
     (setq org-imenu-depth 8)
 
     ;; define the refile targets
-    (defvar org-agenda-dir "~/Nutstore/org-notes")
+    (setq org-agenda-dir "~/Nutstore/org-notes")
     (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
     (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
     (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
