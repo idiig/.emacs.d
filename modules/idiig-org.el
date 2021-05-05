@@ -379,7 +379,113 @@
       "n" 'org-journal-next-entry
       "p" 'org-journal-previous-entry)))
 
-;; evil-org 设置
+;; org-ref 设定
+(use-package org-ref
+  :diminish
+  :hook (org-mode-hook . (lambda () (require 'org-ref)))
+  :defer t
+  ;; :after org
+  :commands (org-ref-bibtex-next-entry
+             org-ref-bibtex-previous-entry
+             org-ref-open-in-browser
+             org-ref-open-bibtex-notes
+             org-ref-open-bibtex-pdf
+             org-ref-bibtex-hydra/body
+             org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+             org-ref-sort-bibtex-entry
+             arxiv-add-bibtex-entry
+             arxiv-get-pdf-add-bibtex-entry
+             doi-utils-add-bibtex-entry-from-doi
+             isbn-to-bibtex
+             pubmed-insert-bibtex-from-pmid)
+  :init
+  (progn
+    ;; bibtex keybindings
+    (evil-define-key 'normal bibtex-mode-map
+      (kbd "C-j") 'org-ref-bibtex-next-entry
+      (kbd "C-k") 'org-ref-bibtex-previous-entry
+      "M-j" 'org-ref-bibtex-next-entry
+      "M-k" 'org-ref-bibtex-previous-entry)
+
+    ;; bibtex-mode keybindings
+    (evil-leader/set-key-for-mode 'bibtex-mode
+      ;; Navigation
+      "j" 'org-ref-bibtex-next-entry
+      "k" 'org-ref-bibtex-previous-entry
+
+      ;; Open
+      "b" 'org-ref-open-in-browser
+      "n" 'org-ref-open-bibtex-notes
+      "p" 'org-ref-open-bibtex-pdf
+
+      ;; Misc
+      "h" 'org-ref-bibtex-hydra/body
+      "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+      "s" 'org-ref-sort-bibtex-entry
+
+      ;; Lookup utilities
+      "la" 'arxiv-add-bibtex-entry
+      "lA" 'arxiv-get-pdf-add-bibtex-entry
+      "ld" 'doi-utils-add-bibtex-entry-from-doi
+      "li" 'isbn-to-bibtex
+      "lp" 'pubmed-insert-bibtex-from-pmid)
+
+    ;; org mode keybindings
+    (which-key-declare-prefixes-for-mode 'org-mode
+      ",R" "org-ref"
+      "SPC mR" "org-ref"
+      ",Rnb" "org-ref-bib-notes"
+      "SPC mRb" "org-ref-bib-pdf")
+    
+    (evil-leader/set-key-for-mode 'org-mode
+      "Rn" 'org-ref-open-notes-at-point
+      "Rp" 'org-ref-open-pdf-at-point
+      "Rbn" 'org-ref-open-bibtex-notes
+      "Rbp" 'org-ref-open-bibtex-pdf
+      "ic" 'org-ref-helm-insert-cite-link)
+
+    ;; markdown-mode keybindings
+    (evil-leader/set-key-for-mode 'markdown-mode
+      "ic" 'org-ref-helm-insert-cite-link)
+
+    ;; latex-mode keybindings 
+    (evil-leader/set-key-for-mode 'latex-mode
+      "ic" 'org-ref-helm-insert-cite-link))
+
+  :config
+  (progn
+    (setq org-ref-completion-library 'org-ref-ivy-cite)
+    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
+    ;; see org-ref for use of these variables
+    (setq org-ref-bibliography-notes "~/Nutstore/org-notes/bibnote.org"
+          org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
+          org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf")
+    (setq bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
+          bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
+          bibtex-completion-notes-path "~/Nutstore/org-notes/bibnote.org")
+    (setq org-ref-default-citation-link "citep")
+    (defun org-ref-open-pdf-at-point ()
+      "Open the pdf for bibtex key under point if it exists."
+      (interactive)
+      (let* ((results (org-ref-get-bibtex-key-and-file))
+             (key (car results))
+             (pdf-file (car (bibtex-completion-find-pdf key))))
+        (if (file-exists-p pdf-file)
+            (org-open-file pdf-file)
+          (message "No PDF found for %s" key))))))
+
+;; org-roam with bibtex creating notes for individual bibtex
+(use-package org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (require 'org-ref))
+
+;; noter
+(use-package org-noter
+  )
+
+
 (use-package evil-org
   :diminish (evil-org-mode)
   :after org
