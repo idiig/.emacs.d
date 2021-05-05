@@ -246,7 +246,7 @@
     (setq deft-use-filter-string-for-filename t)
     (setq deft-recursive t)
     (setq deft-extension "org")
-    (setq deft-directory "~/Nutstore/org-notes")
+    (setq deft-directory "~/Nutstore/org-files/research-notes")
     (setq deft-text-mode 'org-mode)
     ;; keybindings
     (which-key-declare-prefixes "SPC od" "deft")
@@ -264,91 +264,42 @@
       "o" 'deft-open-file-other-window
       "r" 'deft-rename-file)))
 
-;; zetteldeft for linking notes
-(use-package zetteldeft
-  :defer t
-  ;; :after (org deft)
-  :init
-  (progn
-    (zetteldeft-set-classic-keybindings)
-    ;; zetteldeft actions in deft mode
-    (which-key-declare-prefixes-for-mode 'deft-mode
-      ",z" "zetteldeft"
-      "SPC mz" "zetteldeft")
-    (evil-leader/set-key-for-mode 'deft-mode
-      "zT" 'zetteldeft-tag-buffer
-      "zn" 'zetteldeft-new-file
-      )
+;; ;; zetteldeft for linking notes
+;; (use-package zetteldeft
+;;   :defer t
+;;   ;; :after (org deft)
+;;   :init
+;;   (progn
+;;     (zetteldeft-set-classic-keybindings)
+;;     ;; zetteldeft actions in deft mode
+;;     (which-key-declare-prefixes-for-mode 'deft-mode
+;;       ",z" "zetteldeft"
+;;       "SPC mz" "zetteldeft")
+;;     (evil-leader/set-key-for-mode 'deft-mode
+;;       "zT" 'zetteldeft-tag-buffer
+;;       "zn" 'zetteldeft-new-file
+;;       )
     
-    ;; zetteldeft actions in org mode
-    (which-key-declare-prefixes-for-mode 'org-mode
-      ",z" "zetteldeft"
-      "SPC mz" "zetteldeft")
-    (evil-leader/set-key-for-mode 'org-mode
-      "zc" 'zetteldeft-search-current-id
-      "zf" 'zetteldeft-follow-link
-      "zt" 'zetteldeft-avy-tag-search
-      "zN" 'zetteldeft-new-file-and-link
-      "zr" 'zetteldeft-file-rename
-      "zi" 'zetteldeft-find-file-id-insert
-      "zI" 'zetteldeft-find-file-full-title-insert
-      "zs" 'zetteldeft-search-at-point
-      "zl" 'zetteldeft-avy-link-search
-      "zF" 'zetteldeft-avy-file-search-ace-window
-      "zo" 'zetteldeft-find-file
-      )
-    ))
+;;     ;; zetteldeft actions in org mode
+;;     (which-key-declare-prefixes-for-mode 'org-mode
+;;       ",z" "zetteldeft"
+;;       "SPC mz" "zetteldeft")
+;;     (evil-leader/set-key-for-mode 'org-mode
+;;       "zc" 'zetteldeft-search-current-id
+;;       "zf" 'zetteldeft-follow-link
+;;       "zt" 'zetteldeft-avy-tag-search
+;;       "zN" 'zetteldeft-new-file-and-link
+;;       "zr" 'zetteldeft-file-rename
+;;       "zi" 'zetteldeft-find-file-id-insert
+;;       "zI" 'zetteldeft-find-file-full-title-insert
+;;       "zs" 'zetteldeft-search-at-point
+;;       "zl" 'zetteldeft-avy-link-search
+;;       "zF" 'zetteldeft-avy-file-search-ace-window
+;;       "zo" 'zetteldeft-find-file
+;;       )
+;;     ))
 
-;; org-roam for linking notes
-(use-package org-roam
-  :defer t
-  :diminish (org-roam-mode)
-  :hook (after-init . org-roam-mode)
-  :init
-  (progn
-    (setq org-roam-directory "~/Nutstore/org-notes")
-    (which-key-declare-prefixes "SPC or" "org-roam")
-    (which-key-declare-prefixes "SPC ord" "org-roam-dailies")
-    (which-key-declare-prefixes "SPC ort" "org-roam-tags")
-    (which-key-declare-prefixes "C-SPC or" "org-roam")
-    (which-key-declare-prefixes "C-SPC ord" "org-roam-dailies")
-    (which-key-declare-prefixes "C-SPC ort" "org-roam-tags")
-    (evil-leader/set-key
-      "ordy" 'org-roam-dailies-find-yesterday
-      "ordt" 'org-roam-dailies-find-today
-      "ordT" 'org-roam-dailies-find-tomorrow
-      "ordd" 'org-roam-dailies-find-date
-      "orf" 'org-roam-find-file
-      "org" 'org-roam-graph
-      "ori" 'org-roam-insert
-      "orI" 'org-roam-insert-immediate
-      "orl" 'org-roam-buffer-toggle-display
-      "orta" 'org-roam-tag-add
-      "ortd" 'org-roam-tag-delete
-      "ora" 'org-roam-alias-add)
-
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrd" "org-roam-dailies")
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrt" "org-roam-tags")
-    (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
-    (which-key-declare-prefixes-for-mode 'org-mode ",rd" "org-roam-dailies")
-    (which-key-declare-prefixes-for-mode 'org-mode ",rt" "org-roam-tags")
-    (evil-leader/set-key-for-mode 'org-mode
-      "rb" 'org-roam-switch-to-buffer
-      "rdy" 'org-roam-dailies-find-yesterday
-      "rdt" 'org-roam-dailies-find-today
-      "rdT" 'org-roam-dailies-find-tomorrow
-      "rdd" 'org-roam-dailies-find-date
-      "rf" 'org-roam-find-file
-      "rg" 'org-roam-graph
-      "ri" 'org-roam-insert
-      "rI" 'org-roam-insert-immediate
-      "rl" 'org-roam-buffer-toggle-display
-      "rta" 'org-roam-tag-add
-      "rtd" 'org-roam-tag-delete
-      "ra" 'org-roam-alias-add)))
-
-; org-ref 设定
+;; org-ref 设定
 (use-package org-ref
   :diminish
   :hook (org-mode-hook . (lambda () (require 'org-ref)))
@@ -368,6 +319,15 @@
              isbn-to-bibtex
              pubmed-insert-bibtex-from-pmid)
   :init
+  (defun org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point if it exists."
+    (interactive)
+    (let* ((results (org-ref-get-bibtex-key-and-file))
+           (key (car results))
+           (pdf-file (car (bibtex-completion-find-pdf key))))
+      (if (file-exists-p pdf-file)
+          (org-open-file pdf-file)
+        (message "No PDF found for %s" key))))
   (progn
     ;; bibtex keybindings
     (evil-define-key 'normal bibtex-mode-map
@@ -423,38 +383,127 @@
 
   :config
   (progn
-    (setq org-ref-completion-library 'org-ref-ivy-cite)
+    (setq org-ref-completion-library 'org-ref-ivy-cite
+          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
     (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
     ;; see org-ref for use of these variables
-    (setq org-ref-bibliography-notes "~/Nutstore/org-notes/bibnote.org"
-          org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
-          org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf")
-    (setq bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-          bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
-          bibtex-completion-notes-path "~/Nutstore/org-notes/bibnote.org")
-    (setq org-ref-default-citation-link "citep")
-    (defun org-ref-open-pdf-at-point ()
-      "Open the pdf for bibtex key under point if it exists."
-      (interactive)
-      (let* ((results (org-ref-get-bibtex-key-and-file))
-             (key (car results))
-             (pdf-file (car (bibtex-completion-find-pdf key))))
-        (if (file-exists-p pdf-file)
-            (org-open-file pdf-file)
-          (message "No PDF found for %s" key))))))
+    (setq
+     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
+     org-ref-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib")
+     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
+     ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
+     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
+     bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
+     )
+    (setq org-ref-note-title-format
+          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+          )
+    (setq org-ref-notes-directory "~/Nutstore/org-files/research-notes"
+          org-ref-notes-function 'orb-edit-notes)
+    (setq org-ref-default-citation-link "citep")))
+
+;; org-roam for linking notes
+(use-package org-roam
+  :defer t
+  :hook (after-init . org-roam-mode)
+  :commands (org-roam-buffer-toggle-display
+             org-roam-find-file
+             org-roam-graph
+             org-roam-insert
+             org-roam-switch-to-buffer
+             org-roam-dailies-date
+             org-roam-dailies-today
+             org-roam-dailies-tomorrow
+             org-roam-dailies-yesterday)
+  :preface
+  ;; Set this to nil so we can later detect whether the user has set a custom
+  ;; directory for it, and default to `org-directory' if they haven't.
+  (defvar org-roam-directory nil)
+  :init
+  (progn 
+    (which-key-declare-prefixes "SPC or" "org-roam")
+    (which-key-declare-prefixes "SPC ord" "org-roam-dailies")
+    (which-key-declare-prefixes "SPC ort" "org-roam-tags")
+    (which-key-declare-prefixes "C-SPC or" "org-roam")
+    (which-key-declare-prefixes "C-SPC ord" "org-roam-dailies")
+    (which-key-declare-prefixes "C-SPC ort" "org-roam-tags")
+    (evil-leader/set-key
+      "ordy" 'org-roam-dailies-find-yesterday
+      "ordt" 'org-roam-dailies-find-today
+      "ordT" 'org-roam-dailies-find-tomorrow
+      "ordd" 'org-roam-dailies-find-date
+      "orf" 'org-roam-find-file
+      "org" 'org-roam-graph
+      "ori" 'org-roam-insert
+      "orI" 'org-roam-insert-immediate
+      "orl" 'org-roam-buffer-toggle-display
+      "orta" 'org-roam-tag-add
+      "ortd" 'org-roam-tag-delete
+      "ora" 'org-roam-alias-add)
+
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrd" "org-roam-dailies")
+    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrt" "org-roam-tags")
+    (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
+    (which-key-declare-prefixes-for-mode 'org-mode ",rd" "org-roam-dailies")
+    (which-key-declare-prefixes-for-mode 'org-mode ",rt" "org-roam-tags")
+    (evil-leader/set-key-for-mode 'org-mode
+      "rb" 'org-roam-switch-to-buffer
+      "rdy" 'org-roam-dailies-find-yesterday
+      "rdt" 'org-roam-dailies-find-today
+      "rdT" 'org-roam-dailies-find-tomorrow
+      "rdd" 'org-roam-dailies-find-date
+      "rf" 'org-roam-find-file
+      "rg" 'org-roam-graph
+      "ri" 'org-roam-insert
+      "rI" 'org-roam-insert-immediate
+      "rl" 'org-roam-buffer-toggle-display
+      "rta" 'org-roam-tag-add
+      "rtd" 'org-roam-tag-delete
+      "ra" 'org-roam-alias-add))
+
+  :config
+  (progn
+    (setq org-roam-directory "~/Nutstore/org-files/research-notes"
+          org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
+          org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
+          org-roam-completion-system 'default)))
 
 ;; org-roam with bibtex creating notes for individual bibtex
 (use-package org-roam-bibtex
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
-  (require 'org-ref))
+  (require 'org-ref)
+  (setq org-roam-bibtex-preformat-keywords
+        '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+  (setq orb-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "${slug}"
+           :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
+
+- tags ::
+- keywords :: ${keywords}
+
+\n* ${title}\n  :PROPERTIES:\n  :Custom_ID: ${=key=}\n  :URL: ${url}\n  :AUTHOR: ${author-or-editor}\n  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n  :NOTER_PAGE: \n  :END:\n\n"
+
+           :unnarrowed t))))
 
 ;; noter
 (use-package org-noter
+  :after (:any org pdf-view)
   :config
-  (progn
-    (setq org-noter-auto-save-last-location "~/Nutstore/org-notes/bibnotes")))
+  (setq
+   ;; The WM can handle splits
+   org-noter-notes-window-location 'other-frame
+   ;; Please stop opening frames
+   org-noter-always-create-frame nil
+   ;; I want to see the whole file
+   org-noter-hide-other nil
+   ;; Everything is relative to the main notes file
+   org-noter-notes-search-path "~/Nutstore/org-files/research-notes"
+   ))
 
 ;; evil-org
 (use-package evil-org
@@ -494,8 +543,8 @@
   (org-agenda-current-time-string "<<<<<<<< now")
   (org-agenda-time-grid ;; Format is changed from 9.1
    '((daily today require-timed)
-     (0100 0300 0500 0700 0900 1100 1200
-           1300 1500 1700 1900 2000 2200 2400)
+     (0100 0300 0500 0700 0900 1200 1300
+           1500 1700 1900 2000 2200 2400)
      "-"
      "────────────"))
   :hook
@@ -733,7 +782,7 @@
     (setq org-imenu-depth 8)
 
     ;; define the refile targets
-    (setq org-agenda-dir "~/Nutstore/org-notes")
+    (setq org-agenda-dir "~/Nutstore/org-files")
     (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
     (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
     (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
