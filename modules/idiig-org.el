@@ -610,7 +610,16 @@
   :ensure org-plus-contrib
   :commands
   (org-babel-execute:R
-   org-babel-expand-body:R))
+   org-babel-expand-body:R)
+  :config
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:R
+          '((:exports . "results")
+            (:colnames . "yes")
+            (:rownames . "yes")
+            (:session . "*org-R*")
+            ))))
 
 (use-package ob-emacs-lisp
   :defer t
@@ -897,14 +906,6 @@ holding contextual information."
     ;;    (C . t)
     ;;    (R . t)
     ;;    ))
-
-    ;; ;; default的语言设置
-    ;; (setq org-babel-default-header-args:R
-    ;;       '((:exports . "results")
-    ;;         (:colnames . "yes")
-    ;;         (:rownames . "yes")
-    ;;         (:session . "*org-R*")
-    ;;         ))
 
     ;; org mode 图片输出展示
     (add-hook 'org-mode-hook 'org-display-inline-images)
