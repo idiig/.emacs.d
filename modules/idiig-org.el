@@ -641,13 +641,13 @@
   (org-babel-execute:emacs-lisp
    org-babel-expand-body:lisp))
 
-;; (use-package ob-latex
-;;   :defer t
-;;   :after org
-;;   :ensure org-plus-contrib
-;;   :commands
-;;   (org-babel-execute:latex)
-;;   (org-babel-expand-body:latex))
+(use-package ob-latex
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:latex
+   org-babel-expand-body:latex))
 
 ;; after load org
 (use-package org
