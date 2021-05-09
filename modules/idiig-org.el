@@ -623,16 +623,16 @@
   :commands
   (org-babel-execute:R
    org-babel-expand-body:R)
-  :config
-  (init
-   ;; default的语言设置
-   (setq org-babel-default-header-args:R
-         '((:exports . "results")
-           (:colnames . "yes")
-           (:tangle .	"yes")
-           (:rownames . "yes")
-           (:session . "*org-R*")
-           ))))
+  :init
+  ;; default的语言设置
+  (progn
+    (setq org-babel-default-header-args:R
+          '((:exports . "results")
+            (:colnames . "yes")
+            (:tangle .	"yes")
+            (:rownames . "yes")
+            (:session . "*org-R*")
+            ))))
 
 (use-package ob-emacs-lisp
   :defer t
@@ -641,15 +641,6 @@
   :commands
   (org-babel-execute:emacs-lisp
    org-babel-expand-body:lisp))
-
-;; fix ob-latex 
-(advice-add 'org-babel-latex-tex-to-pdf :before
-            (lambda (file)
-              (with-temp-buffer
-                (insert-file-contents file)
-                (beginning-of-buffer)
-                (insert "% xelatex\n")
-                (write-file file))))
 
 (use-package ob-latex
   :defer t
@@ -960,7 +951,7 @@ holding contextual information."
           (setq org-latex-compiler "xelatex")
           (setq org-latex-default-packages-alist nil)
           ;; (setq org-latex-packages-alist
-          ;;       '(("" "xeCJK" t)))
+          ;;       '(("" "fontspec" t)))
           (setq org-latex-default-class "draft") 
           (setq org-latex-listings 'minted)
           (setq org-latex-minted-options
@@ -1009,9 +1000,11 @@ holding contextual information."
                      "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
 \\usepackage{graphicx}
+\\usepackage{svg}
 \\usepackage{geometry}
-\\usepackage{fontspec}
-\\setmainfont{ipaexm.ttf}
+\\usepackage[T1]{fontenc}
+\\usepackage{xeCJK}
+\\setCJKmainfont[Scale=MatchLowercase]{ipaexm.ttf}
 \\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm,heightrounded}
 \\usepackage[yyyymmdd]{datetime}
 \\renewcommand{\\dateseparator}{/}
@@ -1025,7 +1018,7 @@ holding contextual information."
 \\usepackage{amsmath,amsthm,amssymb}
 \\usepackage{bm}
 \\usepackage{booktabs}
-\\usepackage{svg}
+\\usepackage{csquotes}
 \\usepackage{tikz}
 \\usepackage{minted}
 %
@@ -1072,8 +1065,8 @@ holding contextual information."
 \\usepackage{fancyhdr}
 \\pagestyle{fancyplain}
 \\fancyhf{}
-\\lhead{\fancyplain{}{draft: \\jobname}}
-\\rhead{\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
+\\lhead{\\fancyplain{}{draft: \\jobname}}
+\\rhead{\\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
 \\cfoot{\\fancyplain{}{\\thepage}}
 %
 % caption
@@ -1118,9 +1111,10 @@ holding contextual information."
             '("xelatex --shell-escape %f"
               "xelatex --shell-escape %f"
               "biber %b"
-              ;; "xelatex --shell-escape %f"
+              "xelatex --shell-escape %f"
+              "xelatex --shell-escape %f"
               "dvipdfmx %b.dvi"
-              "rm -fr %b.bbl %b.dvi %b.tex auto"
+              ;; "rm -fr %b.bbl %b.dvi %b.tex auto"
               ))))
   )
 
