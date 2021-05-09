@@ -948,132 +948,17 @@ holding contextual information."
       ;; TeX
       (require 'ox-latex)
       (require 'ox-beamer)
+      ;; for TeX code
+      (setq org-latex-minted-options
+            '(("frame" "lines")
+              ("framesep=2mm")
+              ("linenos=true")
+              ("baselinestretch=1.2")
+              ("fontsize=\\footnotesize")
+              ("breaklines")
+              ))
+      
       ;; (setq org-latex-compiler "xelatex")
-      (add-to-list 'org-latex-classes
-                   '("jp_notes"
-                     "
-\\documentclass[autodetect-engine,dvi=dvipdfmx,11pt,ja=standard]{bxjsarticle}
-\\usepackage{amsmath}
-\\usepackage{graphicx}
-\\usepackage[T1]{fontenc}
-\\usepackage{geometry}
-\\usepackage{xeCJK}
-\\geometry{a4paper,left=20mm,right=20mm,top=8mm,bottom=12mm,heightrounded}
-\\usepackage{subcaption}
-% \\usepackage{otf}
-\\usepackage[yyyymmdd]{datetime}
-\\renewcommand{\\dateseparator}{/}
-\\usepackage{longtable}
-\\usepackage{float}
-\\usepackage{wrapfig}
-\\usepackage{rotating}
-\\usepackage[normalem]{ulem}
-\\usepackage{textcomp}
-\\usepackage{multicol}
-\\usepackage{marvosym}
-\\usepackage{wasysym}
-\\usepackage{amssymb}
-\\usepackage{booktabs}
-\\tolerance=1000
-\\usepackage{xcolor}
-\\usepackage{hyperref}
-\\ifdefined\\kanjiskip
-  \\usepackage{pxjahyper}
-  \\hypersetup{colorlinks=true,citecolor=blue}
-\\else
-  \\ifdefined\\XeTeXversion
-      \\hypersetup{colorlinks=true,citecolor=blue}
-  \\else
-    \\ifdefined\\directlua
-      \\hypersetup{pdfencoding=auto,colorlinks=true,citecolor=blue}
-    \\else
-      \\hypersetup{unicode,colorlinks=true,citecolor=blue}
-    \\fi
-  \\fi
-\\fi
-%
-\\usepackage{tikz}
-\\usepackage[authoryear]{natbib}
-\\bibpunct[: ]{(}{)}{,}{a}{}{,}
-\\usepackage{url}
-%
-\\usepackage{listings}
-\\lstset{
-basicstyle=\\small\\ttfamily,
-numbers=left,
-numberstyle=\\footnotesize,
-stepnumber=1,
-numbersep=5pt,
-backgroundcolor=\\color{white},
-showspaces=false,
-showstringspaces=false,
-showtabs=false,
-frame=tb,
-tabsize=2,
-captionpos=b,
-breaklines=true,
-breakatwhitespace=false,
-escapeinside={\\%*}{*)} 
-}
-%
-\\usepackage{etoolbox}
-\\makeatletter
-\\patchcmd{\\@verbatim}
-  {\\verbatim@font}
-  {\\verbatim@font\\small}
-  {}{}
-\\makeatother
-%
-% Footnote setting
-\\usepackage{footmisc}
-\\DefineFNsymbols{mySymbols}{{\\ensuremath\\dagger}{\\ensuremath\\ddagger}\\S\\P
-   *{**}{\\ensuremath{\\dagger\\dagger}}{\\ensuremath{\\ddagger\\ddagger}}}
-\\setfnsymbol{mySymbols}
-\\renewcommand{\\thefootnote}{\\arabic{footnote}\\enspace}
-%
-\\usepackage{fancyhdr}
-\\pagestyle{fancyplain}
-\\fancyhf{}
-\\chead{\\fancyplain{}{draft: \\jobname}}
-\\lhead{\\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
-\\rhead{\\fancyplain{}{\\includegraphics[width=0.2\\textwidth]{/Users/idiig/Nutstore/tex_related/tokyotechmark.eps}}}
-\\cfoot{\\fancyplain{}{\\thepage}}
-%
-\\usepackage{caption}
-\\captionsetup[figure]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
-\\captionsetup[table]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
-%
-\\usepackage{framed}
-\\renewenvironment{quote}[1][\\hsize]
-{%
-  \\def\\FrameCommand
-  {%
-    {\\color{gray}\\vrule width 4pt}%
-    \\hspace{0pt}%must no space.
-    \\fboxsep=\\FrameSep\\colorbox{white}%
-  }%
-  \\MakeFramed{\\hsize#1\\advance\\hsize-\\width\\FrameRestore}%
-}
-{\\endMakeFramed}
-%
-\\makeatletter
-\\renewcommand{\\maketitle}{\\bgroup\\setlength{\\parindent}{0pt}
-\\begin{flushleft}
-  \\ \\\\
-  \\vspace{-0.5em}
-  \\Large{\\textsf{\\@title}}\\\\
-  \\normalsize\\@author
-\\end{flushleft}\\egroup
-\\vspace{-1em}
-}
-\\makeatother
-"
-                     ("\\section{%s}" . "\\section*{%s}")
-                     ("\\subsection{%s}" . "\\subsection*{%s}")
-                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                     ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
       (add-to-list 'org-latex-classes
                    '("en_notes"
                      "
