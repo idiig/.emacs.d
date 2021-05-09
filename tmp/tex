@@ -1,0 +1,104 @@
+"
+\\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
+\\usepackage{graphicx}
+\\usepackage{svg}
+\\usepackage{geometry}
+% \\usepackage[T1]{fontenc}
+% \\usepackage{xeCJK}
+\\setmainfont{Sarasa Mono SC Nerd}
+% \\setCJKmainfont[Scale=MatchLowercase]{ipaexm.ttf}
+% \\setCJKmonofont[Scale=MatchLowercase]{ipaexm.ttf}
+% \\setCJKsansfont[Scale=MatchLowercase]{ipaexm.ttf}
+\\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm,heightrounded}
+\\usepackage[yyyymmdd]{datetime}
+\\renewcommand{\\dateseparator}{/}
+\\usepackage{longtable}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{textcomp}
+\\usepackage{multicol}
+\\usepackage{amsmath,amsthm,amssymb}
+\\usepackage{bm}
+\\usepackage{booktabs}
+\\usepackage{tikz}
+\\usepackage{minted}
+%
+% color link
+\\usepackage{xcolor}
+\\usepackage{hyperref}
+\\ifdefined\\kanjiskip
+  \\usepackage{pxjahyper}
+  \\hypersetup{colorlinks=true,citecolor=blue}
+\\else
+  \\ifdefined\\XeTeXversion
+      \\hypersetup{colorlinks=true,citecolor=blue}
+  \\else
+    \\ifdefined\\directlua
+      \\hypersetup{pdfencoding=auto,colorlinks=true,citecolor=blue}
+    \\else
+      \\hypersetup{unicode,colorlinks=true,citecolor=blue}
+    \\fi
+  \\fi
+\\fi
+%
+% bibliography
+\\usepackage[natbib,style=apa,backend=biber,giveninits=false]{biblatex}
+\\DefineBibliographyStrings{english}{phdthesis = {PhD dissertation}}
+\\usepackage{url}
+%
+%
+\\usepackage{etoolbox}
+\\makeatletter
+\\patchcmd{\\@verbatim}
+  {\\verbatim@font}
+  {\\verbatim@font\\footnotesize}
+  {}{}
+\\makeatother
+%
+% Footnote setting
+\\usepackage{footmisc}
+\\DefineFNsymbols{mySymbols}{{\\ensuremath\\dagger}{\\ensuremath\\ddagger}\\S\\P
+   *{**}{\\ensuremath{\\dagger\\dagger}}{\\ensuremath{\\ddagger\\ddagger}}}
+\\setfnsymbol{mySymbols}
+\\renewcommand{\\thefootnote}{\\arabic{footnote}\\enspace}
+%
+% header
+\\usepackage{fancyhdr}
+\\pagestyle{fancyplain}
+\\fancyhf{}
+\\lhead{\fancyplain{}{draft: \\jobname}}
+\\rhead{\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
+\\cfoot{\\fancyplain{}{\\thepage}}
+%
+% caption
+\\usepackage{subcaption}
+\\usepackage{caption}
+\\captionsetup[figure]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
+\\captionsetup[table]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
+\\usepackage{capt-of}
+% 
+% quote
+\\usepackage{framed}
+\\renewenvironment{quote}[1][\\hsize]
+{%
+  \\def\\FrameCommand
+  {%
+    {\\color{gray}\\vrule width 4pt}%
+    \\hspace{0pt}%must no space.
+    \\fboxsep=\\FrameSep\\colorbox{white}%
+  }%
+  \\MakeFramed{\\hsize#1\\advance\\hsize-\\width\\FrameRestore}%
+}
+{\\endMakeFramed}
+%
+% title
+\\makeatletter
+\\renewcommand{\\maketitle}{\\bgroup\\setlength{\\parindent}{0pt}
+\\begin{flushleft}
+  \\Large{\\textsf{\\@title}}\\\\
+  \\normalsize\\@author
+\\end{flushleft}\\egroup
+}
+\\makeatother

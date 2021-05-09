@@ -594,7 +594,7 @@
   :ensure org-plus-contrib
   :commands
   (org-babel-execute:python)
-  :config
+  :init
   (progn
     ;; default的语言设置
     (setq org-babel-default-header-args:python
@@ -609,6 +609,7 @@
   :defer t
   :after org
   :ensure org-plus-contrib
+
   :commands
   (org-babel-execute:sh
    org-babel-expand-body:sh
@@ -623,15 +624,15 @@
   (org-babel-execute:R
    org-babel-expand-body:R)
   :config
-  (progn
-    ;; default的语言设置
-    (setq org-babel-default-header-args:R
-          '((:exports . "results")
-            (:colnames . "yes")
-            (:tangle .	"yes")
-            (:rownames . "yes")
-            (:session . "*org-R*")
-            ))))
+  (init
+   ;; default的语言设置
+   (setq org-babel-default-header-args:R
+         '((:exports . "results")
+           (:colnames . "yes")
+           (:tangle .	"yes")
+           (:rownames . "yes")
+           (:session . "*org-R*")
+           ))))
 
 (use-package ob-emacs-lisp
   :defer t
@@ -641,13 +642,34 @@
   (org-babel-execute:emacs-lisp
    org-babel-expand-body:lisp))
 
+;; fix ob-latex 
+(advice-add 'org-babel-latex-tex-to-pdf :before
+            (lambda (file)
+              (with-temp-buffer
+                (insert-file-contents file)
+                (beginning-of-buffer)
+                (insert "% xelatex\n")
+                (write-file file))))
+
 (use-package ob-latex
   :defer t
   :after org
   :ensure org-plus-contrib
   :commands
   (org-babel-execute:latex
-   org-babel-expand-body:latex))
+   org-babel-expand-body:latex)
+  :init
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:latex
+          '((:imagemagick . "yes")
+            (:exports . "results")
+            (:results . "graphics file")
+            (:headers . "\\usepackage{tikz}")
+            (:fit . "yes")
+            (:imoutoptions . "-geometry 400")
+            (::iminoptions . "-density 600")
+            ))))
 
 ;; after load org
 (use-package org
@@ -897,12 +919,15 @@ holding contextual information."
                                 ;; keybinding for inserting code blocks
                                 (local-set-key (kbd "C-c i s")
                                                'idiig/org-insert-src-block)))
+    ;; 代码高亮 
+    (setq org-src-fontify-natively t)
 
     ;; 不询问eval
     (setq org-confirm-babel-evaluate nil)
 
     ;; org Babel输出图片
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+    
     ;; org mode 图片输出展示
     (add-hook 'org-mode-hook 'org-display-inline-images)
     (when org-inline-image-overlays
@@ -928,33 +953,65 @@ holding contextual information."
       (use-package ox-hugo) 
 
       ;; TeX
-      (require 'ox-latex)
-      (require 'ox-beamer)
-      (setq org-latex-compiler "xelatex")
-      (setq org-latex-default-class "draft") 
-      (setq org-latex-listings 'minted)
-      (setq org-latex-default-packages-alist nil)
-      
-      (setq org-latex-minted-options
-            '(("frame" "lines")
-              ("framesep=2mm")
-              ("linenos=true")
-              ("baselinestretch=1.2")
-              ("fontsize=\\footnotesize")
-              ("breaklines")
-              ))
+      (use-package ox-latex
+        :ensure nil
+        :config
+        (progn
+          (setq org-latex-compiler "xelatex")
+          (setq org-latex-default-packages-alist nil)
+          ;; (setq org-latex-packages-alist
+          ;;       '(("" "xeCJK" t)))
+          (setq org-latex-default-class "draft") 
+          (setq org-latex-listings 'minted)
+          (setq org-latex-minted-options
+                '(("frame" "lines")
+                  ("framesep=2mm")
+                  ("linenos=true")
+                  ("baselinestretch=1.2")
+                  ("fontsize=\\footnotesize")
+                  ("breaklines")
+                  ))
+          (setq org-preview-latex-default-process 'dvisvgm)
+          ;; (setq org-preview-latex-default-process 'imagemagick)
+          ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
+          (setq org-format-latex-options
+                (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
+          (setq org-format-latex-options
+                (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
+          (setq org-preview-latex-process-alist
+                '(
+                  (dvisvgm
+                   :programs ("xelatex" "dvisvgm")
+                   :description "xdv > svg"
+                   :message "you need to install the programs: xelatex and dvisvgm."
+                   :image-input-type "xdv"
+                   :image-output-type "svg"
+                   :image-size-adjust (1.0 . 1.0)
+                   :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
+                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+                  (imagemagick
+                   :programs ("latex" "convert")
+                   :description "pdf > png"
+                   :message "you need to install the programs: xelatex and imagemagick."
+                   :image-input-type "pdf"
+                   :image-output-type "png"
+                   :image-size-adjust (1.0 . 1.0)
+                   :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
+                   :image-converter
+                   ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+          ))
 
-       (add-to-list 'org-latex-classes
+      (use-package ox-beamer
+        :ensure nil)
+
+      (add-to-list 'org-latex-classes
                    '("draft"
                      "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
 \\usepackage{graphicx}
 \\usepackage{geometry}
-\\usepackage[T1]{fontenc}
-\\usepackage{xeCJK}
-\\setCJKmainfont[Scale=MatchLowercase]{ipaexm.ttf}
-\\setCJKmonofont[Scale=MatchLowercase]{ipaexm.ttf}
-\\setCJKsansfont[Scale=MatchLowercase]{ipaexm.ttf}
+\\usepackage{fontspec}
+\\setmainfont{ipaexm.ttf}
 \\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm,heightrounded}
 \\usepackage[yyyymmdd]{datetime}
 \\renewcommand{\\dateseparator}{/}
@@ -968,6 +1025,7 @@ holding contextual information."
 \\usepackage{amsmath,amsthm,amssymb}
 \\usepackage{bm}
 \\usepackage{booktabs}
+\\usepackage{svg}
 \\usepackage{tikz}
 \\usepackage{minted}
 %
