@@ -76,6 +76,7 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
 
 ;; 自定义功能 
 (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)  ;; 全局自动缩进
+(global-set-key (kbd "C-M-¥") 'indent-region-or-buffer)  ;; 全局自动缩进
 (global-set-key (kbd "C-c C-e") 'occur-dwim)  
 (global-set-key (kbd "C-w") 'backward-kill-word-or-region);; 删除word 
 (bind-key* "C-." 'idiig/insert-space-after-point) ;; 点后插入空白
