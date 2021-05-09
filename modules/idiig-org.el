@@ -593,10 +593,21 @@
   :after org
   :ensure org-plus-contrib
   :commands
-  (org-babel-execute:python))
+  (org-babel-execute:python)
+  :config
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:python
+          '((:exports . "results")
+            (:colnames . "yes")
+            (:tangle .	"yes")
+            (:rownames . "yes")
+            (:session . "*org-python*")
+            ))))
 
 (use-package ob-shell
   :defer t
+  :after org
   :ensure org-plus-contrib
   :commands
   (org-babel-execute:sh
@@ -617,6 +628,7 @@
     (setq org-babel-default-header-args:R
           '((:exports . "results")
             (:colnames . "yes")
+            (:tangle .	"yes")
             (:rownames . "yes")
             (:session . "*org-R*")
             ))))
