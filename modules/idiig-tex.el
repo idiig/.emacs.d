@@ -320,8 +320,8 @@ the automatic filling of the current paragraph."
     (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
     ;; see org-ref for use of these variables
     (setq
-     org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
-     ;; org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
+     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
+     org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
      org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
      ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
      bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
