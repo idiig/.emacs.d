@@ -602,7 +602,7 @@
             (:colnames . "yes")
             (:tangle .	"yes")
             (:rownames . "yes")
-            (:session . "*org-python*")
+            ;; (:session . "*org-python*")
             ))))
 
 (use-package ob-shell
@@ -903,22 +903,6 @@ holding contextual information."
 
     ;; org Babel输出图片
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-
-    ;; ;; 可使用代码
-    ;; (org-babel-do-load-languages
-    ;;  'org-babel-load-languages
-    ;;  '((perl . t)
-    ;;    (ruby . t)
-    ;;    (shell . t)
-    ;;    (dot . t)
-    ;;    (js . t)
-    ;;    (latex .t)
-    ;;    (python . t)
-    ;;    (emacs-lisp . t)
-    ;;    (C . t)
-    ;;    (R . t)
-    ;;    ))
-
     ;; org mode 图片输出展示
     (add-hook 'org-mode-hook 'org-display-inline-images)
     (when org-inline-image-overlays
@@ -939,16 +923,18 @@ holding contextual information."
 
     (with-eval-after-load "ox"
       (add-hook 'org-export-before-processing-hook 'remove-org-newlines-at-cjk-text)
-      ;; reveal-js
-      (use-package ox-reveal)
-      ;; markdown
-      (require 'ox-md nil t)
+      
       ;; hogo
       (use-package ox-hugo) 
+
       ;; TeX
       (require 'ox-latex)
       (require 'ox-beamer)
-      ;; for TeX code
+      (setq org-latex-compiler "xelatex")
+      (setq org-latex-default-class "draft") 
+      (setq org-latex-listings 'minted)
+      (setq org-latex-default-packages-alist nil)
+      
       (setq org-latex-minted-options
             '(("frame" "lines")
               ("framesep=2mm")
@@ -957,22 +943,19 @@ holding contextual information."
               ("fontsize=\\footnotesize")
               ("breaklines")
               ))
-      
-      ;; (setq org-latex-compiler "xelatex")
-      (add-to-list 'org-latex-classes
-                   '("en_notes"
+
+       (add-to-list 'org-latex-classes
+                   '("draft"
                      "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
-\\usepackage{amsmath}
 \\usepackage{graphicx}
-\\usepackage[T1]{fontenc}
 \\usepackage{geometry}
+\\usepackage[T1]{fontenc}
 \\usepackage{xeCJK}
-% \\setCJKmainfont{IPAexMincho}
 \\setCJKmainfont[Scale=MatchLowercase]{ipaexm.ttf}
+\\setCJKmonofont[Scale=MatchLowercase]{ipaexm.ttf}
+\\setCJKsansfont[Scale=MatchLowercase]{ipaexm.ttf}
 \\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm,heightrounded}
-\\usepackage{subcaption}
-% \\usepackage{otf}
 \\usepackage[yyyymmdd]{datetime}
 \\renewcommand{\\dateseparator}{/}
 \\usepackage{longtable}
@@ -982,13 +965,13 @@ holding contextual information."
 \\usepackage[normalem]{ulem}
 \\usepackage{textcomp}
 \\usepackage{multicol}
-\\usepackage{marvosym}
-\\usepackage{wasysym}
 \\usepackage{amsmath,amsthm,amssymb}
 \\usepackage{bm}
-\\usepackage{blkarray}
 \\usepackage{booktabs}
-\\tolerance=1000
+\\usepackage{tikz}
+\\usepackage{minted}
+%
+% color link
 \\usepackage{xcolor}
 \\usepackage{hyperref}
 \\ifdefined\\kanjiskip
@@ -1006,41 +989,17 @@ holding contextual information."
   \\fi
 \\fi
 %
-\\usepackage{tikz}
-% \\usepackage[authoryear]{natbib}
-% \\bibpunct[: ]{(}{)}{,}{a}{}{,}
-\\usepackage{csquotes}
+% bibliography
 \\usepackage[natbib,style=apa,backend=biber,giveninits=false]{biblatex}
-% \\NewBibliographyString{diplomathesis}
 \\DefineBibliographyStrings{english}{phdthesis = {PhD dissertation}}
-% \\usepackage[authordate,giveninits=false,natbib,backend=biber,ptitleaddon=space,isbn=false,url=false,eprint=false,doi=false,bibencoding=utf8]{biblatex-chicago}
-% \\DeclareFieldFormat{nameaddon}{#1}
 \\usepackage{url}
 %
-\\usepackage{listings}
-\\lstset{
-basicstyle=\\small\\ttfamily,
-numbers=left,
-numberstyle=\\footnotesize,
-stepnumber=1,
-numbersep=5pt,
-backgroundcolor=\\color{white},
-showspaces=false,
-showstringspaces=false,
-showtabs=false,
-frame=tb,
-tabsize=2,
-captionpos=b,
-breaklines=true,
-breakatwhitespace=false,
-escapeinside={\\%*}{*)} 
-}
 %
 \\usepackage{etoolbox}
 \\makeatletter
 \\patchcmd{\\@verbatim}
   {\\verbatim@font}
-  {\\verbatim@font\\small}
+  {\\verbatim@font\\footnotesize}
   {}{}
 \\makeatother
 %
@@ -1051,18 +1010,22 @@ escapeinside={\\%*}{*)}
 \\setfnsymbol{mySymbols}
 \\renewcommand{\\thefootnote}{\\arabic{footnote}\\enspace}
 %
+% header
 \\usepackage{fancyhdr}
 \\pagestyle{fancyplain}
 \\fancyhf{}
-\\chead{\\fancyplain{}{draft: \\jobname}}
-\\lhead{\\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
-\\rhead{\\fancyplain{}{\\includegraphics[width=0.2\\textwidth]{/Users/idiig/Nutstore/tex_related/tokyotechmark.eps}}}
+\\lhead{\fancyplain{}{draft: \\jobname}}
+\\rhead{\fancyplain{}{latest update: \\today\\enspace\\currenttime}}
 \\cfoot{\\fancyplain{}{\\thepage}}
 %
+% caption
+\\usepackage{subcaption}
 \\usepackage{caption}
 \\captionsetup[figure]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
 \\captionsetup[table]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
-%
+\\usepackage{capt-of}
+% 
+% quote
 \\usepackage{framed}
 \\renewenvironment{quote}[1][\\hsize]
 {%
@@ -1076,15 +1039,13 @@ escapeinside={\\%*}{*)}
 }
 {\\endMakeFramed}
 %
+% title
 \\makeatletter
 \\renewcommand{\\maketitle}{\\bgroup\\setlength{\\parindent}{0pt}
 \\begin{flushleft}
-  \\ \\\\
-  \\vspace{-0.5em}
   \\Large{\\textsf{\\@title}}\\\\
   \\normalsize\\@author
 \\end{flushleft}\\egroup
-\\vspace{-1em}
 }
 \\makeatother
 "
@@ -1093,14 +1054,13 @@ escapeinside={\\%*}{*)}
                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                      ("\\paragraph{%s}" . "\\paragraph*{%s}")
                      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
+      
       ;; 输出设定
       (setq org-latex-pdf-process
-            '("xelatex %f"
-              "xelatex %f"
+            '("xelatex --shell-escape %f"
+              "xelatex --shell-escape %f"
               "biber %b"
-              "xelatex %f"
-              "xelatex %f"
+              ;; "xelatex --shell-escape %f"
               "dvipdfmx %b.dvi"
               "rm -fr %b.bbl %b.dvi %b.tex auto"
               ))))
