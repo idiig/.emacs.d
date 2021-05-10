@@ -214,6 +214,11 @@
     (insert "#+END_SRC\n")
     (previous-line 2)
     (org-edit-src-code)))
+(add-hook 'org-mode-hook '(lambda ()
+                                ;; keybinding for editing source code blocks
+                                ;; keybinding for inserting code blocks
+                                (local-set-key (kbd "C-c i s")
+                                               'idiig/org-insert-src-block)))
 
 ;; ispell不检查部分
 (defun idiig/org-ispell ()
@@ -372,7 +377,7 @@
 
 ;; noter
 (use-package org-noter
-  :after (:any org pdf-view)
+  :after (org pdf-view)
   :config
   (setq
    ;; The WM can handle splits
@@ -501,6 +506,82 @@
             (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
             )))))
 
+(use-package org-capture
+  :ensure nil
+  :after org
+  :commands (org-capture)
+  :init
+  (progn
+    ;; the %i would copy the selected text into the template
+    ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
+    ;;add multi-file journal
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Workspace")
+             "* TODO [#B] %?\n  %i\n %U"
+             :empty-lines 1)
+            ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
+             "* %?\n  %i\n %U"
+             :empty-lines 1)
+            ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
+             "* TODO [#B] %?\n  %i\n %U"
+             :empty-lines 1)
+            ("s" "Code Snippet" entry
+             (file org-agenda-file-code-snippet)
+             "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+            ("w" "work" entry (file+headline org-agenda-file-gtd "Work")
+             "* TODO [#A] %?\n  %i\n %U"
+             :empty-lines 1)
+            ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
+             "* TODO [#C] %?\n %(idiig/retrieve-chrome-current-tab-url)\n %i\n %U"
+             :empty-lines 1)
+            ("l" "links" entry (file+headline org-agenda-file-note "Quick notes")
+             "* TODO [#C] %?\n  %i\n %a \n %U"
+             :empty-lines 1)
+            ("j" "Journal Entry"
+             entry (file+datetree org-agenda-file-journal)
+             "* %?"
+             :empty-lines 1))))
+  :config
+  (progn
+    (defun idiig//org-capture-start ()
+      "Make sure that the keybindings are available for org capture."
+      (evil-leader/set-key-for-mode 'org-capture-mode
+        ;; "," 'org-capture-finalize
+        "a" 'org-capture-kill
+        "c" 'org-capture-finalize
+        "k" 'org-capture-kill
+        "r" 'org-capture-refile)
+      ;; Evil bindins seem not to be applied until at least one
+      ;; Evil state is executed
+      (evil-normal-state))
+    ;; Must be done everytime we run org-capture otherwise it will
+    ;; be ignored until insert mode is entered.
+    (add-hook 'org-capture-mode-hook 'idiig//org-capture-start)
+    
+    (defun org-hugo-new-subtree-post-capture-template ()
+      "Returns `org-capture' template string for new Hugo post.
+See `org-capture-templates' for more information."
+      (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+             (fname (org-hugo-slug title)))
+        (mapconcat #'identity
+                   `(
+                     ,(concat "* TODO " title)
+                     ":PROPERTIES:"
+                     ,(concat ":EXPORT_FILE_NAME: " fname)
+                     ":END:"
+                     "%?\n")        ;Place the cursor here finally
+                   "\n")))
+
+    (add-to-list 'org-capture-templates
+                 '("h"              ;`org-capture' binding + h
+                   "Hugo post"
+                   entry
+                   ;; It is assumed that below file is present in `org-directory'
+                   ;; and that it has a "Blog Ideas" heading. It can even be a
+                   ;; symlink pointing to the actual location of all-posts.org!
+                   (file+headline org-agenda-file-blogposts "Blog Ideas")
+                   (function org-hugo-new-subtree-post-capture-template)))))
+
 ;; 提醒事项
 (use-package appt
   :ensure nil
@@ -550,454 +631,91 @@
                                                                        "org-pomodoro"
                                                                        "继。。继续。。。。。")))))
 
-;; ;; FIXME
-;; ;; org-proectile
-;; (use-package org-projectile
-;;   :commands (org-projectile-location-for-project)
-;;   :init
-;;   (defun org-projectile/capture (&optional arg)
-;;     (interactive "P")
-;;     (if arg
-;;         (org-projectile-project-todo-completing-read :empty-lines 1)
-;;       (org-projectile-capture-for-current-project :empty-lines 1)))
-
-;;   (defun org-projectile/goto-todos ()
-;;     (interactive)
-;;     (org-projectile-goto-location-for-project (projectile-project-name)))
-
-;;   (progn
-;;     (evil-leader/set-key
-;;       "op" 'org-projectile/capture
-;;       "opo" 'org-projectile/goto-todos)
-;;     (with-eval-after-load 'org-capture
-;;       (require 'org-projectile)))
-;;   :config
-;;   (if (file-name-absolute-p org-projectile-file)
-;;       (progn
-;;         (setq org-projectile-projects-file org-projectile-file)
-;;         (push (org-projectile-project-todo-entry :empty-lines 1)
-;;               org-capture-templates))
-;;     (org-projectile-per-project)
-;;     (setq org-projectile-per-project-filepath org-projectile-file)))
-
-;; 上级目录保持可见
-(use-package org-sticky-header
-  :defer t
+(use-package ox
+  :ensure nil
   :after org
   :init
-  (add-hook 'org-mode-hook 'org-sticky-header-mode))
-
-;; babel languages
-(use-package ob-python
-  :defer t
-  :after org
-  :ensure org-plus-contrib
-  :commands
-  (org-babel-execute:python)
-  :init
-  (progn
-    ;; default的语言设置
-    (setq org-babel-default-header-args:python
-          '((:exports . "results")
-            (:colnames . "yes")
-            (:tangle .	"yes")
-            (:rownames . "yes")
-            ;; (:session . "*org-python*")
-            ))))
-
-(use-package ob-shell
-  :defer t
-  :after org
-  :ensure org-plus-contrib
-
-  :commands
-  (org-babel-execute:sh
-   org-babel-expand-body:sh
-   org-babel-execute:bash
-   org-babel-expand-body:bash))
-
-(use-package ob-R
-  :defer t
-  :after org
-  :ensure org-plus-contrib
-  :commands
-  (org-babel-execute:R
-   org-babel-expand-body:R)
-  :init
-  ;; default的语言设置
-  (progn
-    (setq org-babel-default-header-args:R
-          '((:exports . "results")
-            (:colnames . "yes")
-            (:tangle .	"yes")
-            (:rownames . "yes")
-            (:session . "*org-R*")
-            ))))
-
-(use-package ob-emacs-lisp
-  :defer t
-  :after org
-  :ensure org-plus-contrib
-  :commands
-  (org-babel-execute:emacs-lisp
-   org-babel-expand-body:lisp))
-
-(use-package ob-latex
-  :defer t
-  :after org
-  :ensure org-plus-contrib
-  :commands
-  (org-babel-execute:latex
-   org-babel-expand-body:latex)
-  :init
-  (progn
-    ;; default的语言设置
-    (setq org-babel-default-header-args:latex
-          '((:imagemagick . "yes")
-            (:exports . "results")
-            (:results . "graphics file")
-            (:headers . "\\usepackage{tikz}")
-            (:fit . "yes")
-            (:imoutoptions . "-geometry 400")
-            (::iminoptions . "-density 600")
-            ))))
-
-;; after load org
-(use-package org
-  :commands (org-agenda org-capture org-store-link)
-  :init
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (define-key global-map "\C-cc" 'org-capture)
-  :config
+  ;; https://qiita.com/kawabata@github/items/1b56ec8284942ff2646b
+  ;; org-mode を他ファイルに出力するときは、日本語文字同士の間の改行が削除される。
+  (defun remove-org-newlines-at-cjk-text (&optional _mode)
+    "先頭が '*', '#', '|' でなく、改行の前後が日本の文字の場合はその改行を除去する。"
+    (interactive)
+    (goto-char (point-min))
+    (while (re-search-forward "^\\([^|#*\n].+\\)\\(.\\)\n *\\(.\\)" nil t)
+      (if (and (> (string-to-char (match-string 2)) #x2000)
+               (> (string-to-char (match-string 3)) #x2000))
+          (replace-match "\\1\\2\\3"))
+      (goto-char (point-at-bol))))
+  (add-hook 'org-export-before-processing-hook 'remove-org-newlines-at-cjk-text)
+  :config  
   (progn
 
-    (require 'org-compat)
-    (require 'org)
-    (add-to-list 'org-modules 'org-habit)
-    (require 'org-habit)
+    ;; hogo
+    (use-package ox-hugo) 
 
-    (setq org-refile-use-outline-path 'file)
-    (setq org-outline-path-complete-in-steps nil)
-    (setq org-refile-targets
-          '((nil :maxlevel . 4)
-            (org-agenda-files :maxlevel . 4)))
-    (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile) ;; ?????
+    ;; TeX
+    (use-package ox-latex
+      :ensure nil
+      :init
+      (progn
+        (setq org-latex-compiler "xelatex")
+        (setq org-latex-default-packages-alist nil)
+        ;; (setq org-latex-packages-alist
+        ;;       '(("" "fontspec" t)))
+        (setq org-latex-default-class "draft") 
+        (setq org-latex-listings 'minted)
+        (setq org-latex-minted-options
+              '(("frame" "lines")
+                ("framesep=2mm")
+                ("linenos=true")
+                ("baselinestretch=1.2")
+                ("fontsize=\\footnotesize")
+                ("breaklines")
+                ))
+        (setq org-preview-latex-default-process 'dvisvgm)
+        ;; (setq org-preview-latex-default-process 'imagemagick)
+        ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
+        (setq org-format-latex-options
+              (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
+        (setq org-format-latex-options
+              (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
+        (setq org-preview-latex-process-alist
+              '(
+                (dvisvgm
+                 :programs ("xelatex" "dvisvgm")
+                 :description "xdv > svg"
+                 :message "you need to install the programs: xelatex and dvisvgm."
+                 :image-input-type "xdv"
+                 :image-output-type "svg"
+                 :image-size-adjust (1.0 . 1.0)
+                 :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
+                 :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+                (imagemagick
+                 :programs ("latex" "convert")
+                 :description "pdf > png"
+                 :message "you need to install the programs: xelatex and imagemagick."
+                 :image-input-type "pdf"
+                 :image-output-type "png"
+                 :image-size-adjust (1.0 . 1.0)
+                 :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
+                 :image-converter
+                 ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+        ;; 输出设定
+        (setq org-latex-pdf-process
+              '("xelatex --shell-escape %f"
+                "biber %b"
+                "xelatex --shell-escape %f"
+                "xelatex --shell-escape %f"
+                "dvipdfmx %b.dvi"
+                "rm -fr %b.bbl %b.dvi %b.tex auto"
+                ))))
 
-    (setq org-stuck-projects
-          '("TODO={.+}/-DONE" nil nil "SCHEDULED:\\|DEADLINE:"))
-    
-    (setq org-startup-with-inline-images t)
-    (setq org-latex-prefer-user-labels t)
-    (setq org-image-actual-width nil)
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-log-done t)
-    (setq org-log-done 'time)
-    (setq org-imenu-depth 8)
+    (use-package ox-beamer
+      :ensure nil)
 
-    ;; define the refile targets
-    (setq org-agenda-dir "~/Nutstore/org-files")
-    (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
-    (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-    (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
-    (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
-    (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
-    (setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
-    (setq org-agenda-files (list org-agenda-dir))
-
-    ;; 时钟
-    ;; Change task state to STARTED when clocking in
-    (setq org-clock-in-switch-to-state "STARTED")
-    ;; Save clock data and notes in the LOGBOOK drawer
-    (setq org-clock-into-drawer t)
-    ;; Removes clocked tasks with 0:00 duration
-    (setq org-clock-out-remove-zero-time-clocks t) ;; Show the clocked-in task - if any - in the header line
-    ;; Clock out save all org file
-    (defun idiig/org-clock-out-save
-        (interactive)
-      (org-save-all-org-buffers)
-      (org-clock-clock-out))
-    ;; tag检索无视sublevel
-    (setq org-tags-match-list-sublevels nil)
-
-    ;; __, ==, **, //环境
-    (defmacro idiig|org-emphasize (fname char)
-      "Make function for setting the emphasis in org mode"
-      `(defun ,fname () (interactive)
-              (org-emphasize ,char)))
-    
-    ;; keybindings
-    (idiig//org-set-keys)
-    (idiig//org-declare-prefixes-for-mode)
-
-    ;; 折行 
-    (add-hook 'org-mode-hook 'auto-fill-mode)
-    (diminish 'auto-fill-function)
-
-    ;; to-do keywords
-    (setq org-todo-keywords
-          (quote ((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!/!)")
-                  (sequence "WAITING(w@/!)" "SOMEDAY(S)" "|" "CANCELLED(c@/!)" "MEETING(m)" "PHONE(p)"))))
-
-    ;; copy from chinese layer
-    (defadvice org-html-paragraph (before org-html-paragraph-advice
-                                          (paragraph contents info) activate)
-      "Join consecutive Chinese lines into a single long line without
-unwanted space when exporting org-mode to html."
-      (let* ((origin-contents (ad-get-arg 1))
-             (fix-regexp "[[:multibyte:]]")
-             (fixed-contents
-              (replace-regexp-in-string
-               (concat
-                "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
-        (ad-set-arg 1 fixed-contents)))
-
-    ;; the %i would copy the selected text into the template
-    ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
-    ;;add multi-file journal
-    (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Workspace")
-             "* TODO [#B] %?\n  %i\n %U"
-             :empty-lines 1)
-            ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
-             "* %?\n  %i\n %U"
-             :empty-lines 1)
-            ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
-             "* TODO [#B] %?\n  %i\n %U"
-             :empty-lines 1)
-            ("s" "Code Snippet" entry
-             (file org-agenda-file-code-snippet)
-             "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-            ("w" "work" entry (file+headline org-agenda-file-gtd "Work")
-             "* TODO [#A] %?\n  %i\n %U"
-             :empty-lines 1)
-            ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
-             "* TODO [#C] %?\n %(idiig/retrieve-chrome-current-tab-url)\n %i\n %U"
-             :empty-lines 1)
-            ("l" "links" entry (file+headline org-agenda-file-note "Quick notes")
-             "* TODO [#C] %?\n  %i\n %a \n %U"
-             :empty-lines 1)
-            ("j" "Journal Entry"
-             entry (file+datetree org-agenda-file-journal)
-             "* %?"
-             :empty-lines 1)))
-
-    ;; org capture
-    (with-eval-after-load 'org-capture
-
-      (defun idiig//org-capture-start ()
-        "Make sure that the keybindings are available for org capture."
-        (evil-leader/set-key-for-mode 'org-capture-mode
-          ;; "," 'org-capture-finalize
-          "a" 'org-capture-kill
-          "c" 'org-capture-finalize
-          "k" 'org-capture-kill
-          "r" 'org-capture-refile)
-        ;; Evil bindins seem not to be applied until at least one
-        ;; Evil state is executed
-        (evil-normal-state))
-      ;; Must be done everytime we run org-capture otherwise it will
-      ;; be ignored until insert mode is entered.
-      (add-hook 'org-capture-mode-hook 'idiig//org-capture-start)
-      
-      (defun org-hugo-new-subtree-post-capture-template ()
-        "Returns `org-capture' template string for new Hugo post.
-See `org-capture-templates' for more information."
-        (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-               (fname (org-hugo-slug title)))
-          (mapconcat #'identity
-                     `(
-                       ,(concat "* TODO " title)
-                       ":PROPERTIES:"
-                       ,(concat ":EXPORT_FILE_NAME: " fname)
-                       ":END:"
-                       "%?\n")        ;Place the cursor here finally
-                     "\n")))
-
-      (add-to-list 'org-capture-templates
-                   '("h"              ;`org-capture' binding + h
-                     "Hugo post"
-                     entry
-                     ;; It is assumed that below file is present in `org-directory'
-                     ;; and that it has a "Blog Ideas" heading. It can even be a
-                     ;; symlink pointing to the actual location of all-posts.org!
-                     (file+headline org-agenda-file-blogposts "Blog Ideas")
-                     (function org-hugo-new-subtree-post-capture-template))))
-
-    ;; hack for org headline toc
-    (defun org-html-headline (headline contents info)
-      "Transcode a HEADLINE element from Org to HTML.
-CONTENTS holds the contents of the headline.  INFO is a plist
-holding contextual information."
-      (unless (org-element-property :footnote-section-p headline)
-        (let* ((numberedp (org-export-numbered-headline-p headline info))
-               (numbers (org-export-get-headline-number headline info))
-               (section-number (and numbers
-                                    (mapconcat #'number-to-string numbers "-")))
-               (level (+ (org-export-get-relative-level headline info)
-                         (1- (plist-get info :html-toplevel-hlevel))))
-               (todo (and (plist-get info :with-todo-keywords)
-                          (let ((todo (org-element-property :todo-keyword headline)))
-                            (and todo (org-export-data todo info)))))
-               (todo-type (and todo (org-element-property :todo-type headline)))
-               (priority (and (plist-get info :with-priority)
-                              (org-element-property :priority headline)))
-               (text (org-export-data (org-element-property :title headline) info))
-               (tags (and (plist-get info :with-tags)
-                          (org-export-get-tags headline info)))
-               (full-text (funcall (plist-get info :html-format-headline-function)
-                                   todo todo-type priority text tags info))
-               (contents (or contents ""))
-               (ids (delq nil
-                          (list (org-element-property :CUSTOM_ID headline)
-                                (org-export-get-reference headline info)
-                                (org-element-property :ID headline))))
-               (preferred-id (car ids))
-               (extra-ids
-                (mapconcat
-                 (lambda (id)
-                   (org-html--anchor
-                    (if (org-uuidgen-p id) (concat "ID-" id) id)
-                    nil nil info))
-                 (cdr ids) "")))
-          (if (org-export-low-level-p headline info)
-              ;; This is a deep sub-tree: export it as a list item.
-              (let* ((type (if numberedp 'ordered 'unordered))
-                     (itemized-body
-                      (org-html-format-list-item
-                       contents type nil info nil
-                       (concat (org-html--anchor preferred-id nil nil info)
-                               extra-ids
-                               full-text))))
-                (concat (and (org-export-first-sibling-p headline info)
-                             (org-html-begin-plain-list type))
-                        itemized-body
-                        (and (org-export-last-sibling-p headline info)
-                             (org-html-end-plain-list type))))
-            (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
-                  (first-content (car (org-element-contents headline))))
-              ;; Standard headline.  Export it as a section.
-              (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
-                      (org-html--container headline info)
-                      (org-export-get-reference headline info)
-                      (concat (format "outline-%d" level)
-                              (and extra-class " ")
-                              extra-class)
-                      (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
-                              level
-                              preferred-id
-                              extra-ids
-                              (concat
-                               (and numberedp
-                                    (format
-                                     "<span class=\"section-number-%d\">%s</span> "
-                                     level
-                                     (mapconcat #'number-to-string numbers ".")))
-                               full-text)
-                              level)
-                      ;; When there is no section, pretend there is an
-                      ;; empty one to get the correct <div
-                      ;; class="outline-...> which is needed by
-                      ;; `org-info.js'.
-                      (if (eq (org-element-type first-content) 'section) contents
-                        (concat (org-html-section first-content "" info) contents))
-                      (org-html--container headline info)))))))
-
-    ;; 代码块
-    (add-hook 'org-mode-hook '(lambda ()
-                                ;; keybinding for editing source code blocks
-                                ;; keybinding for inserting code blocks
-                                (local-set-key (kbd "C-c i s")
-                                               'idiig/org-insert-src-block)))
-    ;; 代码高亮 
-    (setq org-src-fontify-natively t)
-
-    ;; 不询问eval
-    (setq org-confirm-babel-evaluate nil)
-
-    ;; org Babel输出图片
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-    
-    ;; org mode 图片输出展示
-    (add-hook 'org-mode-hook 'org-display-inline-images)
-    (when org-inline-image-overlays
-      (org-redisplay-inline-images))
-
-    ;; https://qiita.com/kawabata@github/items/1b56ec8284942ff2646b
-    ;; latex setting
-    ;; org-mode を他ファイルに出力するときは、日本語文字同士の間の改行が削除される。
-    (defun remove-org-newlines-at-cjk-text (&optional _mode)
-      "先頭が '*', '#', '|' でなく、改行の前後が日本の文字の場合はその改行を除去する。"
-      (interactive)
-      (goto-char (point-min))
-      (while (re-search-forward "^\\([^|#*\n].+\\)\\(.\\)\n *\\(.\\)" nil t)
-        (if (and (> (string-to-char (match-string 2)) #x2000)
-                 (> (string-to-char (match-string 3)) #x2000))
-            (replace-match "\\1\\2\\3"))
-        (goto-char (point-at-bol))))
-
-    (with-eval-after-load "ox"
-      (add-hook 'org-export-before-processing-hook 'remove-org-newlines-at-cjk-text)
-      
-      ;; hogo
-      (use-package ox-hugo) 
-
-      ;; TeX
-      (use-package ox-latex
-        :ensure nil
-        :init
-        (progn
-          (setq org-latex-compiler "xelatex")
-          (setq org-latex-default-packages-alist nil)
-          ;; (setq org-latex-packages-alist
-          ;;       '(("" "fontspec" t)))
-          (setq org-latex-default-class "draft") 
-          (setq org-latex-listings 'minted)
-          (setq org-latex-minted-options
-                '(("frame" "lines")
-                  ("framesep=2mm")
-                  ("linenos=true")
-                  ("baselinestretch=1.2")
-                  ("fontsize=\\footnotesize")
-                  ("breaklines")
-                  ))
-          (setq org-preview-latex-default-process 'dvisvgm)
-          ;; (setq org-preview-latex-default-process 'imagemagick)
-          ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
-          (setq org-format-latex-options
-                (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
-          (setq org-format-latex-options
-                (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
-          (setq org-preview-latex-process-alist
-                '(
-                  (dvisvgm
-                   :programs ("xelatex" "dvisvgm")
-                   :description "xdv > svg"
-                   :message "you need to install the programs: xelatex and dvisvgm."
-                   :image-input-type "xdv"
-                   :image-output-type "svg"
-                   :image-size-adjust (1.0 . 1.0)
-                   :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
-                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
-                  (imagemagick
-                   :programs ("latex" "convert")
-                   :description "pdf > png"
-                   :message "you need to install the programs: xelatex and imagemagick."
-                   :image-input-type "pdf"
-                   :image-output-type "png"
-                   :image-size-adjust (1.0 . 1.0)
-                   :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
-                   :image-converter
-                   ("convert -density %D -trim -antialias %f -quality 100 %O"))))
-          ))
-
-      (use-package ox-beamer
-        :ensure nil)
-
-      (add-to-list 'org-latex-classes
-                   '("draft"
-                     "
+    (add-to-list 'org-latex-classes
+                 '("draft"
+                   "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
 \\usepackage{graphicx}
 \\usepackage{geometry}
@@ -1100,22 +818,325 @@ holding contextual information."
 }
 \\makeatother
 "
-                     ("\\section{%s}" . "\\section*{%s}")
-                     ("\\subsection{%s}" . "\\subsection*{%s}")
-                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                     ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-      
-      ;; 输出设定
-      (setq org-latex-pdf-process
-            '("xelatex --shell-escape %f"
-              "biber %b"
-              "xelatex --shell-escape %f"
-              "xelatex --shell-escape %f"
-              "dvipdfmx %b.dvi"
-              "rm -fr %b.bbl %b.dvi %b.tex auto"
-              ))))
-  )
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    ))
+
+;; ;; FIXME
+;; ;; org-proectile
+;; (use-package org-projectile
+;;   :commands (org-projectile-location-for-project)
+;;   :init
+;;   (defun org-projectile/capture (&optional arg)
+;;     (interactive "P")
+;;     (if arg
+;;         (org-projectile-project-todo-completing-read :empty-lines 1)
+;;       (org-projectile-capture-for-current-project :empty-lines 1)))
+
+;;   (defun org-projectile/goto-todos ()
+;;     (interactive)
+;;     (org-projectile-goto-location-for-project (projectile-project-name)))
+
+;;   (progn
+;;     (evil-leader/set-key
+;;       "op" 'org-projectile/capture
+;;       "opo" 'org-projectile/goto-todos)
+;;     (with-eval-after-load 'org-capture
+;;       (require 'org-projectile)))
+;;   :config
+;;   (if (file-name-absolute-p org-projectile-file)
+;;       (progn
+;;         (setq org-projectile-projects-file org-projectile-file)
+;;         (push (org-projectile-project-todo-entry :empty-lines 1)
+;;               org-capture-templates))
+;;     (org-projectile-per-project)
+;;     (setq org-projectile-per-project-filepath org-projectile-file)))
+
+;; 上级目录保持可见
+(use-package org-sticky-header
+  :defer t
+  :after org
+  :init
+  (add-hook 'org-mode-hook 'org-sticky-header-mode))
+
+;; babel languages
+(use-package ob-python
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:python
+   org-babel-execute:python)
+  :init
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:python
+          '((:exports . "results")
+            (:tangle .	"yes")
+            (:cache . "yes")
+            ;; (:session . "*org-python*")
+            ))))
+
+(use-package ob-shell
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:sh
+   ;; org-babel-expand-body:sh
+   org-babel-execute:bash
+   org-babel-expand-body:bash)
+  :init
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:bash
+          '((:exports . "results")
+            (:cache . "yes")
+            ))
+    (setq org-babel-default-header-args:sh
+          '((:exports . "results")
+            (:cache . "yes")
+            ))))
+
+(use-package ob-R
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:R
+   org-babel-expand-body:R)
+  :init
+  ;; default的语言设置
+  (progn
+    (setq org-babel-default-header-args:R
+          '((:exports . "results")
+            (:colnames . "yes")
+            (:tangle .	"yes")
+            (:rownames . "yes")
+            (:cache . "yes")
+            (:session . "*org-R*")
+            ))))
+
+(use-package ob-emacs-lisp
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:emacs-lisp
+   org-babel-expand-body:lisp)
+  :init
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:bash
+          '((:cache . "yes")
+            ))))
+
+(use-package ob-latex
+  :defer t
+  :after org
+  :ensure org-plus-contrib
+  :commands
+  (org-babel-execute:latex
+   org-babel-expand-body:latex)
+  :init
+  (progn
+    ;; default的语言设置
+    (setq org-babel-default-header-args:latex
+          '((:imagemagick . "yes")
+            (:exports . "results")
+            (:results . "graphics file")
+            (:headers . "\\usepackage{tikz}")
+            (:fit . "yes")
+            (:imoutoptions . "-geometry 400")
+            (:iminoptions . "-density 600")
+            (:cache . "yes")
+            ))))
+
+;; other after load org
+(use-package org
+  :commands (org-agenda org-capture org-store-link)
+  :init
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (define-key global-map "\C-cc" 'org-capture)
+  :config
+  (progn
+
+    (require 'org-compat)
+    (require 'org)
+    (add-to-list 'org-modules 'org-habit)
+    (require 'org-habit)
+
+    ;; __, ==, **, //环境
+    (defmacro idiig|org-emphasize (fname char)
+      "Make function for setting the emphasis in org mode"
+      `(defun ,fname () (interactive)
+              (org-emphasize ,char)))
+    
+    ;; keybindings
+    (idiig//org-set-keys)
+    (idiig//org-declare-prefixes-for-mode)
+
+    (setq org-refile-use-outline-path 'file)
+    (setq org-outline-path-complete-in-steps nil)
+    (setq org-refile-targets
+          '((nil :maxlevel . 4)
+            (org-agenda-files :maxlevel . 4)))
+    (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile) ;; ?????
+
+    (setq org-stuck-projects
+          '("TODO={.+}/-DONE" nil nil "SCHEDULED:\\|DEADLINE:"))
+    
+    (setq org-startup-with-inline-images t)
+    (setq org-latex-prefer-user-labels t)
+    (setq org-image-actual-width nil)
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-log-done t)
+    (setq org-log-done 'time)
+    (setq org-imenu-depth 8)
+
+    ;; define the refile targets
+    (setq org-agenda-dir "~/Nutstore/org-files")
+    (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+    (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+    (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
+    (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+    (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+    (setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
+    (setq org-agenda-files (list org-agenda-dir))
+
+    ;; 时钟
+    ;; Change task state to STARTED when clocking in
+    (setq org-clock-in-switch-to-state "STARTED")
+    ;; Save clock data and notes in the LOGBOOK drawer
+    (setq org-clock-into-drawer t)
+    ;; Removes clocked tasks with 0:00 duration
+    (setq org-clock-out-remove-zero-time-clocks t) ;; Show the clocked-in task - if any - in the header line
+    ;; Clock out save all org file
+    (defun idiig/org-clock-out-save
+        (interactive)
+      (org-save-all-org-buffers)
+      (org-clock-clock-out))
+    ;; tag检索无视sublevel
+    (setq org-tags-match-list-sublevels nil)
+    
+    ;; to-do keywords
+    (setq org-todo-keywords
+          (quote ((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!/!)")
+                  (sequence "WAITING(w@/!)" "SOMEDAY(S)" "|" "CANCELLED(c@/!)" "MEETING(m)" "PHONE(p)"))))
+
+    ;; 折行 
+    (add-hook 'org-mode-hook 'auto-fill-mode)
+    (diminish 'auto-fill-function)
+ 
+    ;; 代码高亮 
+    (setq org-src-fontify-natively t)
+    ;; 不询问eval
+    ;; (setq org-confirm-babel-evaluate nil)
+    ;; org Babel输出图片
+    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+    
+    ;; org mode 图片输出展示
+    (add-hook 'org-mode-hook 'org-display-inline-images)
+    (when org-inline-image-overlays
+      (org-redisplay-inline-images))
+
+    ;; copy from chinese layer
+    (defadvice org-html-paragraph (before org-html-paragraph-advice
+                                          (paragraph contents info) activate)
+      "Join consecutive Chinese lines into a single long line without
+unwanted space when exporting org-mode to html."
+      (let* ((origin-contents (ad-get-arg 1))
+             (fix-regexp "[[:multibyte:]]")
+             (fixed-contents
+              (replace-regexp-in-string
+               (concat
+                "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
+        (ad-set-arg 1 fixed-contents)))
+
+    ;; hack for org headline toc
+    (defun org-html-headline (headline contents info)
+      "Transcode a HEADLINE element from Org to HTML.
+CONTENTS holds the contents of the headline.  INFO is a plist
+holding contextual information."
+      (unless (org-element-property :footnote-section-p headline)
+        (let* ((numberedp (org-export-numbered-headline-p headline info))
+               (numbers (org-export-get-headline-number headline info))
+               (section-number (and numbers
+                                    (mapconcat #'number-to-string numbers "-")))
+               (level (+ (org-export-get-relative-level headline info)
+                         (1- (plist-get info :html-toplevel-hlevel))))
+               (todo (and (plist-get info :with-todo-keywords)
+                          (let ((todo (org-element-property :todo-keyword headline)))
+                            (and todo (org-export-data todo info)))))
+               (todo-type (and todo (org-element-property :todo-type headline)))
+               (priority (and (plist-get info :with-priority)
+                              (org-element-property :priority headline)))
+               (text (org-export-data (org-element-property :title headline) info))
+               (tags (and (plist-get info :with-tags)
+                          (org-export-get-tags headline info)))
+               (full-text (funcall (plist-get info :html-format-headline-function)
+                                   todo todo-type priority text tags info))
+               (contents (or contents ""))
+               (ids (delq nil
+                          (list (org-element-property :CUSTOM_ID headline)
+                                (org-export-get-reference headline info)
+                                (org-element-property :ID headline))))
+               (preferred-id (car ids))
+               (extra-ids
+                (mapconcat
+                 (lambda (id)
+                   (org-html--anchor
+                    (if (org-uuidgen-p id) (concat "ID-" id) id)
+                    nil nil info))
+                 (cdr ids) "")))
+          (if (org-export-low-level-p headline info)
+              ;; This is a deep sub-tree: export it as a list item.
+              (let* ((type (if numberedp 'ordered 'unordered))
+                     (itemized-body
+                      (org-html-format-list-item
+                       contents type nil info nil
+                       (concat (org-html--anchor preferred-id nil nil info)
+                               extra-ids
+                               full-text))))
+                (concat (and (org-export-first-sibling-p headline info)
+                             (org-html-begin-plain-list type))
+                        itemized-body
+                        (and (org-export-last-sibling-p headline info)
+                             (org-html-end-plain-list type))))
+            (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
+                  (first-content (car (org-element-contents headline))))
+              ;; Standard headline.  Export it as a section.
+              (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
+                      (org-html--container headline info)
+                      (org-export-get-reference headline info)
+                      (concat (format "outline-%d" level)
+                              (and extra-class " ")
+                              extra-class)
+                      (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
+                              level
+                              preferred-id
+                              extra-ids
+                              (concat
+                               (and numberedp
+                                    (format
+                                     "<span class=\"section-number-%d\">%s</span> "
+                                     level
+                                     (mapconcat #'number-to-string numbers ".")))
+                               full-text)
+                              level)
+                      ;; When there is no section, pretend there is an
+                      ;; empty one to get the correct <div
+                      ;; class="outline-...> which is needed by
+                      ;; `org-info.js'.
+                      (if (eq (org-element-type first-content) 'section) contents
+                        (concat (org-html-section first-content "" info) contents))
+                      (org-html--container headline info)))))))
+    ))
 
 (provide 'idiig-org)
 
