@@ -717,14 +717,27 @@ See `org-capture-templates' for more information."
                  '("draft"
                    "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
-\\usepackage{graphicx}
+%
+% Layout
 \\usepackage{geometry}
-\\usepackage[T1]{fontenc}
-\\usepackage{xeCJK}
-\\setCJKmainfont[Scale=MatchLowercase]{ipaexm.ttf}
 \\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm,heightrounded}
-\\usepackage[yyyymmdd]{datetime}
-\\renewcommand{\\dateseparator}{/}
+%
+% Font
+\\usepackage{fontspec}
+%
+% Latin fonts
+\\setromanfont[Numbers={OldStyle},Ligatures={Common}]{MinionPro-Regular}
+% \\setsansfont[Ligatures={Common}]{UnitOT-Medi}
+% \\setmonofont[Scale=0.72]{Pragmata Pro}
+%
+% CJK font
+\\usepackage{xeCJK}
+\\defaultCJKfontfeatures{Scale=0.9}
+\\setCJKmainfont{SourceHanSerifJP-Regular}
+\\setCJKsansfont{SourceHanSansSC-Regular}
+%
+% basic
+\\usepackage{graphicx}
 \\usepackage{longtable}
 \\usepackage{float}
 \\usepackage{wrapfig}
@@ -735,12 +748,19 @@ See `org-capture-templates' for more information."
 \\usepackage{amsmath,amsthm,amssymb}
 \\usepackage{bm}
 \\usepackage{booktabs}
+\\usepackage{url}
+%
+% Extra
 \\usepackage{csquotes}
 \\usepackage{tikz}
 \\usepackage{svg}
 \\usepackage{minted}
 %
-% color link
+% date
+\\usepackage[yyyymmdd]{datetime}
+\\renewcommand{\\dateseparator}{/}
+%
+% Color link
 \\usepackage{xcolor}
 \\usepackage{hyperref}
 \\ifdefined\\kanjiskip
@@ -757,8 +777,6 @@ See `org-capture-templates' for more information."
     \\fi
   \\fi
 \\fi
-%
-\\usepackage{url}
 %
 % bibliography
 \\usepackage[natbib,style=apa,backend=biber,giveninits=false]{biblatex}
