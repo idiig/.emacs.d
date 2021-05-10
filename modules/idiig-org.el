@@ -946,7 +946,7 @@ holding contextual information."
       ;; TeX
       (use-package ox-latex
         :ensure nil
-        :config
+        :init
         (progn
           (setq org-latex-compiler "xelatex")
           (setq org-latex-default-packages-alist nil)
@@ -962,34 +962,34 @@ holding contextual information."
                   ("fontsize=\\footnotesize")
                   ("breaklines")
                   ))
-          (setq org-preview-latex-default-process 'dvisvgm)
-          ;; (setq org-preview-latex-default-process 'imagemagick)
-          ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
-          (setq org-format-latex-options
-                (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
-          (setq org-format-latex-options
-                (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
-          (setq org-preview-latex-process-alist
-                '(
-                  (dvisvgm
-                   :programs ("xelatex" "dvisvgm")
-                   :description "xdv > svg"
-                   :message "you need to install the programs: xelatex and dvisvgm."
-                   :image-input-type "xdv"
-                   :image-output-type "svg"
-                   :image-size-adjust (1.0 . 1.0)
-                   :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
-                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
-                  (imagemagick
-                   :programs ("latex" "convert")
-                   :description "pdf > png"
-                   :message "you need to install the programs: xelatex and imagemagick."
-                   :image-input-type "pdf"
-                   :image-output-type "png"
-                   :image-size-adjust (1.0 . 1.0)
-                   :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
-                   :image-converter
-                   ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+          ;; (setq org-preview-latex-default-process 'dvisvgm)
+          ;; ;; (setq org-preview-latex-default-process 'imagemagick)
+          ;; ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
+          ;; (setq org-format-latex-options
+          ;;       (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
+          ;; (setq org-format-latex-options
+          ;;       (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
+          ;; (setq org-preview-latex-process-alist
+          ;;       '(
+          ;;         (dvisvgm
+          ;;          :programs ("xelatex" "dvisvgm")
+          ;;          :description "xdv > svg"
+          ;;          :message "you need to install the programs: xelatex and dvisvgm."
+          ;;          :image-input-type "xdv"
+          ;;          :image-output-type "svg"
+          ;;          :image-size-adjust (1.0 . 1.0)
+          ;;          :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
+          ;;          :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+          ;;         (imagemagick
+          ;;          :programs ("latex" "convert")
+          ;;          :description "pdf > png"
+          ;;          :message "you need to install the programs: xelatex and imagemagick."
+          ;;          :image-input-type "pdf"
+          ;;          :image-output-type "png"
+          ;;          :image-size-adjust (1.0 . 1.0)
+          ;;          :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
+          ;;          :image-converter
+          ;;          ("convert -density %D -trim -antialias %f -quality 100 %O"))))
           ))
 
       (use-package ox-beamer
@@ -1042,7 +1042,6 @@ holding contextual information."
 %
 % bibliography
 \\usepackage[natbib,style=apa,backend=biber,giveninits=false]{biblatex}
-\\DefineBibliographyStrings{english}{phdthesis = {PhD dissertation}}
 \\usepackage{url}
 %
 %
