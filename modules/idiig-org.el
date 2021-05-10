@@ -962,34 +962,34 @@ holding contextual information."
                   ("fontsize=\\footnotesize")
                   ("breaklines")
                   ))
-          ;; (setq org-preview-latex-default-process 'dvisvgm)
-          ;; ;; (setq org-preview-latex-default-process 'imagemagick)
-          ;; ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
-          ;; (setq org-format-latex-options
-          ;;       (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
-          ;; (setq org-format-latex-options
-          ;;       (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
-          ;; (setq org-preview-latex-process-alist
-          ;;       '(
-          ;;         (dvisvgm
-          ;;          :programs ("xelatex" "dvisvgm")
-          ;;          :description "xdv > svg"
-          ;;          :message "you need to install the programs: xelatex and dvisvgm."
-          ;;          :image-input-type "xdv"
-          ;;          :image-output-type "svg"
-          ;;          :image-size-adjust (1.0 . 1.0)
-          ;;          :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
-          ;;          :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
-          ;;         (imagemagick
-          ;;          :programs ("latex" "convert")
-          ;;          :description "pdf > png"
-          ;;          :message "you need to install the programs: xelatex and imagemagick."
-          ;;          :image-input-type "pdf"
-          ;;          :image-output-type "png"
-          ;;          :image-size-adjust (1.0 . 1.0)
-          ;;          :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
-          ;;          :image-converter
-          ;;          ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+          (setq org-preview-latex-default-process 'dvisvgm)
+          ;; (setq org-preview-latex-default-process 'imagemagick)
+          ;; (setq org-latex-create-formula-image-program 'imagemagick)  ;速度较慢，但支持中文
+          (setq org-format-latex-options
+                (plist-put org-format-latex-options :scale 2.0))      ;调整 LaTeX 预览图片的大小
+          (setq org-format-latex-options
+                (plist-put org-format-latex-options :html-scale 2.5)) ;调整 HTML 文件中 LaTeX 图像的大小
+          (setq org-preview-latex-process-alist
+                '(
+                  (dvisvgm
+                   :programs ("xelatex" "dvisvgm")
+                   :description "xdv > svg"
+                   :message "you need to install the programs: xelatex and dvisvgm."
+                   :image-input-type "xdv"
+                   :image-output-type "svg"
+                   :image-size-adjust (1.0 . 1.0)
+                   :latex-compiler ("xelatex --no-pdf -interaction nonstopmode -output-directory %o %f")
+                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))
+                  (imagemagick
+                   :programs ("latex" "convert")
+                   :description "pdf > png"
+                   :message "you need to install the programs: xelatex and imagemagick."
+                   :image-input-type "pdf"
+                   :image-output-type "png"
+                   :image-size-adjust (1.0 . 1.0)
+                   :latex-compiler ("xelatex -interaction nonstopmode -output-directory %o %f")
+                   :image-converter
+                   ("convert -density %D -trim -antialias %f -quality 100 %O"))))
           ))
 
       (use-package ox-beamer
@@ -1000,7 +1000,6 @@ holding contextual information."
                      "
 \\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
 \\usepackage{graphicx}
-\\usepackage{svg}
 \\usepackage{geometry}
 \\usepackage[T1]{fontenc}
 \\usepackage{xeCJK}
@@ -1020,6 +1019,7 @@ holding contextual information."
 \\usepackage{booktabs}
 \\usepackage{csquotes}
 \\usepackage{tikz}
+\\usepackage{svg}
 \\usepackage{minted}
 %
 % color link
@@ -1040,9 +1040,10 @@ holding contextual information."
   \\fi
 \\fi
 %
+\\usepackage{url}
+%
 % bibliography
 \\usepackage[natbib,style=apa,backend=biber,giveninits=false]{biblatex}
-\\usepackage{url}
 %
 %
 \\usepackage{etoolbox}
@@ -1069,11 +1070,11 @@ holding contextual information."
 \\cfoot{\\fancyplain{}{\\thepage}}
 %
 % caption
-\\usepackage{subcaption}
 \\usepackage{caption}
 \\captionsetup[figure]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
 \\captionsetup[table]{labelfont={bf}, labelsep=colon, justification=raggedright, format=hang}
 \\usepackage{capt-of}
+\\usepackage{subcaption}
 % 
 % quote
 \\usepackage{framed}
@@ -1108,12 +1109,11 @@ holding contextual information."
       ;; 输出设定
       (setq org-latex-pdf-process
             '("xelatex --shell-escape %f"
-              "xelatex --shell-escape %f"
               "biber %b"
               "xelatex --shell-escape %f"
               "xelatex --shell-escape %f"
               "dvipdfmx %b.dvi"
-              ;; "rm -fr %b.bbl %b.dvi %b.tex auto"
+              "rm -fr %b.bbl %b.dvi %b.tex auto"
               ))))
   )
 
