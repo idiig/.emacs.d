@@ -1,0 +1,173 @@
+\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
+%
+% Layout
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=20mm,
+  right=20mm,
+  top=30mm,
+  bottom=20mm,
+  heightrounded,
+}
+%
+% Font
+\usepackage{fontspec}
+%
+% English fonts
+\setmainfont[%
+ UprightFont = {MinionPro-Regular},%
+ BoldFont={MinionPro-Bold},%
+ ItalicFont={MinionPro-It},%
+ BoldItalicFont={MinionPro-BoldIt},%
+ % UprightFont = {SourceHanSerifSC-Regular},%
+ % BoldFont={SourceHanSansSC-Regular},%
+ % ItalicFont={sarasa-mono-sc-nerd-lightitalic},%
+ % BoldItalicFont={sarasa-mono-sc-nerd-italic},%
+ ]{MinionPro-Regular}
+%
+% Latin Font
+\setromanfont[Numbers={OldStyle},Ligatures={Common}]{MinionPro-Regular}
+\setsansfont[Ligatures={Common}]{SourceHanSansSC-Regular}
+\setmonofont[Scale=0.72]{SourceHanSansSC-Regular}
+%
+% CJK font
+\usepackage{xeCJK}
+\defaultCJKfontfeatures{Scale=MatchLowercase}
+\setCJKmainfont[%
+ UprightFont = {SourceHanSerifSC-Regular},%
+ BoldFont={SourceHanSansSC-Regular},%
+ BoldItalicFont={SourceHanSansSC-Regular},%
+ ]{SourceHanSerifSC-Regular}
+\setCJKsansfont{SourceHanSansSC-Regular}
+%
+% Basic
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{textcomp}
+\usepackage{multicol}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{url}
+%
+% Extra
+\usepackage{csquotes}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{shapes.geometric}
+\usepackage{svg}
+\usepackage{minted}
+%
+% Date
+\usepackage[yyyymmdd]{datetime}
+\renewcommand{\dateseparator}{-}
+%
+% Color link
+\usepackage{xcolor}
+\usepackage{hyperref}
+\ifdefined\kanjiskip
+  \usepackage{pxjahyper}
+  \hypersetup{%
+    colorlinks=true,%
+    citecolor=blue,%
+  }
+\else
+  \ifdefined\XeTeXversion
+  \hypersetup{%
+    colorlinks=true,%
+    citecolor=blue,%
+  }
+  \else
+    \ifdefined\directlua
+    \hypersetup{%
+      pdfencoding=auto,%
+      colorlinks=true,%
+      citecolor=blue,%
+    }
+    \else
+    \hypersetup{%
+      unicode,%
+      colorlinks=true,%
+      citecolor=blue,%
+    }
+    \fi
+  \fi
+\fi
+%
+% Bibliography
+\usepackage[%
+  natbib,%
+  style=apa,%
+  backend=biber,%
+  giveninits=false,%
+]{biblatex}
+%
+% Verbatim
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\footnotesize}
+  {}{}
+\makeatother
+%
+% Footnote setting
+\usepackage{footmisc}
+\DefineFNsymbols{mySymbols}{{\ensuremath\dagger}{\ensuremath\ddagger}\S\P
+   *{**}{\ensuremath{\dagger\dagger}}{\ensuremath{\ddagger\ddagger}}}
+\setfnsymbol{mySymbols}
+\renewcommand{\thefootnote}{\arabic{footnote}\enspace}
+%
+% header
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{draft: \jobname}}
+\rhead{\fancyplain{}{latest update: \today\enspace\currenttime}}
+\cfoot{\fancyplain{}{\thepage}}
+%
+% caption
+\usepackage{capt-of}
+\usepackage{caption}
+\captionsetup{%
+  labelfont={bf},%
+  labelsep=colon,%
+  justification=raggedright,%
+  format=hang,%
+}
+\usepackage{subcaption}
+\captionsetup[sub]{%
+  labelfont={bf},%
+  labelsep=colon,%
+  margin=0pt,%
+}
+% 
+% Quote
+\usepackage{framed}
+\renewenvironment{quote}[1][\hsize]
+{%
+  \def\FrameCommand
+  {%
+    {\color{gray}\vrule width 4pt}%
+    \hspace{0pt}%must no space.
+    \fboxsep=\FrameSep\colorbox{white}%
+  }
+  \MakeFramed{\hsize#1\advance\hsize-\width\FrameRestore}
+}
+{\endMakeFramed}
+%
+% Title
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \Large{\textbf{\@title}}\\
+  \normalsize\@author
+\end{flushleft}\egroup
+}
+\makeatother
