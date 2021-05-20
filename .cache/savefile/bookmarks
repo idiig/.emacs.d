@@ -3,13 +3,13 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-refile-last-stored"
- (filename . "~/Nutstore/org-notes/gtd.org")
- (front-context-string . "** TODO [#C] 学习d")
- (rear-context-string . "另一方的occurrence\n\n")
- (position . 2316))
+ (filename . "~/Nutstore/org-files/journal.org")
+ (front-context-string . "* DONE [#C] 剪头发\n")
+ (rear-context-string . "21-05-10 Monday\n")
+ (position . 8177))
 ("org-capture-last-stored"
- (filename . "~/Nutstore/org-files/research-notes/booij_grammar_2007.org")
- (front-context-string . "#+TITLE: booij_g")
- (rear-context-string)
- (position . 1))
+ (filename . "~/Nutstore/org-files/gtd.org")
+ (front-context-string . "** TODO [#B] 調整 ")
+ (rear-context-string . "-09 Sun 12:26]\n\n")
+ (position . 5429))
 )

@@ -2,6 +2,21 @@
   :defer 2 
   :init  
   (progn
+    ;; long quotes
+    (defun python-electric-pair-string-delimiter ()
+      (when (and electric-pair-mode
+                 (memq last-command-event '(?\" ?\'))
+                 (let ((count 0))
+                   (while (eq (char-before (- (point) count)) last-command-event)
+                     (setq count (1+ count)))
+                   (= count 3)))
+        (save-excursion (insert (make-string 3 last-command-event)))))
+
+    (add-hook 'python-hook
+              (lambda ()
+                (add-hook 'post-self-insert-hook
+                          #'python-electric-pair-string-delimiter 'append t)))
+    
     (idiig/register-repl 'python-mode 'python)
     (add-hook 'python-hook 'idiig/run-prog-mode-hooks)
     (add-hook 'python-hook 'company-mode)
@@ -54,21 +69,6 @@
     (progn
       (add-hook 'python-mode-hook 'yapf-mode)
       (evil-leader/set-key-for-mode 'python-mode "==" 'yapfify-buffer))))
-
-;; long quotes
-(defun python-electric-pair-string-delimiter ()
-  (when (and electric-pair-mode
-             (memq last-command-event '(?\" ?\'))
-             (let ((count 0))
-               (while (eq (char-before (- (point) count)) last-command-event)
-                 (setq count (1+ count)))
-               (= count 3)))
-    (save-excursion (insert (make-string 3 last-command-event)))))
-
-(add-hook 'python-hook
-          (lambda ()
-            (add-hook 'post-self-insert-hook
-                      #'python-electric-pair-string-delimiter 'append t)))
 
 
 (provide 'idiig-python)

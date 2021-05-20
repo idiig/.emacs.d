@@ -1,34 +1,96 @@
 ;;; -*- coding: utf-8 -*-
-(("/Users/idiig/Nutstore/bibfolder/bibliography.bib" . 6483)
- ("/Users/idiig/Nutstore/org-files/research-notes/booij_grammar_2007.org" . 348)
- ("/Users/idiig/.emacs.d/.cache/recentf" . 12257)
- ("/Users/idiig/.emacs.d/.cache/savefile/bookmarks" . 235)
- ("/Users/idiig/.orhc-bibtex-cache" . 26218)
- ("/Users/idiig/.emacs.d/core/idiig-auto-complete.el" . 6772)
- ("/Users/idiig/.emacs.d/modules/idiig-tex.el" . 14046)
+(("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/engo.txt"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/token-base-ex.log" . 27476)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/type-base-ex.pdf" . 11631)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/auto/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/auto/type-base-ex.el"))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/type-base-ex.log" . 27417)
+ ("/Users/idiig/Nutstore/lecture/M1_2Q/CMI-S1B/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q/CMI-S1B/Matthew J. Salganik - Bit by Bit_ Social Research in the Digital Age-Princeton University Press (2017).pdf"))
+ ("/Users/idiig/Nutstore/lecture/M1_2Q/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q/CMI-S1B"))
+ ("/Users/idiig/Nutstore/lecture/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q"))
  ("/Users/idiig/Nutstore/org-files/notes.org" . 43)
- ("/Users/idiig/Nutstore/org-files/gtd.org" . 78)
- ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 11522)
- ("/Users/idiig/Nutstore/org-files/research-notes/baker_british_1993.org" . 356)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.org" . 411)
- ("/Users/idiig/.emacs.d/core/idiig-better-default.el" . 11517)
- ("/Users/idiig/.emacs.d/core/idiig-global-keybindings.el" . 612)
- ("/Users/idiig/git/spacemacs_config-based-on-zilongshanren-/layers/idiig-misc/funcs.el" . 12932)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.bib" . 5929)
- ("/Users/idiig/emacs-test/test.org" . 1483)
+ ("/Users/idiig/Nutstore/org-files/journal.org" . 8155)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/token-base-ex.tex" . 818)
+ ("/Users/idiig/Nutstore/org-files/gtd.org" . 501)
+ ("/Users/idiig/Nutstore/org-files/inbox.org" . 1364)
+ ("/Users/idiig/.emacs.d/.cache/recentf" . 14277)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/draft.html" . 20110)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/khky-train.txt" . 38)
+ ("/Users/idiig/.emacs.d/modules/idiig-tex.el" . 4534)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/fig/type-base-ex.pdf"))
+ ("/usr/local/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" . 1721)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.org" . 2900)
+ ("/Users/idiig/Nutstore/works/proposal/prop1_try/"
+  (dired-filename . "/Users/idiig/Nutstore/works/proposal/prop1_try/try.tex"))
+ ("/Users/idiig/Nutstore/works/proposal/"
+  (dired-filename . "/Users/idiig/Nutstore/works/proposal/prop1_try"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/reg-als/reg.org" . 3902)
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi2/report.tex" . 4084)
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/clust/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/clust/psych-edu-6-clust.org"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/clust"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi2/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi2/report.tex"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi3/psych-edu-asi-3.org" . 2569)
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi3/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi3/psych-edu-asi-3.org"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi3"))
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi1/report.tex" . 1895)
+ ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi1/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/assignment/asi1/report.tex"))
+ ("/Users/idiig/.orhc-bibtex-cache" . 26218)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/obtain_comp_pairs.py" . 3949)
  ("/Users/idiig/Nutstore/works/on_work/token_waka/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/token_waka"))
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1"))
+ ("/Users/idiig/.emacs.d/modules/idiig-python.el" . 663)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/test.org" . 2732)
+ ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 28180)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/hds_eval_exp.py" . 272)
+ ("/Users/idiig/.emacs.d/modules/idiig-prog.el" . 7051)
+ ("/Users/idiig/.emacs.d/.cache/savefile/bookmarks" . 235)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/preprocessing.py" . 1247)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/tk_vec.py" . 2603)
+ ("/Users/idiig/emacs-test/test.org" . 7120)
+ ("/Users/idiig/emacs-test/token_waka.bib" . 238)
+ ("/Users/idiig/emacs-test/test.html" . 14003)
+ ("/Users/idiig/emacs-test/"
+  (dired-filename . "/Users/idiig/emacs-test/test.org"))
+ ("/Users/idiig/Nutstore/works/on_work/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka"))
+ ("/Users/idiig/Nutstore/bibfolder/bibliography.bib" . 8585)
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/_minted-token_waka/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/_minted-token_waka/.."))
+ ("/Users/idiig/Nutstore/works/on_work/token_waka/token_waka.bib" . 5929)
+ ("/Users/idiig/.emacs.d/tmp/tex" . 127)
+ ("/Users/idiig/.emacs.d/tmp/"
+  (dired-filename . "/Users/idiig/.emacs.d/tmp/tex"))
+ ("/Users/idiig/.emacs.d/modules/"
+  (dired-filename . "/Users/idiig/.emacs.d/modules/idiig-git.el"))
+ ("/Users/idiig/.emacs.d/"
+  (dired-filename . "/Users/idiig/.emacs.d/.cache"))
+ ("/Users/idiig/.emacs.d/dependencies/textmp/" . 197)
+ ("/Users/idiig/.emacs.d/core/custom.el" . 460)
+ ("/Users/idiig/.emacs.d/dependencies/"
+  (dired-filename . "/Users/idiig/.emacs.d/dependencies/textmp"))
+ ("/Users/idiig/.emacs.d/core/idiig-ui.el" . 1994)
+ ("/Users/idiig/.emacs.d/core/idiig-global-keybindings.el" . 3189)
+ ("/Users/idiig/.emacs.d/modules/idiig-japanese.el" . 881)
+ ("/Users/idiig/.emacs.d/core/idiig-better-default.el" . 927)
+ ("/Users/idiig/.emacs.d/core/idiig-auto-complete.el" . 6715)
+ ("/Users/idiig/git/spacemacs_config-based-on-zilongshanren-/layers/idiig-misc/funcs.el" . 12932)
  ("/Users/idiig/.emacs.d/core/"
   (dired-filename . "/Users/idiig/.emacs.d/core/idiig-evil.el"))
- ("/Users/idiig/.emacs.d/"
-  (dired-filename . "/Users/idiig/.emacs.d/.elpa"))
- ("/Users/idiig/.emacs.d/core/custom.el" . 248)
  ("/Users/idiig/.emacs.d/.elpa/org-noter-20191020.1212/org-noter-autoloads.el" . 2165)
  ("/Users/idiig/.emacs.d/core/idiig-evil.el" . 6967)
- ("/Users/idiig/.emacs.d/core/idiig-ui.el" . 2032)
  ("/usr/local/Cellar/emacs-plus@27/27.2/share/emacs/27.2/lisp/loaddefs.el" . 1246919)
  ("/Users/idiig/git/spacemacs/layers/+lang/latex/packages.el" . 7223)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/test.tex" . 238)
  ("/Users/idiig/.emacs.d/.elpa/magic-latex-buffer-20210306.422/magic-latex-buffer-autoloads.el" . 888)
  ("/Users/idiig/.emacs.d/.elpa/company-reftex-20210418.1316/company-reftex-autoloads.el" . 892)
  ("/Users/idiig/.emacs.d/.elpa/company-auctex-20200529.1835/company-auctex-autoloads.el" . 1271)
@@ -38,22 +100,16 @@
  ("/Users/idiig/.emacs.d/.elpa/auctex-13.0.11/auctex-autoloads.el" . 13389)
  ("/Users/idiig/.emacs.d/init.el" . 1876)
  ("/Users/idiig/.emacs.d/.elpa/org-roam-bibtex-20210330.852/org-roam-bibtex-autoloads.el" . 12071)
- ("/var/folders/98/kypk153d1_sfgn86lbdm411w0000gn/T/py-shell-completion-setup-code.py" . 546)
  ("/Users/idiig/"
   (dired-filename . "/Users/idiig/.python_history"))
  ("/Users/idiig/.emacs.d/core/idiig-better-search.el" . 5618)
  ("/Users/idiig/.emacs.d/.elpa/valign-3.1.1/valign-autoloads.el" . 874)
- ("/Users/idiig/.emacs.d/modules/idiig-japanese.el" . 562)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/preprocessing.py" . 585)
  ("/Users/idiig/.emacs.d/.elpa/org-journal-20210326.1207/org-journal-autoloads.el" . 4626)
  ("/Users/idiig/git/spacemacs/layers/+emacs/org/packages.el" . 34189)
  ("/Users/idiig/.emacs.d/.elpa/org-roam-20210502.1936/org-roam-autoloads.el" . 9208)
  ("/Users/idiig/.emacs.d/.elpa/emacsql-sqlite3-20200914.508/emacsql-sqlite3-autoloads.el" . 460)
  ("/Users/idiig/.emacs.d/.elpa/emacsql-20200714.28/emacsql-autoloads.el" . 946)
- ("/Users/idiig/.emacs.d/modules/idiig-prog.el" . 4080)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/tk_vec.py" . 1020)
  ("/Users/idiig/Downloads/hachidai.db" . 23571)
- ("/Users/idiig/.emacs.d/modules/idiig-python.el" . 1011)
  ("/Users/idiig/.emacs.d/modules/idiig-git.el" . 3351)
  ("/Users/idiig/.emacs.d/.gitignore" . 184)
  ("/Users/idiig/.gitignore" . 102)
@@ -64,23 +120,15 @@
   (dired-filename . "/Users/idiig/git/spacemacs_config-based-on-zilongshanren-/init.el"))
  ("/Users/idiig/.emacs.d/modules/idiig-ess.el" . 450)
  ("/usr/local/Cellar/emacs-plus@27/27.2/share/emacs/27.2/etc/TODO" . 2)
- ("/Users/idiig/.emacs.d/modules/"
-  (dired-filename . "/Users/idiig/.emacs.d/modules/idiig-git.el"))
  ("/Users/idiig/anaconda3/lib/python3.8/site-packages/pandas/core/frame.py" . 11054)
- ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/hds_eval_exp.py"))
  ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/engo.txt" . 70)
  ("/Users/idiig/.emacs.d/.cache/"
   (dired-filename . "/Users/idiig/.emacs.d/.cache/.DS_Store"))
  ("/Users/idiig/.zshrc" . 765)
- ("/Users/idiig/Nutstore/works/on_work/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/token_waka"))
  ("/Users/idiig/Nutstore/works/"
   (dired-filename . "/Users/idiig/Nutstore/works/on_work"))
- ("/Users/idiig/Nutstore/works/on_work/token_waka/exp_1/khky-train.txt" . 21588)
  ("/Users/idiig/emacs-test/s.py" . 237)
  ("/Users/idiig/emacs-test/s.r" . 64)
  ("/Users/idiig/emacs-backup/init.el" . 3571)
- ("/usr/local/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" . 1732)
  ("/Users/idiig/Downloads/"
   (dired-filename . "/Users/idiig/Downloads/文本-F3F46926A5D2-1.txt")))

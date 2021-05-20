@@ -230,7 +230,7 @@ the automatic filling of the current paragraph."
 
 ;; cdlatex
 (use-package cdlatex
-  :after (:any org-mode LaTeX-mode)
+  :after (org-mode LaTeX-mode)
   :hook
   ((LaTeX-mode . turn-on-cdlatex)
    (org-mode . turn-on-org-cdlatex)))
