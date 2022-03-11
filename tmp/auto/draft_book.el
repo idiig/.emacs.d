@@ -1,8 +1,8 @@
 (TeX-add-style-hook
- "draft"
+ "draft_book"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("article" "autodetect-engine" "dvi=dvipdfmx" "11pt")))
+                     '(("scrreprt" "autodetect-engine" "dvi=dvipdfmx" "11pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("ulem" "normalem") ("datetime" "yyyymmdd") ("biblatex" "natbib" "style=apa" "backend=biber" "giveninits=false" "") ("cleveref" "capitalize" "noabbrev")))
    (add-to-list 'LaTeX-verbatim-environments-local "minted")
@@ -16,8 +16,8 @@
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
-    "article"
-    "art11"
+    "scrreprt"
+    "scrreprt11"
     "geometry"
     "fontspec"
     "xeCJK"
@@ -35,11 +35,12 @@
     "bm"
     "booktabs"
     "url"
+    "appendix"
+    "minted"
     "csquotes"
     "tikz"
     "pgfplots"
     "svg"
-    "minted"
     "datetime"
     "xcolor"
     "hyperref"

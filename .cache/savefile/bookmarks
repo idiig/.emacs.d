@@ -9,7 +9,7 @@
  (position . 8177))
 ("org-capture-last-stored"
  (filename . "~/Nutstore/org-files/gtd.org")
- (front-context-string . "** TODO [#B] 調整 ")
- (rear-context-string . "-09 Sun 12:26]\n\n")
- (position . 5429))
+ (front-context-string . "** TODO [#A] 结果－")
+ (rear-context-string . "-22 Sat 17:17]\n\n")
+ (position . 5917))
 )

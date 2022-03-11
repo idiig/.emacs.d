@@ -230,6 +230,38 @@
   (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
 (add-hook 'org-mode-hook #'idiig/org-ispell)
 
+;; During export headlines which have the "ignore" tag are removed
+;; from the parse tree. 
+(defun org-export-ignore-headlines (data backend info)
+  "Remove headlines tagged \"ignore\" retaining contents and promoting children.
+Each headline tagged \"ignore\" will be removed retaining its
+contents and promoting any children headlines to the level of the
+parent."
+  (org-element-map data 'headline
+    (lambda (object)
+      (when (member "ignore" (org-element-property :tags object))
+        (let ((level-top (org-element-property :level object))
+              level-diff)
+          (mapc (lambda (el)
+                  ;; recursively promote all nested headlines
+                  (org-element-map el 'headline
+                    (lambda (el)
+                      (when (equal 'headline (org-element-type el))
+                        (unless level-diff
+                          (setq level-diff (- (org-element-property :level el)
+                                              level-top)))
+                        (org-element-put-property el
+                          :level (- (org-element-property :level el)
+                                    level-diff)))))
+                  ;; insert back into parse tree
+                  (org-element-insert-before el object))
+                (org-element-contents object)))
+        (org-element-extract-element object)))
+    info nil)
+  data)
+
+(add-hook 'org-export-filter-parse-tree-functions 'org-export-ignore-headlines)
+
 ;; mac抓取
 (defun idiig-org/init-org-mac-link ()
   (use-package org-mac-link
@@ -583,27 +615,27 @@ See `org-capture-templates' for more information."
                    (function org-hugo-new-subtree-post-capture-template)))))
 
 ;; 提醒事项
-(use-package appt
-  :ensure nil
-  :after org-agenda
-  :init
-  (setq appt-time-msg-list nil)    ;; clear existing appt list
-  (setq appt-display-interval '10)  ;; warn every 5 minutes from t - appt-message-warning-time
-  (setq
-   appt-message-warning-time '20  ;; send first warning 15 minutes before appointment
-   appt-display-mode-line nil     ;; don't show in the modeline
-   appt-display-format 'window)   ;; pass warnings to the designated window function
-  :config
-  (appt-activate 1)                ;; activate appointment notification
-  ;; (display-time)                   ;; activate time display
-  (org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
-  (run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
-  (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
-  (defun idiig-appt-display (min-to-app new-time msg)
-    (notify-osx
-     (format "Appointment in %s minutes" min-to-app)    ;; passed to -title in terminal-notifier call
-     (format "%s" msg)))                                ;; passed to -message in terminal-notifier call
-  (setq appt-disp-window-function (function idiig-appt-display)))
+;; (use-package appt
+;;   :ensure nil
+;;   :after org-agenda
+;;   :init
+;;   (setq appt-time-msg-list nil)    ;; clear existing appt list
+;;   (setq appt-display-interval '10)  ;; warn every 5 minutes from t - appt-message-warning-time
+;;   (setq
+;;    appt-message-warning-time '20  ;; send first warning 15 minutes before appointment
+;;    appt-display-mode-line nil     ;; don't show in the modeline
+;;    appt-display-format 'window)   ;; pass warnings to the designated window function
+;;   :config
+;;   (appt-activate 1)                ;; activate appointment notification
+;;   ;; (display-time)                   ;; activate time display
+;;   (org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
+;;   (run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
+;;   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
+;;   (defun idiig-appt-display (min-to-app new-time msg)
+;;     (notify-osx
+;;      (format "Appointment in %s minutes" min-to-app)    ;; passed to -title in terminal-notifier call
+;;      (format "%s" msg)))                                ;; passed to -message in terminal-notifier call
+;;   (setq appt-disp-window-function (function idiig-appt-display)))
 
 ;; pomodoro 和时间相关
 (use-package org-pomodoro
@@ -707,7 +739,7 @@ See `org-capture-templates' for more information."
                 "xelatex --shell-escape %f"
                 "xelatex --shell-escape %f"
                 "dvipdfmx %b.dvi"
-                "rm -fr %b.bbl %b.dvi %b.tex auto"
+                ;; "rm -fr %b.bbl %b.dvi %b.tex auto"
                 ))))
 
     (use-package ox-beamer
@@ -720,7 +752,18 @@ See `org-capture-templates' for more information."
                    ("\\subsection{%s}" . "\\subsection*{%s}")
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 )
+    (add-to-list 'org-latex-classes
+                 '("book_draft"
+                   "\\input{~/.emacs.d/tmp/draft_book.tex}"
+                   ("\\chapter{%s}" . "\\chapter*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 )
     ))
 
 ;; ;; FIXME

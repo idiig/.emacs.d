@@ -7,6 +7,8 @@
  '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(lsp-session-file "/Users/idiig/.emacs.d/.cache/.lsp-session-v1")
+ '(org-agenda-files
+   '("~/Nutstore/works/on_work/master_paper/script.org" "/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict9895-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
  '(org-export-with-sub-superscripts '{})
  '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
  '(package-selected-packages

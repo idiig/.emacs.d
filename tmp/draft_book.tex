@@ -1,35 +1,36 @@
-\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{article}
+\documentclass[autodetect-engine,dvi=dvipdfmx,11pt]{scrreprt}
 %
 % Layout
 \usepackage{geometry}
 \geometry{
   a4paper,
-  left=20mm,
-  right=20mm,
+  left=35mm,
+  right=35mm,
   top=30mm,
-  bottom=20mm,
+  bottom=30mm,
   heightrounded,
 }
 %
 % Font
 \usepackage{fontspec}
 %
-% English fonts
-\setmainfont[%
- UprightFont = {MinionPro-Regular},%
- BoldFont={MinionPro-Bold},%
- ItalicFont={MinionPro-It},%
- BoldItalicFont={MinionPro-BoldIt},%
- % UprightFont = {SourceHanSerifSC-Regular},%
- % BoldFont={SourceHanSansSC-Regular},%
- % ItalicFont={sarasa-mono-sc-nerd-lightitalic},%
- % BoldItalicFont={sarasa-mono-sc-nerd-italic},%
- ]{MinionPro-Regular}
-%
-% Latin Font
-\setromanfont[Numbers={OldStyle},Ligatures={Common}]{MinionPro-Regular}
-\setsansfont[Ligatures={Common}]{SourceHanSansSC-Regular}
-\setmonofont[Scale=0.72]{SourceHanSansSC-Regular}
+% % English fonts
+% \setmainfont[%
+%  % UprightFont = {MinionPro-Regular},%
+%  % BoldFont={MinionPro-Bold},%
+%  % ItalicFont={MinionPro-It},%
+%  % BoldItalicFont={MinionPro-BoldIt},%
+%  UprightFont = {SourceHanSerifSC-Regular},%
+%  BoldFont={SourceHanSansSC-Bold},%
+%  ItalicFont={SourceHanSerifSC-It},%
+%  % ItalicFont={sarasa-mono-sc-nerd-lightitalic},%
+%  % BoldItalicFont={sarasa-mono-sc-nerd-italic},%
+%  ]{SourceHanSerifSC-Regular}
+% %
+% % Latin Font
+% \setromanfont[Numbers={OldStyle},Ligatures={Common}]{SourceHanSerifSC-Regular}
+% \setsansfont[Ligatures={Common}]{SourceHanSansSC-Regular}
+% \setmonofont[Scale=0.72]{SourceHanSansSC-Regular}
 %
 % CJK font
 \usepackage{xeCJK}
@@ -54,15 +55,16 @@
 \usepackage{bm}
 \usepackage{booktabs}
 \usepackage{url}
+\usepackage{appendix}
 %
 % Extra
+\usepackage{minted}
 \usepackage{csquotes}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \usetikzlibrary{shapes.geometric}
 \usepackage{svg}
-\usepackage{minted}
 %
 % Date
 \usepackage[yyyymmdd]{datetime}
@@ -161,16 +163,6 @@
   \MakeFramed{\hsize#1\advance\hsize-\width\FrameRestore}
 }
 {\endMakeFramed}
-%
-% Title
-\makeatletter
-\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
-\begin{flushleft}
-  \Large{\textbf{\@title}}\\
-  \normalsize\@author
-\end{flushleft}\egroup
-}
-\makeatother
 %
 % cleveref
 \usepackage[capitalize,noabbrev]{cleveref}
