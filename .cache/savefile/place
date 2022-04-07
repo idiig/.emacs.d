@@ -1,11 +1,15 @@
 ;;; -*- coding: utf-8 -*-
-(("/Users/idiig/Nutstore/works/on_work/phd/phd_draft.org" . 1268)
- ("/Users/idiig/.emacs.d/.cache/recentf" . 17590)
- ("/Users/idiig/.orhc-bibtex-cache" . 26218)
+(("/Users/idiig/.orhc-bibtex-cache" . 26218)
+ ("/Users/idiig/Nutstore/works/on_work/phd/phd_draft.org" . 1067)
+ ("/Users/idiig/nutstore/works/simple_rp/sim_rp.org" . 2051)
+ ("/Users/idiig/.emacs.d/.cache/recentf" . 17723)
+ ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 24906)
+ ("/Users/idiig/Downloads/CVL.ipynb" . 195)
  ("/Users/idiig/Nutstore/works/on_work/phd/phd_draft.tex" . 4274)
+ ("/Users/idiig/.emacs.d/#sss.org#" . 169)
+ ("/Users/idiig/.emacs.d/core/idiig-ui.el" . 66)
  ("/Users/idiig/Nutstore/works/proposal/phd_rp/"
   (dired-filename . "/Users/idiig/Nutstore/works/proposal/phd_rp/phd_rp.tex"))
- ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 24906)
  ("/Users/idiig/.emacs.d/tmp/draft_book.tex" . 333)
  ("/Users/idiig/Downloads/master-thesis/main.tex" . 284)
  ("/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" . 751)
@@ -74,7 +78,6 @@
  ("/Users/idiig/.emacs.d/core/custom.el" . 460)
  ("/Users/idiig/.emacs.d/dependencies/"
   (dired-filename . "/Users/idiig/.emacs.d/dependencies/textmp"))
- ("/Users/idiig/.emacs.d/core/idiig-ui.el" . 1994)
  ("/Users/idiig/.emacs.d/core/idiig-global-keybindings.el" . 3189)
  ("/Users/idiig/.emacs.d/modules/idiig-japanese.el" . 881)
  ("/Users/idiig/.emacs.d/core/idiig-auto-complete.el" . 6715)

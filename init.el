@@ -56,6 +56,7 @@
 (require 'idiig-tex)
 (require 'idiig-python)
 (require 'idiig-ess)
+(require 'idiig-tei)
 
 ;; custom文件
 (setq custom-file (expand-file-name "custom.el" idiig-core-dir))
