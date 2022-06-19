@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: builder 
+# key: <b
+# --
+FROM $1 as builder
+
+$0

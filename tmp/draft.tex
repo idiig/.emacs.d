@@ -50,8 +50,9 @@
 \usepackage[normalem]{ulem}
 \usepackage{textcomp}
 \usepackage{multicol}
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{bm}
+% \usepackage{amsmath,amsthm,amssymb}
+% \usepackage{bm}
+\usepackage{unicode-math}
 \usepackage{booktabs}
 \usepackage{url}
 %
@@ -101,12 +102,13 @@
 \fi
 %
 % Bibliography
-\usepackage[%
-  natbib,%
-  style=apa,%
-  backend=biber,%
-  giveninits=false,%
-]{biblatex}
+% \usepackage[%
+%   natbib,%
+%   style=apa,%
+%   backend=biber,%
+%   giveninits=false,%
+%   ]{biblatex}
+\input{~/.emacs.d/tmp/biblatex}
 %
 % Verbatim
 \usepackage{etoolbox}

@@ -8,8 +8,8 @@
  (rear-context-string . "21-05-10 Monday\n")
  (position . 8177))
 ("org-capture-last-stored"
- (filename . "~/Nutstore/org-files/gtd.org")
- (front-context-string . "** TODO [#A] 结果－")
- (rear-context-string . "-22 Sat 17:17]\n\n")
- (position . 5917))
+ (filename . "~/Nutstore/org-files/notes.org")
+ (front-context-string . "**  有没有可能不同的变体的概")
+ (rear-context-string . "-10 Mon 07:02]\n\n")
+ (position . 4308))
 )

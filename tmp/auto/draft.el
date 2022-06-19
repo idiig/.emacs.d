@@ -4,7 +4,7 @@
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("article" "autodetect-engine" "dvi=dvipdfmx" "11pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("ulem" "normalem") ("datetime" "yyyymmdd") ("biblatex" "natbib" "style=apa" "backend=biber" "giveninits=false" "") ("cleveref" "capitalize" "noabbrev")))
+                     '(("ulem" "normalem") ("datetime" "yyyymmdd") ("cleveref" "capitalize" "noabbrev")))
    (add-to-list 'LaTeX-verbatim-environments-local "minted")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
@@ -29,10 +29,7 @@
     "ulem"
     "textcomp"
     "multicol"
-    "amsmath"
-    "amsthm"
-    "amssymb"
-    "bm"
+    "unicode-math"
     "booktabs"
     "url"
     "csquotes"
@@ -44,7 +41,6 @@
     "xcolor"
     "hyperref"
     "pxjahyper"
-    "biblatex"
     "etoolbox"
     "footmisc"
     "fancyhdr"

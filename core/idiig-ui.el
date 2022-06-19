@@ -1,6 +1,6 @@
 ;; 基础设置
 (tool-bar-mode -1) ;; 关闭工具栏
-(menu-bar-mode -1) ;; 关闭shell的工具栏
+;; (menu-bar-mode -1) ;; 关闭shell的工具栏
 (scroll-bar-mode -1) ;; 关闭文件滑动控件
 (global-linum-mode -1) ;; 不显示行号
 (setq cursor-type 'bar) ;; 更改光标的样式（不能生效，解决方案见第二集）
