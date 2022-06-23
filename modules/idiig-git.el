@@ -66,7 +66,8 @@
       "ga"  'magit-remote-add
       "gp"  'magit-push-current-to-upstream
       "gb"  'magit-blame-addition/body
-      "gc"  'magit-clone
+      "gc"  'magit-commit-create
+      "gC"  'magit-clone
       "gfF" 'magit-find-file
       "gfl" 'magit-log-buffer-file
       "gfd" 'magit-diff
