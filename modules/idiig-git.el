@@ -64,6 +64,7 @@
     (which-key-declare-prefixes "C-SPC g" "git")
     (evil-leader/set-key
       "ga"  'magit-remote-add
+      "gp"  'magit-push-current-to-upstream
       "gb"  'magit-blame-addition/body
       "gc"  'magit-clone
       "gfF" 'magit-find-file
