@@ -63,6 +63,7 @@
     (which-key-declare-prefixes "C-SPC gf" "git-file")
     (which-key-declare-prefixes "C-SPC g" "git")
     (evil-leader/set-key
+      "ga"  'magit-remote-add
       "gb"  'magit-blame-addition/body
       "gc"  'magit-clone
       "gfF" 'magit-find-file
