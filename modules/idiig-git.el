@@ -49,12 +49,11 @@
   (let (git-link-open-in-browser)
     (call-interactively 'git-link-commit)))
 
-(defun idiig//git-stage-commit-push-current ()
+(defun idiig//git-stage-commit-current ()
   "git 的一系列常用组合"
   (interactive)
   (call-interactively 'magit-stage-file)
-  (call-interactively 'magit-commit-create)
-  (call-interactively 'magit-push-current-to-upstream))
+  (call-interactively 'magit-commit-create))
 
 ;; magit
 (use-package magit
@@ -72,7 +71,7 @@
     (evil-leader/set-key 
       "ga"  'magit-remote-add
       "gp"  'magit-push-current-to-upstream
-      "gP"  'idiig//git-stage-commit-push-current
+      "gP"  'idiig//git-stage-commit-current
       "gb"  'magit-blame-addition/body
       "gc"  'magit-commit-create
       "gC"  'magit-clone
