@@ -49,6 +49,13 @@
   (let (git-link-open-in-browser)
     (call-interactively 'git-link-commit)))
 
+(defun idiig//git-stage-commit-push-current ()
+  "git 的一系列常用组合"
+  (interactive)
+  (call-interactively 'magit-stage-file)
+  (call-interactively 'magit-commit-create)
+  (call-interactively 'magit-push-current-to-upstream))
+
 ;; magit
 (use-package magit
   :defer t
@@ -62,9 +69,10 @@
     (which-key-declare-prefixes "SPC g" "git")
     (which-key-declare-prefixes "C-SPC gf" "git-file")
     (which-key-declare-prefixes "C-SPC g" "git")
-    (evil-leader/set-key
+    (evil-leader/set-key 
       "ga"  'magit-remote-add
       "gp"  'magit-push-current-to-upstream
+      "gP"  'idiig//git-stage-commit-push-current
       "gb"  'magit-blame-addition/body
       "gc"  'magit-commit-create
       "gC"  'magit-clone
