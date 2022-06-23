@@ -190,7 +190,8 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
  "ol" 'org-store-link
  "om" 'org-tags-view
  "os" 'org-search-view
- "ot" 'org-todo-list)
+ "ot" 'org-todo-list
+ "op" 'org-pomodoro)
 
 ;; 给 major mode 定义 leader key
 ;; from spacemcas
