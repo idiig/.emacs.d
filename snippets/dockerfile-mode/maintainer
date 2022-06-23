@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: maintainer
-# key: <m
+# key: <maintainer
 # --
 MAINTAINER ${Xudong Chen} <${avionplat@hotmail.com}>
 $0

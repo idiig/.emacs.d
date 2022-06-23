@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: workdir 
-# key: <w
+# key: <workdir
 # --
 WORKDIR ${/opt/app}
 $0

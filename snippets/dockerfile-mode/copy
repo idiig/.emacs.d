@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: copy 
-# key: <c
+# key: <copy
 # --
 COPY $1 ${/opt/app}
 $0
