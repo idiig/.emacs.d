@@ -26,7 +26,8 @@
 ;; 源设定
 (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-			 ;; ("org" . "http://orgmode.org/elpa/"))
+			 ;; ("org" . "http://orgmode.org/elpa/")
+	)
       )
 ;; use-package
 (dolist (package '(use-package))
