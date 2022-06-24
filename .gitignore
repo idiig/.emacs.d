@@ -4,3 +4,5 @@
 /elpa/
 /.elpa/
 /auto-save-list/
+*.~undo-tree~
+/early-init.el

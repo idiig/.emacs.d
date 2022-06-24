@@ -130,21 +130,21 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
       ;; Workaround for #12747 - org-mode
       (evil-define-key 'normal magit-blame-read-only-mode-map (kbd "RET") 'magit-show-commit))))
 
-;; gitignore
-(use-package helm-gitignore
-  :defer t
-  :init (evil-leader/set-key "gI" 'helm-gitignore))
+;; ;; gitignore
+;; (use-package helm-gitignore
+;;   :defer t
+;;   :init (evil-leader/set-key "gI" 'helm-gitignore))
 
-(use-package gitconfig-mode
-  :defer t)
+;; (use-package gitconfig-mode
+;;   :defer t)
 
-(use-package gitignore-templates
-  :defer t
-  :init
-  (evil-leader/set-key-for-mode 'gitignore-mode
-    "i" 'gitignore-templates-insert)
-  (evil-leader/set-key
-    "gfi" 'gitignore-templates-new-file))
+;; (use-package gitignore-templates
+;;   :defer t
+;;   :init
+;;   (evil-leader/set-key-for-mode 'gitignore-mode
+;;     "i" 'gitignore-templates-insert)
+;;   (evil-leader/set-key
+;;     "gfi" 'gitignore-templates-new-file))
 
 ;; git with org
 (use-package orgit
