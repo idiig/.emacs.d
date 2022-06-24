@@ -326,6 +326,8 @@ current frame."
 ;; hungry delete: 连续删除空白
 (use-package hungry-delete
   :diminish hungry-delete-mode
+  :init (setq hungry-delete-except-modes
+              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
   :config
   (progn
     (setq-default hungry-delete-chars-to-skip " \t\f\v") ; 只删除到单行开头
