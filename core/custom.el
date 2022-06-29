@@ -7,12 +7,14 @@
  '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(lsp-session-file "/Users/idiig/.emacs.d/.cache/.lsp-session-v1")
+ '(lsp-warn-no-matched-clients nil)
  '(org-agenda-files
    '("~/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org" "/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict9895-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
  '(org-export-with-sub-superscripts '{})
  '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
  '(package-selected-packages
-   '(dockerfile-mode nxml-mode magic-latex-buffer company-reftex company-auctex auctex-latexmk auctex tex org-roam-bibtex valign sky-color-clock org-journal org-roam pyim-basedict org-plus-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish counsel company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete)))
+   '(helm-gitignore git-modes dockerfile-mode nxml-mode magic-latex-buffer company-reftex company-auctex auctex-latexmk auctex tex org-roam-bibtex valign sky-color-clock org-journal org-roam pyim-basedict org-plus-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish counsel company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete))
+ '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
