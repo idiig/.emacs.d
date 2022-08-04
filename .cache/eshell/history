@@ -18,3 +18,4 @@ python s.py
 python s.py
 python preprocessing.py 
 conda activate py38
+R

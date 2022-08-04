@@ -9,7 +9,7 @@
  '(lsp-session-file "/Users/idiig/.emacs.d/.cache/.lsp-session-v1")
  '(lsp-warn-no-matched-clients nil)
  '(org-agenda-files
-   '("~/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org" "/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict9895-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
+   '("/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict9895-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
  '(org-export-with-sub-superscripts '{})
  '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
  '(package-selected-packages

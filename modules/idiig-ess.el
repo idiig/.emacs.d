@@ -59,6 +59,7 @@
 ;; R --------------------------------------------------------------------------
 (with-eval-after-load 'ess-site
   ;; Follow Hadley Wickham's R style guide
+  (setq inferior-ess-r-program (expand-file-name “~/anaconda3/bin/R”))
   (setq ess-first-continued-statement-offset 2
         ess-continued-statement-offset 0
         ess-expression-offset 2

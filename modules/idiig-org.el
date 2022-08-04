@@ -859,7 +859,9 @@ See `org-capture-templates' for more information."
             (:rownames . "yes")
             (:cache . "yes")
             (:session . "*org-R*")
-            ))))
+            ))
+    (setq org-babel-R-command "/folder/which/contains --no-save")
+    ))
 
 (use-package ob-emacs-lisp
   :defer t

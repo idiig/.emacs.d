@@ -1,3 +1,15 @@
+;; WhichKeyの古い関数をSpacemacsで使っている
+;; https://note.com/5mingame2/n/n2e2872ad1384
+(defalias 'which-key-declare-prefixes 'which-key-add-key-based-replacements)
+(make-obsolete 'which-key-declare-prefixes
+              'which-key-add-key-based-replacements
+              "2016-10-05")
+(defalias 'which-key-declare-prefixes-for-mode
+ 'which-key-add-major-mode-key-based-replacements)
+(make-obsolete 'which-key-declare-prefixes-for-mode
+              'which-key-add-major-mode-key-based-replacements
+              "2016-10-05")
+
 ;; bind-map
 (use-package bind-map)
 

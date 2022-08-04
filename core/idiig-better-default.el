@@ -39,6 +39,7 @@
 ;; 添加ag，tex等的路径
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setenv "PATH" "~/anaconda3/bin/")
+;; (setenv "PATH" "~/anaconda3/envs/")
 (use-package exec-path-from-shell
   :defer t
   :custom
@@ -54,7 +55,8 @@
   (setq recentf-save-file (expand-file-name "recentf" idiig-cache-dir)
         recentf-max-saved-items 500
         recentf-max-menu-items 25
-        recentf-auto-cleanup 'never)
+        ;; recentf-auto-cleanup 'never
+        )
   (setq recentf-exclude
         '("COMMIT_MSG"
           "COMMIT_EDITMSG"
