@@ -1,38 +1,76 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/idiig/Nutstore/works/on_work/lex_change/artifact/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/artifact/.hyparam.eps.~undo-tree~"))
- ("/Users/idiig/Nutstore/works/on_work/lex_change/cache/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/cache/after.txt"))
- ("/Users/idiig/Nutstore/works/on_work/lex_change/.gitignore" . 17)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/stat.org" . 417)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/artifact/.gitignore" . 13)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/cache"))
+(("/Users/idiig/Nutstore/org-files/gtd.org" . 43)
+ ("/Users/idiig/Nutstore/works/on_work/unmatch/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org"))
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/stat.R"))
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/src/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/src/stat.R"))
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src"))
+ ("/Users/idiig/Nutstore/works/on_work/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/unmatch"))
  ("/Users/idiig/Nutstore/org-files/notes.org" . 43)
  ("/Users/idiig/Nutstore/org-files/inbox.org" . 5715)
  ("/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" . 751)
- ("/Users/idiig/Nutstore/org-files/gtd.org" . 6175)
  ("/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" . 200)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/.gitmodules"))
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/D/S3/work/replication-test"))
+ ("/Users/idiig/Nutstore/lecture/D/S3/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/D/S3/work"))
+ ("/Users/idiig/Nutstore/lecture/D/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/D/S3"))
+ ("/Users/idiig/Nutstore/lecture/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture/Brain_TSUBAME3.0.pdf"))
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/cache/" . 334)
+ ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 33207)
+ ("/Users/idiig/.emacs.d/modules/idiig-tex.el" . 11383)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/.gitmodules" . 37)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/src/context_detect.sh" . 971)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/src/.gitignore" . 54)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/Makefile" . 180)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/README.org" . 553)
+ ("/Users/idiig/Nutstore/works/on_work/waka-align/.gitignore" . 25)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/.gitmodules" . 20)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/src/stat.org" . 69)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/Dockerfile" . 646)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/stat.org" . 69)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/eu_value.py" . 1506)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/stat.R" . 2933)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/Makefile" . 286)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/Dockerfile" . 840)
+ ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/README.org" . 989)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/src/eu_value.py" . 249)
+ ("/Users/idiig/.emacs.d/.cache/savefile/bookmarks" . 251)
+ ("/Users/idiig/Nutstore/works/on_work/waka-align/draft/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/waka-align/draft/abstract.org"))
+ ("/Users/idiig/Nutstore/works/on_work/waka-align/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/waka-align/draft"))
+ ("/Users/idiig/Nutstore/works/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work"))
+ ("/Users/idiig/Nutstore/"
+  (dired-filename . "/Users/idiig/Nutstore/lecture"))
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/artifact/.gitignore" . 15)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/cache/.gitignore" . 15)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/.gitignore" . 44)
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/example/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/example/log.csv"))
+ ("/Users/idiig/Nutstore/works/on_work/lex_change/artifact/"
+  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/artifact/.gitignore"))
  ("/Users/idiig/.emacs.d/modules/idiig-ess.el" . 2382)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/src/hyparamas.py"))
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/split_period.py" . 52)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/waka_variable.py" . 16480)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/eu_value.py" . 1799)
  ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/reg-als/psych-edu-4-reg.org" . 14655)
  ("/Users/idiig/Nutstore/lecture/M1_12Q/psych_edu/clust/psych-edu-6-clust.org" . 2918)
  ("/Users/idiig/Downloads/Exported Items.bib" . 21)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/save_joint_pmi.py" . 775)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/preprocess.py" . 1623)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/README.org" . 696)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/param/hyparam.yaml" . 10)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/best_hypara.py" . 246)
  ("/Users/idiig/.emacs.d/core/idiig-better-default.el" . 860)
  ("/Users/idiig/.emacs.d/modules/idiig-python.el" . 1121)
- ("/Users/idiig/.emacs.d/modules/idiig-org.el" . 33227)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/data/"
   (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/data/parsed_hd.csv"))
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/.gitignore" . 13)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/hyparamas.py" . 1107)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/param/default.yaml" . 162)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/main.py" . 477)
@@ -40,20 +78,9 @@
  ("/Users/idiig/Nutstore/works/on_work/lex_change/param/"
   (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/param/default.yaml"))
  ("/Users/idiig/Nutstore/works/on_work/lex_change/requirements.lock" . 138)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/Dockerfile" . 623)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/Makefile" . 150)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/context_detect.sh" . 885)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/semantic_change.py" . 1631)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/test.py" . 175)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/objectives.py" . 207)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/most_changed.py"))
- ("/Users/idiig/Nutstore/works/on_work/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/.DS_Store"))
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/util.py" . 4494)
- ("/Users/idiig/Nutstore/works/on_work/lex_change/src/sppmi_svd/res/.gitignore" . 13)
  ("/Users/idiig/.emacs.d/modules/idiig-git.el" . 5456)
- ("/Users/idiig/.emacs.d/core/custom.el" . 586)
  ("/Users/idiig/.emacs.d/init.el" . 1112)
  ("/Users/idiig/.emacs.d/dependencies/" . 398)
  ("/Users/idiig/.emacs.d/.elpa/git-modes-20220422.1611/git-modes-autoloads.el" . 1825)
@@ -185,12 +212,9 @@
  ("/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.odt" . 169)
  ("/Users/idiig/Nutstore/lecture/D/S3/Doctorial technical writing/notes.org" . 3172)
  ("/Users/idiig/.emacs.d/modules/idiig-prog.el" . 12711)
- ("/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org" . 18409)
  ("/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.tex" . 18927)
  ("/Users/idiig/Nutstore/lecture/D/S3/Doctorial technical writing/notes.tex" . 4554)
  ("/Users/idiig/Nutstore/works/on_work/語彙転換期/" . 256)
- ("/Users/idiig/Nutstore/works/on_work/unmatch/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org"))
  ("/Users/idiig/Nutstore/works/on_work/unmatch/unmatch.org" . 3533)
  ("/Users/idiig/Nutstore/works/on_work/語彙転換期/語彙転換期.org" . 5263)
  ("/Users/idiig/Nutstore/works/on_work/語彙転換期/語彙転換期.tex" . 5588)
@@ -223,7 +247,6 @@
  ("/Users/idiig/Downloads/all-v02-utf8.db" . 15107)
  ("/Users/idiig/Nutstore/latex-tmp/cxd-thesis/preamble/meta.tex" . 943)
  ("/usr/local/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" . 2047)
- ("/Users/idiig/.emacs.d/modules/idiig-tex.el" . 4534)
  ("/Users/idiig/Downloads/"
   (dired-filename . "/Users/idiig/Downloads/.DS_Store"))
  ("/Users/idiig/Downloads/poster.org" . 2010)
@@ -238,8 +261,6 @@
   (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q/CMI-S1B/Matthew J. Salganik - Bit by Bit_ Social Research in the Digital Age-Princeton University Press (2017).pdf"))
  ("/Users/idiig/Nutstore/lecture/M1_2Q/"
   (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q/CMI-S1B"))
- ("/Users/idiig/Nutstore/lecture/"
-  (dired-filename . "/Users/idiig/Nutstore/lecture/M1_2Q"))
  ("/Users/idiig/Nutstore/works/proposal/prop1_try/"
   (dired-filename . "/Users/idiig/Nutstore/works/proposal/prop1_try/try.tex"))
  ("/Users/idiig/Nutstore/works/proposal/"
@@ -292,8 +313,6 @@
  ("/Users/idiig/.emacs.d/.cache/"
   (dired-filename . "/Users/idiig/.emacs.d/.cache/.DS_Store"))
  ("/Users/idiig/.zshrc" . 765)
- ("/Users/idiig/Nutstore/works/"
-  (dired-filename . "/Users/idiig/Nutstore/works/on_work"))
  ("/Users/idiig/emacs-test/s.py" . 237)
  ("/Users/idiig/emacs-test/s.r" . 64)
  ("/Users/idiig/emacs-backup/init.el" . 3571))

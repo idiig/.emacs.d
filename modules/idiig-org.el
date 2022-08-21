@@ -807,7 +807,7 @@ See `org-capture-templates' for more information."
 (use-package ob-python
   :defer t
   :after org
-  :ensure org-contrib
+  :ensure org-plus-contrib
   :commands
   (org-babel-execute:python
    org-babel-execute:python)
@@ -824,7 +824,7 @@ See `org-capture-templates' for more information."
 (use-package ob-shell
   :defer t
   :after org
-  :ensure org-contrib
+  :ensure org-plus-contrib
   :commands
   (org-babel-execute:sh
    ;; org-babel-expand-body:sh
@@ -845,7 +845,7 @@ See `org-capture-templates' for more information."
 (use-package ob-R
   :defer t
   :after org
-  :ensure org-contrib
+  :ensure org-plus-contrib
   :commands
   (org-babel-execute:R
    org-babel-expand-body:R)
@@ -866,7 +866,7 @@ See `org-capture-templates' for more information."
 (use-package ob-emacs-lisp
   :defer t
   :after org
-  :ensure org-contrib
+  :ensure org-plus-contrib
   :commands
   (org-babel-execute:emacs-lisp
    org-babel-expand-body:lisp)
@@ -880,7 +880,7 @@ See `org-capture-templates' for more information."
 (use-package ob-latex
   :defer t
   :after org
-  :ensure org-contrib
+  :ensure org-plus-contrib
   :commands
   (org-babel-execute:latex
    org-babel-expand-body:latex)
