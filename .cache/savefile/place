@@ -1,5 +1,6 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/idiig/Nutstore/org-files/gtd.org" . 43)
+(("/Users/idiig/.emacs.d/.elpa/org-contrib-0.4/org-contrib-autoloads.el" . 19270)
+ ("/Users/idiig/Nutstore/org-files/gtd.org" . 43)
  ("/Users/idiig/Nutstore/works/on_work/unmatch/"
   (dired-filename . "/Users/idiig/Nutstore/works/on_work/unmatch/doctoral_technical_writing_22D50456_CHEN_XUDONG.org"))
  ("/Users/idiig/Nutstore/lecture/D/S3/work/replication-test/src/"
@@ -81,7 +82,6 @@
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/test.py" . 175)
  ("/Users/idiig/Nutstore/works/on_work/lex_change/src/objectives.py" . 207)
  ("/Users/idiig/.emacs.d/modules/idiig-git.el" . 5456)
- ("/Users/idiig/.emacs.d/init.el" . 1112)
  ("/Users/idiig/.emacs.d/dependencies/" . 398)
  ("/Users/idiig/.emacs.d/.elpa/git-modes-20220422.1611/git-modes-autoloads.el" . 1825)
  ("/Users/idiig/.emacs.d/.elpa/flymake-diagnostic-at-point-20180815.1004/flymake-diagnostic-at-point-autoloads.el" . 807)
@@ -124,13 +124,11 @@
  ("/Users/idiig/.emacs.d/.elpa/smeargle-20200323.533/smeargle-autoloads.el" . 685)
  ("/Users/idiig/.emacs.d/.elpa/orgit-20220425.1157/orgit-autoloads.el" . 3033)
  ("/Users/idiig/.emacs.d/.elpa/gitignore-templates-20210814.144/gitignore-templates-autoloads.el" . 841)
- ("/Users/idiig/.emacs.d/.elpa/org-plus-contrib-20210929/org-loaddefs.el" . 149522)
  ("/Users/idiig/.emacs.d/.elpa/pyim-basedict-20220614.1108/pyim-basedict-autoloads.el" . 762)
  ("/Users/idiig/.emacs.d/.elpa/magit-20220624.806/magit-autoloads.el" . 88918)
  ("/Users/idiig/.emacs.d/.elpa/git-commit-20220615.1159/git-commit-autoloads.el" . 737)
  ("/Users/idiig/.emacs.d/.elpa/transient-20220527.2213/transient-autoloads.el" . 2894)
  ("/Users/idiig/.emacs.d/.elpa/with-editor-20220608.1017/with-editor-autoloads.el" . 3965)
- ("/Users/idiig/.emacs.d/.elpa/org-plus-contrib-20210929/org-plus-contrib-autoloads.el" . 73772)
  ("/Users/idiig/.emacs.d/.elpa/org-sticky-header-20201223.143/org-sticky-header-autoloads.el" . 712)
  ("/Users/idiig/.emacs.d/.elpa/org-pomodoro-20220318.1618/org-pomodoro-autoloads.el" . 1044)
  ("/Users/idiig/.emacs.d/.elpa/alert-20200303.2118/alert-autoloads.el" . 3899)
