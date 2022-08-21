@@ -10,6 +10,8 @@
  '(lsp-warn-no-matched-clients nil)
  '(org-agenda-files
    '("/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox-NSConflict9895-idiig-mac10.16.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
+ '(org-agenda-skip-deadline-if-done t)
+ '(org-agenda-skip-scheduled-if-deadline-is-shown 'repeated-after-deadline)
  '(org-export-with-sub-superscripts '{})
  '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
  '(package-selected-packages

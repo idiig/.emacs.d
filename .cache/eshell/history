@@ -19,3 +19,11 @@ python s.py
 python preprocessing.py 
 conda activate py38
 R
+conda active waka-variable
+cd ..
+python3 
+conda 
+source 
+R
+cd ..
+R
