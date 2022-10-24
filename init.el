@@ -55,6 +55,7 @@
 (require 'idiig-japanese)
 (require 'idiig-prog)
 (require 'idiig-org)
+(require 'idiig-noter)
 (require 'idiig-git)
 (require 'idiig-tex)
 (require 'idiig-python)
