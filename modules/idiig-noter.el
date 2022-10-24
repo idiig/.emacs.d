@@ -8,7 +8,7 @@
     (setq deft-use-filter-string-for-filename t)
     (setq deft-recursive t)
     (setq deft-extension "org")
-    (setq deft-directory "~/Nutstore/org-files/research-notes")
+    (setq deft-directory "~/Nutstore/org-files/roam")
     (setq deft-text-mode 'org-mode)
     ;; keybindings
     (which-key-declare-prefixes "SPC od" "deft")
@@ -105,7 +105,7 @@
 
   :config
   (progn
-    (setq org-roam-directory "~/Nutstore/org-files/research-notes"
+    (setq org-roam-directory "~/Nutstore/org-files/roam"
           org-roam-verbose nil  ; https://youtu.be/fn4jIlFwuLU
           org-roam-buffer-no-delete-other-windows t ; make org-roam buffer sticky
           org-roam-completion-system 'default)))
@@ -122,7 +122,7 @@
    ;; I want to see the whole file
    org-noter-hide-other nil
    ;; Everything is relative to the main notes file
-   org-noter-notes-search-path "~/Nutstore/org-files/research-notes"
+   org-noter-notes-search-path "~/Nutstore/org-files/roam"
    ))
 
 ;; org-ref 设定
@@ -220,7 +220,7 @@
     (setq org-ref-note-title-format
           "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
           )
-    (setq org-ref-notes-directory "~/Nutstore/org-files/research-notes"
+    (setq org-ref-notes-directory "~/Nutstore/org-files/roam"
           org-ref-notes-function 'orb-edit-notes)
     (setq org-ref-default-citation-link "citep")))
 

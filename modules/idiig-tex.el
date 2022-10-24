@@ -246,7 +246,7 @@ the automatic filling of the current paragraph."
   :config
   (progn
     (setq
-     bibtex-completion-notes-path "~/Nutstore/org-files/research-notes"
+     bibtex-completion-notes-path "~/Nutstore/org-files/roam"
      bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
      bibtex-completion-pdf-field "file"
      bibtex-completion-notes-template-multiple-files
