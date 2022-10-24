@@ -1,8 +1,3 @@
-/auto-save-list/.saves-17515-Xudongs-MacBook-Air.local~
-/auto-save-list/.saves-57575-Xudongs-MacBook-Air.local~
-/auto-save-list/.saves-59480-Xudongs-MacBook-Air.local~
-/elpa/
 /.elpa/
-/auto-save-list/
+/auto-save-list/*
 *.~undo-tree~
-/early-init.el
