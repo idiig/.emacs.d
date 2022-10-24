@@ -7,7 +7,9 @@
         evil-append
         evil-append-line
         evil-backward-char
+        evil-delete
         evil-delete-char
+        evil-emacs-state
         evil-escape-emacs-state
         evil-escape-insert-state
         evil-exit-emacs-state
@@ -22,6 +24,7 @@
         evil-substitute
         forward-sentence
         hungry-delete-backward
+        hungry-delete-forward
         kill-sentence
         lispy-delete-backward
         lispy-move-beginning-of-line
@@ -32,16 +35,21 @@
         org-self-insert-command
         orgtbl-hijacker-command-109
         sis--prefix-override-handler
+        skk-delete-backward-char
+        skk-insert
         sp-backward-delete-char
         sp-delete-char
         sp-remove-active-pair-overlay
         spacemacs/backward-kill-word-or-region
         spacemacs/smart-move-beginning-of-line
+        undo-tree-visualize
         ))
 
 (setq mc/cmds-to-run-once
       '(
         counsel-M-x
+        end-of-buffer
+        evil-paste-pop
         evil-scroll-page-down
         idiig/my-mc-mark-next-like-this
         ))
