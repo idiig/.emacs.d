@@ -57,8 +57,8 @@
 (require 'idiig-org)
 (require 'idiig-git)
 (require 'idiig-tex)
-;; (require 'idiig-python)
-;; (require 'idiig-ess)
+(require 'idiig-python)
+(require 'idiig-ess)
 ;; (require 'idiig-docker)
 ;; (require 'idiig-tei)
 
