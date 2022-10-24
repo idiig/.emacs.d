@@ -6,4 +6,3 @@
 /auto-save-list/
 *.~undo-tree~
 /early-init.el
-/.cache/*
