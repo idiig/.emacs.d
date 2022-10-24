@@ -13,7 +13,7 @@
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown 'repeated-after-deadline)
  '(org-export-with-sub-superscripts '{})
- '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
+ '(org-roam-db-location "/Users/idiig/Nutstore/org-files/roam/org-roam.db")
  '(package-selected-packages
    '(helm-gitignore git-modes dockerfile-mode nxml-mode magic-latex-buffer company-reftex company-auctex auctex-latexmk auctex tex org-roam-bibtex valign sky-color-clock org-journal org-roam pyim-basedict org-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish counsel company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete))
  '(skk-kutouten-type 'en)
