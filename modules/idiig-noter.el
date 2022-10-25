@@ -65,9 +65,9 @@
 (use-package org-roam
   :defer t
   :diminish
-  :hook (after-init . org-roam-mode)
+  ;; :hook (after-init . org-roam-mode)
   :commands (org-roam-buffer-toggle-display
-             org-roam-find-file
+             org-roam-node-find
              org-roam-graph
              org-roam-insert
              org-roam-switch-to-buffer
@@ -125,12 +125,43 @@
    org-noter-notes-search-path "~/Nutstore/org-files/roam"
    ))
 
+;; helm bibtex
+(use-package ivy-bibtex
+  :defer t
+  :hook (
+         (org-mode-hook . (lambda () (require 'ivy-bibtex)))
+         (markdown-mode-hook . (lambda () (require 'ivy-bibtex)))
+         (LaTeX-mode-hook . (lambda () (require 'ivy-bibtex)))
+         )
+  :config
+  (progn
+    (setq
+     bibtex-completion-notes-path "~/Nutstore/org-files/roam"
+     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
+     bibtex-completion-pdf-field "file"
+     bibtex-completion-notes-template-multiple-files
+     (concat
+      "#+TITLE: ${title}\n"
+      "#+ROAM_KEY: cite:${citekey}\n"
+      "* TODO Notes\n"
+      ":PROPERTIES:\n"
+      ":Custom_ID: ${citekey}\n"
+      ":NOTER_DOCUMENT: ${file}\n"
+      ":AUTHOR: ${author-abbrev}\n"
+      ":JOURNAL: ${journaltitle}\n"
+      ;; ":DATE: ${date}\n"
+      ":YEAR: ${year}\n"
+      ":DOI: ${doi}\n"
+      ":URL: ${url}\n"
+      ":END:\n\n"
+      )
+     )))
+
+
 ;; org-ref 设定
 (use-package org-ref
   :diminish
-  :hook (org-mode-hook . (lambda () (require 'org-ref)))
-  :defer t
-  ;; :after org
+  :after org
   :commands (org-ref-bibtex-next-entry
              org-ref-bibtex-previous-entry
              org-ref-open-in-browser
@@ -144,6 +175,7 @@
              doi-utils-add-bibtex-entry-from-doi
              isbn-to-bibtex
              pubmed-insert-bibtex-from-pmid)
+  :defer t
   :init
   (defun org-ref-open-pdf-at-point ()
     "Open the pdf for bibtex key under point if it exists."
@@ -155,6 +187,35 @@
           (org-open-file pdf-file)
         (message "No PDF found for %s" key))))
   (progn
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (require 'org-ref-ivy)                
+                (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+                      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+                      org-ref-insert-label-function 'org-ref-insert-label-link
+                      org-ref-insert-ref-function 'org-ref-insert-ref-link
+                      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))
+                      )
+                )
+              )
+    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
+    ;; see org-ref for use of these variables
+    (setq
+     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
+     org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
+     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
+     )
+    (setq org-ref-note-title-format
+          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+          )
+    (setq org-ref-notes-directory "~/Nutstore/org-files/roam"
+          org-ref-notes-function 'orb-edit-notes)
+    (setq org-ref-default-citation-link "citep")
+
+    ;; basic keybindings
+    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-cite-link)
+    ;; (define-key org-mode-map (kbd "s-[") 'org-ref-citation-hydra/body)
+    
     ;; bibtex keybindings
     (evil-define-key 'normal bibtex-mode-map
       (kbd "C-j") 'org-ref-bibtex-next-entry
@@ -189,40 +250,20 @@
     (which-key-declare-prefixes-for-mode 'org-mode
       ",r" "org-ref/roam"
       "SPC mr" "org-ref/roam")
-    
+
     (evil-leader/set-key-for-mode 'org-mode
       "rn" 'org-ref-open-notes-at-point
       "rp" 'org-ref-open-pdf-at-point
-      "ic" 'org-ref-helm-insert-cite-link)
+      "ic" 'org-ref-insert-cite-link)
 
     ;; markdown-mode keybindings
     (evil-leader/set-key-for-mode 'markdown-mode
-      "ic" 'org-ref-helm-insert-cite-link)
+      "ic" 'org-ref-insert-cite-link)
 
     ;; latex-mode keybindings 
     (evil-leader/set-key-for-mode 'latex-mode
-      "ic" 'org-ref-helm-insert-cite-link))
-
-  :config
-  (progn
-    (setq org-ref-completion-library 'org-ref-ivy-cite
-          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
-    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
-    ;; see org-ref for use of these variables
-    (setq
-     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
-     org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
-     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
-     ;; bibtex-completion-notes-path "~/Nutstore/org-files/bibnote.org"
-     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-     bibtex-completion-library-path "~/Nutstore/bibfolder/bibpdf"
-     )
-    (setq org-ref-note-title-format
-          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-          )
-    (setq org-ref-notes-directory "~/Nutstore/org-files/roam"
-          org-ref-notes-function 'orb-edit-notes)
-    (setq org-ref-default-citation-link "citep")))
+      "ic" 'org-ref-insert-cite-link))
+  )
 
 
 ;; org-roam with bibtex creating notes for individual bibtex
@@ -256,5 +297,6 @@
   :URL: ${url}
   :END:\n\n"
              :unnarrowed t)))))
+
 
 (provide 'idiig-noter)

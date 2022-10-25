@@ -235,36 +235,4 @@ the automatic filling of the current paragraph."
   ((LaTeX-mode . turn-on-cdlatex)
    (org-mode . turn-on-org-cdlatex)))
 
-;; helm bibtex
-(use-package helm-bibtex
-  :defer t
-  :hook (
-         (org-mode-hook . (lambda () (require 'helm-bibtex)))
-         (markdown-mode-hook . (lambda () (require 'helm-bibtex)))
-         (LaTeX-mode-hook . (lambda () (require 'helm-bibtex)))
-         )
-  :config
-  (progn
-    (setq
-     bibtex-completion-notes-path "~/Nutstore/org-files/roam"
-     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-     bibtex-completion-pdf-field "file"
-     bibtex-completion-notes-template-multiple-files
-     (concat
-      "#+TITLE: ${title}\n"
-      "#+ROAM_KEY: cite:${citekey}\n"
-      "* TODO Notes\n"
-      ":PROPERTIES:\n"
-      ":Custom_ID: ${citekey}\n"
-      ":NOTER_DOCUMENT: ${file}\n"
-      ":AUTHOR: ${author-abbrev}\n"
-      ":JOURNAL: ${journaltitle}\n"
-      ;; ":DATE: ${date}\n"
-      ":YEAR: ${year}\n"
-      ":DOI: ${doi}\n"
-      ":URL: ${url}\n"
-      ":END:\n\n"
-      )
-     )))
-
 (provide 'idiig-tex)
