@@ -548,12 +548,12 @@ current frame."
     ;; C-x m is usually `compose-mail'. Bind it to something
     ;; else if you use this command.
     (define-key ctl-x-map "m" 'endless/mc-map)
-;;; Really really nice!
+    ;; Really really nice!
     (define-key endless/mc-map "i" #'mc/insert-numbers)
     (define-key endless/mc-map "h" #'mc-hide-unmatched-lines-mode)
     (define-key endless/mc-map "a" #'mc/mark-all-like-this)
 
-;;; Occasionally useful
+    ;; Occasionally useful
     (define-key endless/mc-map "d" #'mc/mark-all-symbols-like-this-in-defun)
     (define-key endless/mc-map "r" #'mc/reverse-regions)
     (define-key endless/mc-map "s" #'mc/sort-regions)
@@ -566,41 +566,41 @@ current frame."
         '(
           counsel-M-x
           idiig/my-mc-mark-next-like-this))
-  (setq mc/cmds-to-run-for-all
-        '(
-          electric-newline-and-maybe-indent
-          hungry-delete-backward
-          spacemacs/backward-kill-word-or-region
-          spacemacs/smart-move-beginning-of-line
-          evil-substitute
-          lispy-move-beginning-of-line
-          lispy-move-end-of-line
-          lispy-space
-          lispy-delete-backward
-          evil-exit-visual-state
-          evil-backward-char
-          evil-delete-char
-          evil-escape-emacs-state
-          evil-escape-insert-state
-          mwim-beginning-of-code-or-line
-          mwim-end-of-line-or-code
-          evil-exit-emacs-state
-          evil-previous-visual-line
-          evil-next-visual-line
-          evil-forward-char
-          evil-insert
-          evil-next-line
-          evil-normal-state
-          evil-previous-line
-          evil-append
-          evil-append-line
-          forward-sentence
-          kill-sentence
-          org-self-insert-command
-          sp-backward-delete-char
-          sp-delete-char
-          sp-remove-active-pair-overlay
-          orgtbl-hijacker-command-109))
+  ;; (setq mc/cmds-to-run-for-all
+  ;;       '(
+  ;;         electric-newline-and-maybe-indent
+  ;;         hungry-delete-backward
+  ;;         spacemacs/backward-kill-word-or-region
+  ;;         spacemacs/smart-move-beginning-of-line
+  ;;         evil-substitute
+  ;;         lispy-move-beginning-of-line
+  ;;         lispy-move-end-of-line
+  ;;         lispy-space
+  ;;         lispy-delete-backward
+  ;;         evil-exit-visual-state
+  ;;         evil-backward-char
+  ;;         evil-delete-char
+  ;;         evil-escape-emacs-state
+  ;;         evil-escape-insert-state
+  ;;         mwim-beginning-of-code-or-line
+  ;;         mwim-end-of-line-or-code
+  ;;         evil-exit-emacs-state
+  ;;         evil-previous-visual-line
+  ;;         evil-next-visual-line
+  ;;         evil-forward-char
+  ;;         evil-insert
+  ;;         evil-next-line
+  ;;         evil-normal-state
+  ;;         evil-previous-line
+  ;;         evil-append
+  ;;         evil-append-line
+  ;;         forward-sentence
+  ;;         kill-sentence
+  ;;         org-self-insert-command
+  ;;         sp-backward-delete-char
+  ;;         sp-delete-char
+  ;;         sp-remove-active-pair-overlay
+  ;;         orgtbl-hijacker-command-109))
   )
 
 (provide 'idiig-better-default)
