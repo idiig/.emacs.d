@@ -27,8 +27,9 @@
       :init
       (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
       (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-      :config
-      (evilnc-default-hotkeys))
+      ;; :config
+      ;; (evilnc-default-hotkeys)
+      )
 
     ;; 群体替换
     (use-package evil-iedit-state
