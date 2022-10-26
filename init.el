@@ -42,6 +42,19 @@
 ;; use-package的附加
 (use-package quelpa-use-package) ;; 如果melpa里没有包从github下载
 (use-package diminish) ;; 关闭一些mode提示
+;; Configure use-package to use straight.el by default
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; 导入核心模块
 (require 'idiig-ui)
