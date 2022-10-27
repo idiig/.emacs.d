@@ -140,6 +140,8 @@
     (setq save-place-file (expand-file-name "place" idiig-savefile-dir))
     (save-place-mode 1)))
 
+;; Message buffer为motion state
+(evil-set-initial-state 'messages-buffer-mode 'motion)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; functions
