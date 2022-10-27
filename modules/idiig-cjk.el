@@ -1,19 +1,4 @@
 ;; language
-
-;; (use-package latex
-;;   :mode
-;;   ("\\.tex\\". latex-mode)
-;;   :bind
-;;   :config
-;;   (progn
-;;     (setq japanese-TeX-engine-default 'uptex)
-;;     (setq TeX-engine 'xetex)
-;;     (setq TeX-PDF-from-DVI "Dvipdfmx")
-;;     ;; (add-hook 'LaTeX-mode-hook 'japanese-latex-mode)
-;;     (setq japanese-LaTeX-default-style "bxjsarticle")
-;;     (setq TeX-view-program-list '(("PDFviewer" "open -a Skim %o")))
-;;     (setq TeX-view-program-selection '((output-pdf "PDFviewer")))))
-
 ;; pyim
 (use-package pyim
   :defer 2
@@ -83,4 +68,4 @@
     (setq skk-search-katakana 'jisx0201-kana)))
 
 
-(provide 'idiig-japanese)
+(provide 'idiig-cjk)
