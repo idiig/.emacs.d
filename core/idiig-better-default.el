@@ -80,12 +80,6 @@
   :config
   (recentf-mode 1))
 
-;; ;; Don't ask me when close emacs with process is running
-;; (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
-;;   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-;;   (use-package noflet)
-;;   (noflet ((process-list ())) ad-do-it))
-
 ;; cleanup recent files
 (defun idiig/cleanup-recentf ()
   (progn
@@ -123,15 +117,15 @@
 ;; 自动保存文件设置
 (use-package savehist
   :init
-  (setq savehist-additional-variables
-        ;; search entries
-        '(search-ring regexp-search-ring)
-        ;; 每一分钟保存一次
-        savehist-autosave-interval 60
-        ;; keep the home clean
-        savehist-file (expand-file-name "savehist" idiig-savefile-dir))
-  :config
-  (savehist-mode 1))
+  (progn
+    (setq savehist-additional-variables
+          ;; search entries
+          '(search-ring regexp-search-ring)
+          ;; 每一分钟保存一次
+          savehist-autosave-interval 60
+          ;; keep the home clean
+          savehist-file (expand-file-name "savehist" idiig-savefile-dir))
+    (savehist-mode t)))
 
 ;; 书签功能，打开时自动到原先编辑的位置
 (use-package bookmark
