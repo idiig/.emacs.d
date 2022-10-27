@@ -743,14 +743,13 @@ See `org-capture-templates' for more information."
 
 ;; other after load org
 (use-package org
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c l" . org-store-link)
+         (:map org-mode-map ("C-c h" . consult-org-heading)))
   :commands (org-agenda org-capture org-store-link)
-  :init
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (define-key global-map "\C-cc" 'org-capture)
   :config
   (progn
-
     (require 'org-compat)
     (require 'org)
     (add-to-list 'org-modules 'org-habit)
