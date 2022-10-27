@@ -28,7 +28,7 @@
 			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
 			 ;; ("org" . "http://orgmode.org/elpa/")
-	)
+	                 )
       )
 ;; use-package
 (dolist (package '(use-package))
@@ -43,28 +43,31 @@
 (use-package quelpa-use-package) ;; 如果melpa里没有包从github下载
 (use-package diminish) ;; 关闭一些mode提示
 ;; Configure use-package to use straight.el by default
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; (defvar bootstrap-version)
+;; (let ((bootstrap-file
+;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;;       (bootstrap-version 6))
+;;   (unless (file-exists-p bootstrap-file)
+;;     (with-current-buffer
+;;         (url-retrieve-synchronously
+;;          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+;;          'silent 'inhibit-cookies)
+;;       (goto-char (point-max))
+;;       (eval-print-last-sexp)))
+;;   (load bootstrap-file nil 'nomessage))
 
-;; 导入核心模块
+;; 导入核心功能
 (require 'idiig-ui)
-(require 'idiig-evil)
+(require 'idiig-evil)  ;; Vim特性
 (require 'idiig-better-default)
-(require 'idiig-better-search)                         ;; 项目，文档检索和管理
-(require 'idiig-auto-complete)                         ;; 自动补全
+(require 'idiig-helm-ag)  ;; 项目检索
+(require 'idiig-dired)  ;; 文档操作
+;; (require 'idiig-better-search)  ;; 项目，文档检索和管理
+(require 'idiig-minibuffer-completion)  ;; minibuffer
+(require 'idiig-auto-complete)  ;; 自动补全
 (require 'idiig-global-keybindings)
 
-;; 导入功能模块
+;; 导入个别功能
 (require 'idiig-japanese)
 (require 'idiig-prog)
 (require 'idiig-org)
