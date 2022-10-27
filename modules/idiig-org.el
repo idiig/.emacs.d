@@ -214,11 +214,11 @@
     (insert "#+END_SRC\n")
     (previous-line 2)
     (org-edit-src-code)))
-(add-hook 'org-mode-hook '(lambda ()
-                                ;; keybinding for editing source code blocks
-                                ;; keybinding for inserting code blocks
-                                (local-set-key (kbd "C-c i s")
-                                               'idiig/org-insert-src-block)))
+(add-hook 'org-mode-hook #'(lambda ()
+                             ;; keybinding for editing source code blocks
+                             ;; keybinding for inserting code blocks
+                             (local-set-key (kbd "C-c i s")
+                                            'idiig/org-insert-src-block)))
 
 ;; ispell不检查部分
 (defun idiig/org-ispell ()
@@ -238,26 +238,26 @@ Each headline tagged \"ignore\" will be removed retaining its
 contents and promoting any children headlines to the level of the
 parent."
   (org-element-map data 'headline
-    (lambda (object)
-      (when (member "ignore" (org-element-property :tags object))
-        (let ((level-top (org-element-property :level object))
-              level-diff)
-          (mapc (lambda (el)
-                  ;; recursively promote all nested headlines
-                  (org-element-map el 'headline
-                    (lambda (el)
-                      (when (equal 'headline (org-element-type el))
-                        (unless level-diff
-                          (setq level-diff (- (org-element-property :level el)
-                                              level-top)))
-                        (org-element-put-property el
-                          :level (- (org-element-property :level el)
-                                    level-diff)))))
-                  ;; insert back into parse tree
-                  (org-element-insert-before el object))
-                (org-element-contents object)))
-        (org-element-extract-element object)))
-    info nil)
+                   (lambda (object)
+                     (when (member "ignore" (org-element-property :tags object))
+                       (let ((level-top (org-element-property :level object))
+                             level-diff)
+                         (mapc (lambda (el)
+                                 ;; recursively promote all nested headlines
+                                 (org-element-map el 'headline
+                                                  (lambda (el)
+                                                    (when (equal 'headline (org-element-type el))
+                                                      (unless level-diff
+                                                        (setq level-diff (- (org-element-property :level el)
+                                                                            level-top)))
+                                                      (org-element-put-property el
+                                                                                :level (- (org-element-property :level el)
+                                                                                          level-diff)))))
+                                 ;; insert back into parse tree
+                                 (org-element-insert-before el object))
+                               (org-element-contents object)))
+                       (org-element-extract-element object)))
+                   info nil)
   data)
 
 (add-hook 'org-export-filter-parse-tree-functions 'org-export-ignore-headlines)
@@ -523,18 +523,18 @@ See `org-capture-templates' for more information."
   (evil-define-key 'motion org-agenda-mode-map (kbd "P") 'org-pomodoro)
   ;; (evil-define-key 'normal org-mode-map (kbd "P") 'org-pomodoro)
   :config
-  (progn (add-hook 'org-pomodoro-started-hook '(lambda () (notify-osx
-                                                           "org-pomodoro"
-                                                           "集。。。中。。。")))
-         (add-hook 'org-pomodoro-finished-hook '(lambda () (notify-osx
+  (progn (add-hook 'org-pomodoro-started-hook #'(lambda () (notify-osx
                                                             "org-pomodoro"
-                                                            "☕️咖。。啡。。。。。")))
-         (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (notify-osx
+                                                            "集。。。中。。。")))
+         (add-hook 'org-pomodoro-finished-hook #'(lambda () (notify-osx
+                                                             "org-pomodoro"
+                                                             "☕️咖。。啡。。。。。")))
+         (add-hook 'org-pomodoro-short-break-finished-hook #'(lambda () (notify-osx
+                                                                         "org-pomodoro"
+                                                                         "继。。继续。。。。。")))
+         (add-hook 'org-pomodoro-long-break-finished-hook #'(lambda () (notify-osx
                                                                         "org-pomodoro"
-                                                                        "继。。继续。。。。。")))
-         (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (notify-osx
-                                                                       "org-pomodoro"
-                                                                       "继。。继续。。。。。")))))
+                                                                        "继。。继续。。。。。")))))
 
 (use-package ox
   :ensure nil
@@ -748,8 +748,13 @@ See `org-capture-templates' for more information."
          ("C-c l" . org-store-link)
          (:map org-mode-map ("C-c h" . consult-org-heading)))
   :commands (org-agenda org-capture org-store-link)
+  :init
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (define-key global-map "\C-cc" 'org-capture)
   :config
   (progn
+
     (require 'org-compat)
     (require 'org)
     (add-to-list 'org-modules 'org-habit)
@@ -817,7 +822,7 @@ See `org-capture-templates' for more information."
     ;; 折行 
     (add-hook 'org-mode-hook 'auto-fill-mode)
     (diminish 'auto-fill-function)
- 
+    
     ;; 代码高亮 
     (setq org-src-fontify-natively t)
     ;; 不询问eval
