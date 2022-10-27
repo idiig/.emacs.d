@@ -68,7 +68,7 @@
 (require 'idiig-global-keybindings)
 
 ;; 导入个别功能
-(require 'idiig-japanese)
+(require 'idiig-cjk)
 (require 'idiig-prog)
 (require 'idiig-org)
 (require 'idiig-noter)
@@ -76,8 +76,6 @@
 (require 'idiig-tex)
 (require 'idiig-python)
 (require 'idiig-ess)
-;; (require 'idiig-docker)
-;; (require 'idiig-tei)
 
 ;; custom文件
 (setq custom-file (expand-file-name "custom.el" idiig-core-dir))
