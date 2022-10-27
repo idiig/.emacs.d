@@ -22,7 +22,8 @@
           #'command-completion-default-include-p)
 
     ;; minibuffer可循环
-    (setq enable-recursive-minibuffers t)))
+    (setq enable-recursive-minibuffers t)
+    ))
 
 ;; Vertico：提供minibuffer补全UI
 (use-package vertico
@@ -33,22 +34,76 @@
   :init
   (vertico-mode)
   :config
-  (setq vertico-count 15))
+  (progn
+    ;; 表示行数
+    (setq vertico-count 15)
+    ;; 可循环
+    (setq vertico-cycle t)))
 
 ;; Orderless：提供补全格式选择
 (use-package orderless
   :after consult
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  :config
+  (defvar +orderless-dispatch-alist
+    '((?% . char-fold-to-regexp)
+      (?! . orderless-without-literal)
+      (?`. orderless-initialism)
+      (?= . orderless-literal)
+      (?~ . orderless-flex)))
+
+  (defun +orderless--suffix-regexp ()
+    (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
+        (format "[%c-%c]*$"
+                consult--tofu-char
+                (+ consult--tofu-char consult--tofu-range -1))
+      "$"))
+  ;; Recognizes the following patterns:
+  ;; * ~flex flex~
+  ;; * =literal literal=
+  ;; * %char-fold char-fold%
+  ;; * `initialism initialism`
+  ;; * !without-literal without-literal!
+  ;; * .ext (file extension)
+  ;; * regexp$ (regexp matching at end)
+  (defun +orderless-dispatch (word _index _total)
+    (cond
+     ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+     ((string-suffix-p "$" word)
+      `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--suffix-regexp))))
+     ;; File extensions
+     ((and (or minibuffer-completing-file-name
+               (derived-mode-p 'eshell-mode))
+           (string-match-p "\\`\\.." word))
+      `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--suffix-regexp))))
+     ;; Ignore single !
+     ((equal "!" word) `(orderless-literal . ""))
+     ;; Prefix and suffix
+     ((if-let (x (assq (aref word 0) +orderless-dispatch-alist))
+          (cons (cdr x) (substring word 1))
+        (when-let (x (assq (aref word (1- (length word))) +orderless-dispatch-alist))
+          (cons (cdr x) (substring word 0 -1)))))))
+  ;; Define orderless style with initialism by default
+  (orderless-define-completion-style +orderless-with-initialism
+    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        ;;; Enable partial-completion for files.
+        ;;; Either give orderless precedence or partial-completion.
+        ;;; Note that completion-category-overrides is not really an override,
+        ;;; but rather prepended to the default completion-styles.
+        ;; completion-category-overrides '((file (styles orderless partial-completion))) ;; orderless is tried first
+        completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
+                                        ;; enable initialism by default for symbols
+                                        (command (styles +orderless-with-initialism))
+                                        (variable (styles +orderless-with-initialism))
+                                        (symbol (styles +orderless-with-initialism)))
+        orderless-component-separator #'orderless-escapable-split-on-space ;; allow escaping space with backslash!
+        orderless-style-dispatchers '(+orderless-dispatch)))
 
 ;; Maginalia：增强minubuffer的annotation
 (use-package marginalia
-  ;; :after consult
+  :after vertico
   ;; 只在minibuffer启用快捷键
   :bind (:map minibuffer-local-map ("M-A" . marginalia-cycle))
   :init
@@ -58,33 +113,41 @@
 
 ;; Embark：minibufferaction 和自适应的context menu
 (use-package embark
-  :after consult
+  :after vertico
   :bind
-  (:map minibuffer-local-map
-        ("C-." . embark-act)         ;; pick some comfortable binding
-        ("C-;" . embark-dwim)        ;; good alternative: M-.
-        ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  (("C-h B" . embark-bindings)  ;; alternative for `describe-bindings'
+   (:map minibuffer-local-map
+         ("C-;" . embark-act)         ;; 对函数进行设置操作 
+         ("M-." . embark-dwim)        ;; 实施 
+         ("C-c C-e" . embark-export)  ;; occur
+         )) 
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
-  ;; 关闭modeline
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+  (progn
+    ;; 关闭modeline
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none))))
+    ;; 设定embark-collect-mode
+    (evil-set-initial-state 'embark-collect-mode 'normal)
+    ))
 
 (use-package consult
-  ;; :defer t
   :hook (after-init . (lambda () (require 'consult)))
-  :bind (("C-s" . consult-line)
-         ("M-x" . execute-extended-command)
-         ("C-c C-l" . consult-goto-line)
+  :bind (([remap M-x] . execute-extended-command)
+         ([remap goto-line] . consult-goto-line)
+         ([remap switch-to-buffer] . consult-buffer)
+         ([remap find-file] . find-file)
+         ([remap open-recent-file] . consult-recent-file)
+         ([remap evil-yank] . consult-yank-pop)
+         ("C-s" . consult-line)
          ("C-c i" . consult-imenu)
          ("C-c o" . consult-file-externally)
-         ("C-x C-f" . find-file)
-         ("C-x C-r" . consult-recent-file)
          ("C-x p f" . consult-ripgrep)
+         ;; ("C-x b f" . consult-line-mult)
          (:map minibuffer-local-map
                ("C-c h" . consult-history)))
   :init
@@ -104,10 +167,48 @@
         (define-key map "\C-s" #'previous-history-element)
         map))
     (consult-customize consult-line :keymap my-consult-line-map)
+    ;; ;; 禁止自动显示consult文件的内容
+    ;; (setq consult-preview-key (kbd "C-v"))
+    ;; 应用 Orderless 的正则解析到 consult-grep/ripgrep/find
+    (defun consult--orderless-regexp-compiler (input type &rest _config)
+      (setq input (orderless-pattern-compiler input))
+      (cons
+       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+       (lambda (str) (orderless--highlight input str))))
     ))
 
-;; (use-package selectrum
-;;   :init
-;;   (selectrum-mode +1))
+(use-package embark-consult
+  :after (embark consult)
+  :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
+
+
+;; grep搜索+集体修改
+(use-package wgrep
+  :after embark-consult
+  :bind (:map grep-mode-map ("i" . idiig/wgrep-change-to-wgrep-mode))
+  :init
+  (defun idiig/wgrep-change-to-wgrep-mode ()
+    (interactive)
+    (wgrep-change-to-wgrep-mode)
+    (evil-normal-state))
+  :config
+  (evil-define-key 'motion wgrep-mode-map ",," 'wgrep-finish-edit)
+  (evil-define-key 'motion wgrep-mode-map ",c" 'wgrep-finish-edit)
+  (evil-define-key 'motion wgrep-mode-map ",a" 'wgrep-abort-changes)
+  (evil-define-key 'motion wgrep-mode-map ",k" 'wgrep-abort-changes)
+  (evil-define-key 'normal wgrep-mode-map "q" 'quit-window))
+
+(use-package emacs
+  :bind (:map occur-mode-map ("i" . idiig/line-change-to-occur-mode))
+  :init
+  (evil-set-initial-state 'occur-mode 'motion)
+  (defun idiig/line-change-to-occur-mode ()
+    (interactive)
+    (occur-edit-mode)
+    (evil-normal-state))
+  :config
+  (progn
+    (evil-define-key 'motion occur-mode-map ",," 'occur-cease-edit)
+    (evil-define-key 'normal occur-mode-map "q" 'quit-window)))
 
 (provide 'idiig-minibuffer-completion)
