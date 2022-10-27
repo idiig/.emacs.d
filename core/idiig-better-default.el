@@ -142,6 +142,7 @@
 
 ;; Message buffer为motion state
 (evil-set-initial-state 'messages-buffer-mode 'motion)
+(evil-set-initial-state 'special-mode 'motion)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; functions
@@ -343,11 +344,29 @@ current frame."
   :init
   (global-set-key [remap fill-paragraph] #'unfill-toggle))
 
-;; 自动括号补齐等括号设定
-(electric-pair-mode t)
-;; https://www.reddit.com/r/emacs/comments/4xhxfw/how_to_tune_the_behavior_of_eletricpairmode/
-(setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-(show-paren-mode t)
+(use-package emacs
+  ;; 自动括号补齐等括号设定
+  :hook
+  (org-mode . (lambda () (idiig/add-local-electric-pairs '(;(?= . ?=)
+                                                           (?~ . ?~)))))
+  :init
+  (electric-pair-mode t)
+  (setq electric-pair-preserve-balance nil)
+  ;; https://www.reddit.com/r/emacs/comments/4xhxfw/how_to_tune_the_behavior_of_eletricpairmode/
+  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  (show-paren-mode t)
+  ;; mode-specific local-electric pairs
+  (defconst idiig/default-electric-pairs electric-pair-pairs)
+  (defun idiig/add-local-electric-pairs (pairs)
+    "Example usage: 
+    (add-hook 'jupyter-org-interaction-mode '(lambda () (set-local-electric-pairs '())))
+    "
+    (setq-local electric-pair-pairs (append idiig/default-electric-pairs pairs))
+    (setq-local electric-pair-text-pairs electric-pair-pairs))
+  ;; 禁止 <>
+  (add-function :before-until electric-pair-inhibit-predicate
+                (lambda (c) (eq c ?<   ;; >
+                                ))))
 
 (use-package smartparens
   :diminish smartparens-mode
