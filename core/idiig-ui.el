@@ -18,16 +18,16 @@
       '("" " idiig - "
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
-;; (require 'hl-line)
-;; (defun global-hl-line-timer-function ()
-;;   ;; 一定时间后后高亮所在行
-;;   (global-hl-line-unhighlight-all)
-;;   (let ((global-hl-line-mode t))
-;;     (global-hl-line-highlight)))
-;; (setq global-hl-line-timer
-;;       ;; 30s后高亮所在行
-;;       (run-with-idle-timer 10.00 t 'global-hl-line-timer-function))
-;; ;; (cancel-timer global-hl-line-timer)
+(require 'hl-line)
+(defun global-hl-line-timer-function ()
+  ;; 一定时间后后高亮所在行
+  (global-hl-line-unhighlight-all)
+  (let ((global-hl-line-mode t))
+    (global-hl-line-highlight)))
+(setq global-hl-line-timer
+      ;; 30s后高亮所在行
+      (run-with-idle-timer 10.00 t 'global-hl-line-timer-function))
+;; (cancel-timer global-hl-line-timer)
 
 ;; Theme
 ;; (load-theme 'leuven t)
@@ -88,6 +88,38 @@
                (set-fontset-font fn 'chinese-gb2312 `(,my-font-ja . ,rg))
                (set-fontset-font fn 'chinese-gbk `(,my-font-ja . ,rg)))))
 	 )))
+
+;; 高亮括号
+(use-package highlight-parentheses
+  :diminish highlight-parentheses-mode
+  :init
+  (define-globalized-minor-mode global-highlight-parentheses-mode
+    highlight-parentheses-mode
+    (lambda ()
+      (highlight-parentheses-mode t)))
+  :config
+  (global-highlight-parentheses-mode t))
+
+;; 彩色括号
+(use-package rainbow-delimiters
+  :defer t
+  :hook
+  (prog-mode-hook . rainbow-delimiters-mode))
+
+;; 高亮彩色
+(use-package rainbow-mode
+  :diminish
+  :defer t
+  :hook (prog-mode . rainbow-mode))
+
+;; 弹窗比例
+(use-package golden-ratio
+  :defer t
+  :init
+  (progn
+    (with-eval-after-load 'golden-ratio
+      (dolist (mode '("dired-mode" "occur-mode" "grep-mode"))
+        (add-to-list 'golden-ratio-exclude-modes mode)))))
 
 ;; 80字数提示线
 (use-package fill-column-indicator

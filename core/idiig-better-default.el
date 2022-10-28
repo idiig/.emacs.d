@@ -393,29 +393,6 @@ current frame."
   (smartparens-global-mode t)
   (show-smartparens-global-mode 1))
 
-;; 高亮括号
-(use-package highlight-parentheses
-  :diminish highlight-parentheses-mode
-  :init
-  (define-globalized-minor-mode global-highlight-parentheses-mode
-    highlight-parentheses-mode
-    (lambda ()
-      (highlight-parentheses-mode t)))
-  :config
-  (global-highlight-parentheses-mode t))
-
-;; 彩色括号
-(use-package rainbow-delimiters
-  :defer t
-  :hook
-  (prog-mode-hook . rainbow-delimiters-mode))
-
-;; 高亮彩色
-(use-package rainbow-mode
-  :diminish
-  :defer t
-  :hook (prog-mode . rainbow-mode))
-
 ;; posframe: 弹窗设置
 (use-package posframe)
 
@@ -456,166 +433,31 @@ current frame."
   (setq hydra-key-doc-function 'idiig//hydra-key-doc-function
         hydra-head-format "[%s] "))
 
-;; 搜索当前选中区域高亮
-(use-package iedit
-  :defer t
-  :commands (iedit)
-  :bind ("C-;" . iedit))
-
-;; 扩大选中
-(use-package expand-region
-  :defer t
-  :commands er/expand-region
-  :config
-  (progn
-    (with-eval-after-load 'expand-region
-      (defadvice er/prepare-for-more-expansions-internal
-          (around helm-ag/prepare-for-more-expansions-internal activate)
-        ad-do-it
-        (let ((new-msg (concat (car ad-return-value)
-                               ", / to search in project, "
-                               "f to search in files, "
-                               "b to search in buffers, "
-                               "cs to change quote"))
-              (new-bindings (cdr ad-return-value)))
-          (cl-pushnew
-           '("/" (lambda ()
-                   (call-interactively
-                    'idiig/consult-project-region-or-symbol)))
-           new-bindings)
-          (cl-pushnew
-           '("f" (lambda ()
-                   (call-interactively
-                    'idiig/helm-files-smart-do-search-region-or-symbol)))
-           new-bindings)
-          (cl-pushnew
-           '("b" (lambda ()
-                   (call-interactively
-                    'idiig/helm-buffers-smart-do-search-region-or-symbol)))
-           new-bindings)
-          (setq ad-return-value (cons new-msg new-bindings)))))
-    (setq expand-region-contract-fast-key "V"
-          expand-region-reset-fast-key "r")))
-
-;; 弹窗比例
-(use-package golden-ratio
-  :config
-  (progn
-    (with-eval-after-load 'golden-ratio
-      (dolist (mode '("dired-mode" "occur-mode"))
-        (add-to-list 'golden-ratio-exclude-modes mode)))))
-
 ;; 撤销树
 (use-package undo-tree
   :diminish
   :config
   (global-undo-tree-mode))
 
-;; minibuffer 自动切US
-(use-package sis
-  :config
-  (sis-ism-lazyman-config
-   "com.apple.keylayout.US"
-   "com.apple.inputmethod.SCIM.ITABC")
-  ;; (setq sis-respect-go-english-triggers
-  ;;       (list 'evil-leader/leader) ; isearch-forward 命令时默认进入en
-  ;;       ;;sis-respect-restore-triggers
-  ;;       ;;(list 'isearch-exit 'isearch-abort)
-  ;;       ) ; isearch-forward 恢复, isearch-exit `<Enter>', isearch-abor `C-g'
-  (setq sis-prefix-override-keys '("C-c" "C-x" "C-h" "SPC" ",")) ;; 转英文的前缀
-  ;; ;; enable the /cursor color/ mode
-  ;; (sis-global-cursor-color-mode t)
-  ;; enable the /respect/ mode
-  (sis-global-respect-mode t)
-  ;; enable the /context/ mode for all buffers
-  (sis-global-context-mode t)
-  ;; enable the /inline english/ mode for all buffers
-  (sis-global-inline-mode t))
-
-;; 表格对齐
-(use-package valign
-  :defer t
-  ;; :after (org-mode org-agenda-mode markdown-mode)
-  :init
-  (progn
-    (add-hook 'org-mode-hook #'valign-mode)
-    (add-hook 'org-agenda-mode-hook #'valign-mode)
-    (add-hook 'markdown-mode-hook #'valign-mode)
-    ))
-
-;; multi cursor
-(use-package multiple-cursors
-  :custom
-  (mc/list-file "~/.emacs.d/.cache/.mc-lists.el")
-  :init
-  (progn
-    (bind-key* "C-s-l" 'mc/edit-lines)
-    (bind-key* "C-s-f" 'mc/mark-all-dwim)
-    (bind-key* "C-s-." 'mc/mark-next-like-this)
-    (bind-key* "s-." 'mc/mark-next-like-this)
-    (bind-key* "C-s-," 'mc/mark-previous-like-this)
-    (bind-key* "s->" 'mc/unmark-next-like-this)
-    (bind-key* "s-<" 'mc/unmark-previous-like-this)
-    (bind-key* "C-c C-s-." 'mc/mark-all-like-this)
-
-    ;; http://endlessparentheses.com/multiple-cursors-keybinds.html?source=rss
-    (define-prefix-command 'endless/mc-map)
-    ;; C-x m is usually `compose-mail'. Bind it to something
-    ;; else if you use this command.
-    (define-key ctl-x-map "m" 'endless/mc-map)
-    ;; Really really nice!
-    (define-key endless/mc-map "i" #'mc/insert-numbers)
-    (define-key endless/mc-map "h" #'mc-hide-unmatched-lines-mode)
-    (define-key endless/mc-map "a" #'mc/mark-all-like-this)
-
-    ;; Occasionally useful
-    (define-key endless/mc-map "d" #'mc/mark-all-symbols-like-this-in-defun)
-    (define-key endless/mc-map "r" #'mc/reverse-regions)
-    (define-key endless/mc-map "s" #'mc/sort-regions)
-    (define-key endless/mc-map "l" #'mc/edit-lines)
-    (define-key endless/mc-map "\C-a" #'mc/edit-beginnings-of-lines)
-    (define-key endless/mc-map "\C-e" #'mc/edit-ends-of-lines)
-    )
-  :config
-  (setq mc/cmds-to-run-once
-        '(
-          counsel-M-x
-          idiig/my-mc-mark-next-like-this))
-  ;; (setq mc/cmds-to-run-for-all
-  ;;       '(
-  ;;         electric-newline-and-maybe-indent
-  ;;         hungry-delete-backward
-  ;;         spacemacs/backward-kill-word-or-region
-  ;;         spacemacs/smart-move-beginning-of-line
-  ;;         evil-substitute
-  ;;         lispy-move-beginning-of-line
-  ;;         lispy-move-end-of-line
-  ;;         lispy-space
-  ;;         lispy-delete-backward
-  ;;         evil-exit-visual-state
-  ;;         evil-backward-char
-  ;;         evil-delete-char
-  ;;         evil-escape-emacs-state
-  ;;         evil-escape-insert-state
-  ;;         mwim-beginning-of-code-or-line
-  ;;         mwim-end-of-line-or-code
-  ;;         evil-exit-emacs-state
-  ;;         evil-previous-visual-line
-  ;;         evil-next-visual-line
-  ;;         evil-forward-char
-  ;;         evil-insert
-  ;;         evil-next-line
-  ;;         evil-normal-state
-  ;;         evil-previous-line
-  ;;         evil-append
-  ;;         evil-append-line
-  ;;         forward-sentence
-  ;;         kill-sentence
-  ;;         org-self-insert-command
-  ;;         sp-backward-delete-char
-  ;;         sp-delete-char
-  ;;         sp-remove-active-pair-overlay
-  ;;         orgtbl-hijacker-command-109))
-  )
+;; ;; minibuffer 自动切US
+;; (use-package sis
+;;   :config
+;;   (sis-ism-lazyman-config
+;;    "com.apple.keylayout.US"
+;;    "com.apple.inputmethod.SCIM.ITABC")
+;;   ;; (setq sis-respect-go-english-triggers
+;;   ;;       (list 'evil-leader/leader) ; isearch-forward 命令时默认进入en
+;;   ;;       ;;sis-respect-restore-triggers
+;;   ;;       ;;(list 'isearch-exit 'isearch-abort)
+;;   ;;       ) ; isearch-forward 恢复, isearch-exit `<Enter>', isearch-abor `C-g'
+;;   (setq sis-prefix-override-keys '("C-c" "C-x" "C-h" "SPC" ",")) ;; 转英文的前缀
+;;   ;; ;; enable the /cursor color/ mode
+;;   ;; (sis-global-cursor-color-mode t)
+;;   ;; enable the /respect/ mode
+;;   (sis-global-respect-mode t)
+;;   ;; enable the /context/ mode for all buffers
+;;   (sis-global-context-mode t)
+;;   ;; enable the /inline english/ mode for all buffers
+;;   (sis-global-inline-mode t))
 
 (provide 'idiig-better-default)

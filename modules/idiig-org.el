@@ -755,6 +755,16 @@ See `org-capture-templates' for more information."
   (setq org-appear-autosubmarkers t)
   )
 
+;; 表格对齐
+(use-package valign
+  :defer t
+  :after (org-mode org-agenda-mode markdown-mode)
+  :init
+  (progn
+    (add-hook 'org-mode-hook #'valign-mode)
+    (add-hook 'org-agenda-mode-hook #'valign-mode)
+    (add-hook 'markdown-mode-hook #'valign-mode)))
+
 ;; other after load org
 (use-package org
   :bind (("C-c a" . org-agenda)

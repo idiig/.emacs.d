@@ -1,18 +1,25 @@
 ;; language
 ;; pyim
 (use-package pyim
-  :defer 2
+  :defer t
   :diminish (pyim-isearch-mode)
+  :init
+  ;; 拼音检索字符串
+  (progn
+    (defun eh-orderless-regexp (orig_func component)
+      (call-interactively #'pyim-activate)
+      (call-interactively #'pyim-deactivate)
+      (let ((result (funcall orig_func component)))
+        (pyim-cregexp-build result)))
+    (advice-add 'orderless-regexp :around #'eh-orderless-regexp))
   :config
   (progn
     (setq default-input-method "pyim")
     (setq pyim-dcache-directory "~/.emacs.d/.cache/pyim/dcache/")
     ;; ;; 金手指设置，可以将光标处的编码，比如：拼音字符串，转换为中文。
     ;; (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
-
     ;; 按 "C-<return>" 将光标前的 regexp 转换为可以搜索中文的 regexp.
     (define-key minibuffer-local-map (kbd "C-<return>") 'pyim-cregexp-convert-at-point)
-
     ;; 我使用全拼
     (setq pyim-default-scheme 'quanpin)
     ;; 开启代码搜索中文功能（比如拼音，五笔码等）
@@ -21,18 +28,18 @@
     (if (posframe-workable-p)
         (setq pyim-page-tooltip 'posframe)
       (setq pyim-page-tooltip 'popup))
-
     ;; 显示5个候选词。
     (setq pyim-page-length 5)
     ;; Basedict
     (use-package pyim-basedict
       :config
-      (pyim-basedict-enable))))
+      (pyim-basedict-enable))
+    ))
 
 ;; ddskk
 (use-package ddskk
   :bind (("C-x j" . skk-mode))
-  :defer 2
+  :defer t
   :init
   (progn
     (setq skk-server-prog "/usr/local/bin/google-ime-skk") ; google-ime-skkの場所

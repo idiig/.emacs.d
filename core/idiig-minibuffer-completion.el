@@ -147,7 +147,6 @@
          ("C-c i" . consult-imenu)
          ("C-c o" . consult-file-externally)
          ("C-x p f" . consult-ripgrep)
-         ;; ("C-x b f" . consult-line-mult)
          (:map minibuffer-local-map
                ("C-c h" . consult-history)))
   :init
@@ -207,7 +206,8 @@
     (evil-define-key 'normal wgrep-mode-map ",c" 'wgrep-finish-edit)
     (evil-define-key 'normal wgrep-mode-map ",a" 'wgrep-abort-changes)
     (evil-define-key 'normal wgrep-mode-map ",k" 'wgrep-abort-changes)
-    (evil-define-key 'normal wgrep-mode-map "q" 'wgrep-exit)
+    (evil-define-key 'normal wgrep-mode-map "q" #'(lambda () (interactive) (call-interactively #'wgrep-exit)
+                                                    (call-interactively #'quit-window)))
     (evil-define-key 'normal grep-mode-map "i" 'idiig/wgrep-change-to-wgrep-mode)
     (evil-define-key 'normal grep-mode-map "q" 'quit-window)))
 
