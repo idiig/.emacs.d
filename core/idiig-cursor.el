@@ -108,7 +108,7 @@
   :config
   (setq mc/cmds-to-run-once
         '(
-          counsel-M-x
+          consult-extended-command
           idiig/my-mc-mark-next-like-this))
   ;; (setq mc/cmds-to-run-for-all
   ;;       '(
