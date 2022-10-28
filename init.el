@@ -52,7 +52,8 @@
 (require 'idiig-dired)  ;; 文档操作
 (require 'idiig-minibuffer-completion)  ;; minibuffer
 (require 'idiig-cursor)  ;; 光标操作
-(require 'idiig-auto-complete)  ;; 自动补全
+;; (require 'idiig-auto-complete)  ;; 自动补全
+(require 'idiig-text-completion)  ;; 代码和文本自动补全
 (require 'idiig-global-keybindings)
 
 ;; 导入个别功能
@@ -64,6 +65,7 @@
 (require 'idiig-tex)
 (require 'idiig-python)
 (require 'idiig-ess)
+(require 'idiig-text-checker)
 
 ;; custom文件
 (setq custom-file (expand-file-name "custom.el" idiig-core-dir))
