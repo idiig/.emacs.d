@@ -238,26 +238,26 @@ Each headline tagged \"ignore\" will be removed retaining its
 contents and promoting any children headlines to the level of the
 parent."
   (org-element-map data 'headline
-                   (lambda (object)
-                     (when (member "ignore" (org-element-property :tags object))
-                       (let ((level-top (org-element-property :level object))
-                             level-diff)
-                         (mapc (lambda (el)
-                                 ;; recursively promote all nested headlines
-                                 (org-element-map el 'headline
-                                                  (lambda (el)
-                                                    (when (equal 'headline (org-element-type el))
-                                                      (unless level-diff
-                                                        (setq level-diff (- (org-element-property :level el)
-                                                                            level-top)))
-                                                      (org-element-put-property el
-                                                                                :level (- (org-element-property :level el)
-                                                                                          level-diff)))))
-                                 ;; insert back into parse tree
-                                 (org-element-insert-before el object))
-                               (org-element-contents object)))
-                       (org-element-extract-element object)))
-                   info nil)
+    (lambda (object)
+      (when (member "ignore" (org-element-property :tags object))
+        (let ((level-top (org-element-property :level object))
+              level-diff)
+          (mapc (lambda (el)
+                  ;; recursively promote all nested headlines
+                  (org-element-map el 'headline
+                    (lambda (el)
+                      (when (equal 'headline (org-element-type el))
+                        (unless level-diff
+                          (setq level-diff (- (org-element-property :level el)
+                                              level-top)))
+                        (org-element-put-property el
+                                                  :level (- (org-element-property :level el)
+                                                            level-diff)))))
+                  ;; insert back into parse tree
+                  (org-element-insert-before el object))
+                (org-element-contents object)))
+        (org-element-extract-element object)))
+    info nil)
   data)
 
 (add-hook 'org-export-filter-parse-tree-functions 'org-export-ignore-headlines)
@@ -741,6 +741,20 @@ See `org-capture-templates' for more information."
             (:cache . "yes")
             ))))
 
+;; automatic latex preview
+(use-package org-fragtog
+  :defer t
+  :after org)
+
+;; Automatically disaply emphasis markers and links when the cursor is on them.
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :init
+  (setq org-appear-autoemphasis  t)
+  (setq org-appear-autolinks t)
+  (setq org-appear-autosubmarkers t)
+  )
+
 ;; other after load org
 (use-package org
   :bind (("C-c a" . org-agenda)
@@ -754,7 +768,6 @@ See `org-capture-templates' for more information."
   (define-key global-map "\C-cc" 'org-capture)
   :config
   (progn
-
     (require 'org-compat)
     (require 'org)
     (add-to-list 'org-modules 'org-habit)
