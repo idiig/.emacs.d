@@ -151,14 +151,22 @@
          (:map minibuffer-local-map
                ("C-c h" . consult-history)))
   :init
-  (defun idiig/consult-region-or-symbol ()
-    "consult当前字符或选中区域."
+  (defun idiig/consult-buffer-region-or-symbol ()
+    "consult-line当前字符或选中区域."
     (interactive)
     (let ((input (if (region-active-p)
                      (buffer-substring-no-properties
                       (region-beginning) (region-end))
                    (thing-at-point 'symbol t))))
       (consult-line input)))
+  (defun idiig/consult-project-region-or-symbol (&optional default-inputp)
+    "consult-ripgrep 当前字符或选中区域."
+    (interactive)
+    (let ((input (if (region-active-p)
+                     (buffer-substring-no-properties
+                      (region-beginning) (region-end))
+                   (thing-at-point 'symbol t))))
+      (consult-ripgrep default-inputp input)))
   :config
   (progn
     ;; C-s C-s 检索历史记录
@@ -177,27 +185,33 @@
        (lambda (str) (orderless--highlight input str))))
     ))
 
+;; embark-export弹出occur和grep mode的buffer
 (use-package embark-consult
   :after (embark consult)
   :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
 
-
 ;; grep搜索+集体修改
 (use-package wgrep
   :after embark-consult
-  :bind (:map grep-mode-map ("i" . idiig/wgrep-change-to-wgrep-mode))
+  :bind ((:map grep-mode-map ("i" . idiig/wgrep-change-to-wgrep-mode))
+         (:map wgrep-mode-map ("C-c C-c" . wgrep-save-all-buffers)))
   :init
-  (defun idiig/wgrep-change-to-wgrep-mode ()
-    (interactive)
-    (wgrep-change-to-wgrep-mode)
-    (evil-normal-state))
+  (progn
+    (defun idiig/wgrep-change-to-wgrep-mode ()
+      (interactive)
+      (wgrep-change-to-wgrep-mode)
+      (evil-normal-state)))
   :config
-  (evil-define-key 'motion wgrep-mode-map ",," 'wgrep-finish-edit)
-  (evil-define-key 'motion wgrep-mode-map ",c" 'wgrep-finish-edit)
-  (evil-define-key 'motion wgrep-mode-map ",a" 'wgrep-abort-changes)
-  (evil-define-key 'motion wgrep-mode-map ",k" 'wgrep-abort-changes)
-  (evil-define-key 'normal wgrep-mode-map "q" 'quit-window))
+  (progn
+    (evil-define-key 'normal wgrep-mode-map ",," 'wgrep-finish-edit)
+    (evil-define-key 'normal wgrep-mode-map ",c" 'wgrep-finish-edit)
+    (evil-define-key 'normal wgrep-mode-map ",a" 'wgrep-abort-changes)
+    (evil-define-key 'normal wgrep-mode-map ",k" 'wgrep-abort-changes)
+    (evil-define-key 'normal wgrep-mode-map "q" 'wgrep-exit)
+    (evil-define-key 'normal grep-mode-map "i" 'idiig/wgrep-change-to-wgrep-mode)
+    (evil-define-key 'normal grep-mode-map "q" 'quit-window)))
 
+;; occur 调整
 (use-package emacs
   :bind (:map occur-mode-map ("i" . idiig/line-change-to-occur-mode))
   :init

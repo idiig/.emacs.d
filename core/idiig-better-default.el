@@ -481,7 +481,7 @@ current frame."
           (cl-pushnew
            '("/" (lambda ()
                    (call-interactively
-                    'idiig/helm-project-smart-do-search-region-or-symbol)))
+                    'idiig/consult-project-region-or-symbol)))
            new-bindings)
           (cl-pushnew
            '("f" (lambda ()
