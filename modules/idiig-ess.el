@@ -14,7 +14,7 @@
              Rd-mode
              ess-bugs-mode
              ess-jags-mode)
-  :defer 3
+  :defer t
   :mode (("\\.sp\\'"           . S-mode)
          ("/R/.*\\.q\\'"       . R-mode)
          ("\\.[qsS]\\'"        . S-mode)
@@ -44,7 +44,7 @@
          ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
          ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode))
   ;; :commands (R stata julia SAS)
-  :init
+  :config
   (progn
     (require 'ess-site)
     (idiig/register-repl 'ess-site 'julia)
