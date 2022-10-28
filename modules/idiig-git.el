@@ -61,6 +61,16 @@
   :diminish (with-editor-mode)
   :init
   (progn
+    ;; 使magit-status全屏弹出，q关闭窗口
+    ;; http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
+    ;; and http://irreal.org/blog/?p=2253
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+    (defadvice magit-quit-window (after magit-restore-screen activate)
+      (jump-to-register :magit-fullscreen))
+    ;;
     (setq magit-completing-read-function 'magit-builtin-completing-read)
     (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
     ;; key bindings
@@ -98,6 +108,13 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
       )
     :config
     (progn
+      ;; Speeding up magit
+      (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+      (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+      (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+      (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+      (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+      (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
       ;; set repositories
       (setq magit-repository-directories
             '(("~/Nutstore/works/" . 2)
@@ -125,26 +142,19 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
       ;; whitespace
       (define-key magit-status-mode-map (kbd "C-S-w")
         'idiig/magit-toggle-whitespace)
-      ;; full screen magit-status
-      ;; (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
       ;; Workaround for #12747 - org-mode
       (evil-define-key 'normal magit-blame-read-only-mode-map (kbd "RET") 'magit-show-commit))))
-
-;; ;; gitignore
-;; (use-package helm-gitignore
-;;   :defer t
-;;   :init (evil-leader/set-key "gI" 'helm-gitignore))
 
 ;; (use-package gitconfig-mode
 ;;   :defer t)
 
-;; (use-package gitignore-templates
-;;   :defer t
-;;   :init
-;;   (evil-leader/set-key-for-mode 'gitignore-mode
-;;     "i" 'gitignore-templates-insert)
-;;   (evil-leader/set-key
-;;     "gfi" 'gitignore-templates-new-file))
+(use-package gitignore-templates
+  :defer t
+  :init
+  (evil-leader/set-key-for-mode 'gitignore-mode
+    "i" 'gitignore-templates-insert)
+  (evil-leader/set-key
+    "gfi" 'gitignore-templates-new-file))
 
 ;; git with org
 (use-package orgit
