@@ -44,28 +44,14 @@
 (use-package diminish) ;; 关闭一些mode提示
 (use-package bind-map)  ;; bind-map
 
-;; Configure use-package to use straight.el by default
-;; (defvar bootstrap-version)
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 6))
-;;   (unless (file-exists-p bootstrap-file)
-;;     (with-current-buffer
-;;         (url-retrieve-synchronously
-;;          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-;;          'silent 'inhibit-cookies)
-;;       (goto-char (point-max))
-;;       (eval-print-last-sexp)))
-;;   (load bootstrap-file nil 'nomessage))
-
 ;; 导入核心功能
 (require 'idiig-ui)
 (require 'idiig-evil)  ;; Vim特性
 (require 'idiig-better-default)
-(require 'idiig-helm-ag)  ;; 项目检索
+;; (require 'idiig-helm-ag)  ;; 项目检索
 (require 'idiig-dired)  ;; 文档操作
-;; (require 'idiig-better-search)  ;; 项目，文档检索和管理
 (require 'idiig-minibuffer-completion)  ;; minibuffer
+(require 'idiig-cursor)  ;; 光标操作
 (require 'idiig-auto-complete)  ;; 自动补全
 (require 'idiig-global-keybindings)
 
