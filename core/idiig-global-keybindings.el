@@ -1,17 +1,29 @@
-;; WhichKeyの古い関数をSpacemacsで使っている
-;; https://note.com/5mingame2/n/n2e2872ad1384
-(defalias 'which-key-declare-prefixes 'which-key-add-key-based-replacements)
-(make-obsolete 'which-key-declare-prefixes
-              'which-key-add-key-based-replacements
-              "2016-10-05")
-(defalias 'which-key-declare-prefixes-for-mode
- 'which-key-add-major-mode-key-based-replacements)
-(make-obsolete 'which-key-declare-prefixes-for-mode
-              'which-key-add-major-mode-key-based-replacements
-              "2016-10-05")
+;; global set key
+(global-set-key (kbd "C-x C-f") 'find-file)
+(global-set-key (kbd "C-x C-r") 'recent-open-file)
+(global-set-key (kbd "C-h f") 'describe-function)
+(global-set-key (kbd "C-h v") 'describe-variable)
+(global-set-key (kbd "C-h C-f") 'find-function)
+(global-set-key (kbd "C-h C-v") 'find-variable)
+(global-set-key (kbd "C-h C-k") 'find-function-on-key)
+(global-set-key (kbd "C-s-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-'") 'avy-goto-char-2)
+(global-set-key (kbd "C-M-/") 'fci-mode)  ;; 80字提示线
+(bind-key* "C-c k" 'which-key-show-top-level)  ;; which-key top level
+(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line) ;; 跳到代码最前
+(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)  ;; 跳到代码最后
+(global-set-key (kbd "C-=") 'er/expand-region) ;; 扩大选取
+(global-set-key (kbd "C--") 'er/contract-region)  ;; 缩小选取
 
-;; bind-map
-(use-package bind-map)
+;; 自定义功能 
+(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)  ;; 全局自动缩进
+(global-set-key (kbd "C-M-¥") 'indent-region-or-buffer)  ;; 全局自动缩进
+;; (global-set-key (kbd "C-c C-e") 'occur-dwim)  
+(global-set-key (kbd "C-w") 'backward-kill-word-or-region);; 删除word 
+(bind-key* "C-." 'idiig/insert-space-after-point) ;; 点后插入空白
+(global-set-key [(shift return)] 'idiig/smart-open-line) ;; 行末尾加白行
+(bind-key* "M--" 'idiig/goto-match-paren)  ;; 到匹配括号
+(global-set-key (kbd "<f5>") 'idiig/run-current-file)  ;; 跑程序
 
 ;; hydra-buffer
 (defhydra hydra-buffer (:color red
@@ -33,6 +45,18 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
   ("2" winum-select-window-2)
   ("3" winum-select-window-3)
   ("4" winum-select-window-4))
+
+;; WhichKeyの古い関数をSpacemacsで使っている
+;; https://note.com/5mingame2/n/n2e2872ad1384
+(defalias 'which-key-declare-prefixes 'which-key-add-key-based-replacements)
+(make-obsolete 'which-key-declare-prefixes
+              'which-key-add-key-based-replacements
+              "2016-10-05")
+(defalias 'which-key-declare-prefixes-for-mode
+ 'which-key-add-major-mode-key-based-replacements)
+(make-obsolete 'which-key-declare-prefixes-for-mode
+              'which-key-add-major-mode-key-based-replacements
+              "2016-10-05")
 
 ;; 提示快捷键
 (which-key-declare-prefixes "SPC SPC" "M-x")
@@ -63,43 +87,6 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
 (which-key-declare-prefixes "C-SPC of" "feeds")
 (which-key-declare-prefixes "C-SPC oC" "org-clocks")
 
-;; global set key
-(global-set-key (kbd "C-s") 'swiper) 
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;; (global-set-key (kbd "C-c p f") 'counsel-git)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
-(global-set-key (kbd "C-h C-f") 'find-function)
-(global-set-key (kbd "C-h C-v") 'find-variable)
-(global-set-key (kbd "C-h C-k") 'find-function-on-key)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-s-'") 'avy-goto-char-2)
-(global-set-key (kbd "M-'") 'avy-goto-char-2)
-(global-set-key (kbd "C-M-/") 'fci-mode)  ;; 80字提示线
-(bind-key* "C-c k" 'which-key-show-top-level)  ;; which-key top level
-(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line) ;; 跳到代码最前
-(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)  ;; 跳到代码最后
-(global-set-key (kbd "C-=") 'er/expand-region) ;; 扩大选取
-(global-set-key (kbd "C--") 'er/contract-region)  ;; 缩小选取
-
-;; 自定义功能 
-(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)  ;; 全局自动缩进
-(global-set-key (kbd "C-M-¥") 'indent-region-or-buffer)  ;; 全局自动缩进
-(global-set-key (kbd "C-c C-e") 'occur-dwim)  
-(global-set-key (kbd "C-w") 'backward-kill-word-or-region);; 删除word 
-(bind-key* "C-." 'idiig/insert-space-after-point) ;; 点后插入空白
-(bind-key* "M-u" 'dakra-upcase-dwim)  ;; 全域大写
-(bind-key* "M-l" 'dakra-downcase-dwim)  ;; 全域小写
-(bind-key* "M-c" 'dakra-capitalize-dwim)  ;; 全域首字大写
-(global-set-key [(shift return)] 'idiig/smart-open-line) ;; 行末尾加白行
-(bind-key* "M--" 'idiig/goto-match-paren)  ;; 到匹配括号
-(global-set-key (kbd "s-l") 'goto-line)  ;; 选取转跳行
-(global-set-key (kbd "<f5>") 'idiig/run-current-file)  ;; 跑程序
-
 ;; 激活leader-key
 (use-package general :ensure t)
 (general-define-key
@@ -108,16 +95,15 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
  :non-normal-prefix "C-SPC"
  "" nil
  ;; (evil-leader/set-key ;; instead by general-define-key
- "<SPC>" 'counsel-M-x
+ "<SPC>" 'execute-extended-command
  "TAB" 'idiig/alternate-buffer
  ;;---file
- "ff" 'counsel-find-file
- "fr" 'counsel-recentf
+ "ff" 'find-file  ;; Use consult
+ "fr" 'consult-recent-file
  "fD" 'delete-current-buffer-file
  ;;---buffer
- "bb" 'ivy-switch-buffer
+ "bb" 'switch-to-buffer ;;consult-buffer
  "bd" 'kill-this-buffer
- "bi" 'ibuffer
  "be" 'eval-buffer
  "bp" 'hydra-buffer/previous-buffer
  "bn" 'hydra-buffer/next-buffer
@@ -153,30 +139,15 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
  "jb" 'avy-pop-mark
  "jj" 'evil-avy-goto-char-timer
  "jl" 'evil-avy-goto-line
- "ju" 'idiig/avy-goto-url
- "jU" 'idiig/avy-open-url
+ ;; "ju" 'idiig/avy-goto-url
  "jw" 'evil-avy-goto-word-or-subword-1
- "jo" 'idiig/avy-open-url
+ ;; "jo" 'idiig/avy-open-url
  ;;---search and edit
- "ss" 'idiig/swiper-region-or-symbol
- "se" 'evil-iedit-state/iedit-mode  ;; 同时编辑
- ;;---search with helm: opened buffers scope
- "sb"  'idiig/helm-buffers-smart-do-search
- "sB"  'idiig/helm-buffers-smart-do-search-region-or-symbol
- "sab" 'helm-do-ag-buffers
- "saB" 'idiig/helm-buffers-do-ag-region-or-symbol
- ;;---search with helm: files scope
- "sf"  'idiig/helm-files-smart-do-search
- "sF"  'idiig/helm-files-smart-do-search-region-or-symbol
- "saf" 'helm-do-ag
- "saF" 'idiig/helm-files-do-ag-region-or-symbol
- ;;---search with helm: current project scope
- "/"   'idiig/helm-project-smart-do-search
- "*"   'idiig/helm-project-smart-do-search-region-or-symbol
- "sp"  'idiig/helm-project-smart-do-search
- "sP"  'idiig/helm-project-smart-do-search-region-or-symbol
- "sap" 'idiig/helm-project-do-ag
- "saP" 'idiig/helm-project-do-ag-region-or-symbol
+ "ss" 'idiig/consult-buffer-region-or-symbol
+ "/"   'consult-ripgrep
+ "*"   'idiig/consult-project-region-or-symbol
+ "sp"  'consult-ripgrep
+ "sP"  'idiig/consult-project-region-or-symbol
  ;;---org global
  ;; Add global evil-leader mappings. Used to access org-agenda
  ;; functionalities – and a few others commands – from any other mode.

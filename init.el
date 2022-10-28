@@ -42,6 +42,8 @@
 ;; use-package的附加
 (use-package quelpa-use-package) ;; 如果melpa里没有包从github下载
 (use-package diminish) ;; 关闭一些mode提示
+(use-package bind-map)  ;; bind-map
+
 ;; Configure use-package to use straight.el by default
 ;; (defvar bootstrap-version)
 ;; (let ((bootstrap-file
