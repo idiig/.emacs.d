@@ -97,7 +97,7 @@
 
     (define-key evil-normal-state-map (kbd "[ b") 'previous-buffer)
     (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
-    (define-key evil-normal-state-map (kbd "M-y") 'counsel-yank-pop)
+    (define-key evil-normal-state-map (kbd "M-y") 'consult-yank-pop)
 
     (define-key evil-insert-state-map "\C-e" 'end-of-line)
     (define-key evil-insert-state-map "\C-n" 'next-line)
