@@ -141,27 +141,11 @@ open and unsaved."
     (evil-define-key 'normal dired-mode-map "g" 'revert-buffer)
     (evil-define-key 'normal dired-mode-map "z" 'dired-get-size)
     (evil-define-key 'normal dired-mode-map "c" 'dired-copy-file-here)
-    (evil-define-key 'normal dired-mode-map "J" 'counsel-find-file)
+    (evil-define-key 'normal dired-mode-map "J" 'find-file)
     ;; (evil-define-key 'normal dired-mode-map "f" 'idiig/open-file-with-projectile-or-counsel-git)
     (evil-define-key 'normal dired-mode-map ")" 'dired-omit-mode)
     (evil-define-key 'normal dired-mode-map "q" 'quit-window)
     (defvar dired-filelist-cmd
       '(("vlc" "-L")))))
-
-;; 搜索+集体修改
-(use-package wgrep
-  :init
-  (evil-define-key 'motion wgrep-mode-map ",," 'wgrep-finish-edit)
-  (evil-define-key 'motion wgrep-mode-map ",c" 'wgrep-finish-edit)
-  (evil-define-key 'motion wgrep-mode-map ",a" 'wgrep-abort-changes)
-  (evil-define-key 'motion wgrep-mode-map ",k" 'wgrep-abort-changes)
-
-  (defun idiig/ivy-wgrep-change-to-wgrep-mode ()
-    (interactive)
-    (ivy-wgrep-change-to-wgrep-mode)
-    (evil-normal-state))
-  
-  :config
-  (setq wgrep-enable-key "e"))
 
 (provide 'idiig-dired)
