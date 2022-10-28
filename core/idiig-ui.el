@@ -26,7 +26,7 @@
     (global-hl-line-highlight)))
 (setq global-hl-line-timer
       ;; 30s后高亮所在行
-      (run-with-idle-timer 10.00 t 'global-hl-line-timer-function))
+      (run-with-idle-timer 90.00 t 'global-hl-line-timer-function))
 ;; (cancel-timer global-hl-line-timer)
 
 ;; Theme
