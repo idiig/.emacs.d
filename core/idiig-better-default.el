@@ -50,7 +50,7 @@
 ;; 最近打开记录设置
 (use-package recentf
   :defer t
-  :commands (recentf-open-files counsel-recentf)
+  :commands (recentf-open-files consult-recent-file)
   :init
   (setq recentf-save-file (expand-file-name "recentf" idiig-cache-dir)
         recentf-max-saved-items 500
