@@ -220,16 +220,6 @@
                              (local-set-key (kbd "C-c i s")
                                             'idiig/org-insert-src-block)))
 
-;; ispell不检查部分
-(defun idiig/org-ispell ()
-  "Configure `ispell-skip-region-alist' for `org-mode'."
-  (make-local-variable 'ispell-skip-region-alist)
-  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
-  (add-to-list 'ispell-skip-region-alist '("~" "~"))
-  (add-to-list 'ispell-skip-region-alist '("=" "="))
-  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
-(add-hook 'org-mode-hook #'idiig/org-ispell)
-
 ;; During export headlines which have the "ignore" tag are removed
 ;; from the parse tree. 
 (defun org-export-ignore-headlines (data backend info)
