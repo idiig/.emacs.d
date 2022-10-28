@@ -151,7 +151,7 @@ If `both', binds lightweight navigation functions under `SPC m g' and lsp-ui fun
 
 ;; LSP
 (use-package lsp-mode
-  :defer 3
+  :defer t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -244,82 +244,8 @@ If `both', binds lightweight navigation functions under `SPC m g' and lsp-ui fun
                   (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face))
                   (set-face-background 'lsp-ui-doc-background (face-background 'tooltip))))
       )
-
-    ;; ;; lsp-ivy for icons
-    ;; (use-package lsp-ivy
-    ;;   :commands lsp-ivy-workspace-symbol
-    ;;   )
-    
-    ;; lsp-treemacs
-    (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-    ;; optionally if you want to use debugger
-    (use-package dap-mode)
-    ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-
-    ;; flymake: error check
-    (use-package flymake-posframe
-      ;; :ensure nil
-      :load-path "~/.emacs.d/dependencies/"
-      ;; :after posframe
-      :custom
-      (flymake-posframe-error-prefix "!! ")
-      :hook (flymake-mode . flymake-posframe-mode))
-
-    ;; (use-package flymake-diagnostic-at-point
-    ;;   ;; :disabled
-    ;;   ;; :after flymake
-    ;;   :custom
-    ;;   (flymake-diagnostic-at-point-timer-delay 0.1)
-    ;;   (flymake-diagnostic-at-point-error-prefix "!! ")
-    ;;   (flymake-diagnostic-at-point-display-diagnostic-function 'flymake-diagnostic-at-point-display-minibuffer) ;; or flymake-diagnostic-at-point-display-popup
-    ;;   :hook
-    ;;   (flymake-mode . flymake-diagnostic-at-point-mode))
     )
   )
-
-
-;; ivy integration
-;; (defun idiig//lsp-avy-document-symbol (all)
-;;   (interactive)
-;;   (let ((line 0) (col 0) (w (selected-window))
-;;         (ccls (and (memq major-mode '(c-mode c++-mode objc-mode)) (eq c-c++-backend 'lsp-ccls)))
-;;         (start-line (1- (line-number-at-pos (window-start))))
-;;         (end-line (1- (line-number-at-pos (window-end))))
-;;         ranges point0 point1
-;;         candidates)
-;;     (save-excursion
-;;       (goto-char 1)
-;;       (cl-loop for loc in
-;;                (lsp--send-request
-;;                 (lsp--make-request
-;;                  "textDocument/documentSymbol"
-;;                  `(:textDocument ,(lsp--text-document-identifier)
-;;                                  :all ,(if all t :json-false)
-;;                                  :startLine ,start-line :endLine ,end-line)))
-;;                for range = (if ccls
-;;                                loc
-;;                              (->> loc (gethash "location") (gethash "range")))
-;;                for range_start = (gethash "start" range)
-;;                for range_end = (gethash "end" range)
-;;                for l0 = (gethash "line" range_start)
-;;                for c0 = (gethash "character" range_start)
-;;                for l1 = (gethash "line" range_end)
-;;                for c1 = (gethash "character" range_end)
-;;                while (<= l0 end-line)
-;;                when (>= l0 start-line)
-;;                do
-;;                (forward-line (- l0 line))
-;;                (forward-char c0)
-;;                (setq point0 (point))
-;;                (forward-line (- l1 l0))
-;;                (forward-char c1)
-;;                (setq point1 (point))
-;;                (setq line l1 col c1)
-;;                (push `((,point0 . ,point1) . ,w) candidates)))
-;;     (avy-with avy-document-symbol
-;;               (avy--process candidates
-;;                             (avy--style-fn avy-style)))))
 
 (defun idiig/lsp-avy-goto-word ()
   (interactive)
