@@ -182,7 +182,19 @@
       (cons
        (mapcar (lambda (r) (consult--convert-regexp r type)) input)
        (lambda (str) (orderless--highlight input str))))
-    ))
+    ;; 表示的buffer种类
+    (defcustom consult-buffer-sources
+      '(consult--source-hidden-buffer
+        consult--source-buffer
+        consult--source-file
+        consult--source-bookmark
+        consult--source-project-buffer
+        consult--source-project-file)
+      "Sources used by `consult-buffer'. See `consult--multi' for a description of the source values."
+      :type '(repeat symbol))
+    ;; ？提示检索buffer类型；f<SPC>=file, p<SPC>=project, etc..
+    (define-key consult-narrow-map
+      (vconcat consult-narrow-key "?") #'consult-narrow-help)))
 
 ;; embark-export弹出occur和grep mode的buffer
 (use-package embark-consult
