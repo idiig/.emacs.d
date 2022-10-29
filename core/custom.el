@@ -15,7 +15,7 @@
  '(org-export-with-sub-superscripts '{})
  '(org-roam-db-location "/Users/idiig/Nutstore/org-files/org-roam.db")
  '(package-selected-packages
-   '(ess org-appear org-fragtog embark-consult selectrum consult embark marginalia orderless straight websocket ivy-bibtex helm-gitignore git-modes dockerfile-mode nxml-mode magic-latex-buffer company-reftex company-auctex auctex-latexmk auctex tex org-roam-bibtex valign sky-color-clock org-journal org-roam pyim-basedict org-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish counsel company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete))
+   '(migemo consult-yasnippet corfu lsp-grammarly ess org-appear org-fragtog embark-consult consult embark marginalia orderless websocket ivy-bibtex helm-gitignore git-modes dockerfile-mode nxml-mode magic-latex-buffer company-reftex company-auctex auctex-latexmk auctex tex org-roam-bibtex valign sky-color-clock org-journal org-roam pyim-basedict org-contrib noflet multiple-cursors org-sticky-header git-timemachine git-messenger git-link smeargle orgit gitignore-templates gitconfig-mode flymake-diagnostic-at-point flymake-posframe appt evil-org ox-hugo org-pomodoro ox-reveal doom-modeline company-lsp lsp-ui dap-mode lsp-treemacs lsp-ivy yapfify pytest python-mode pyvenv org-ref cdlatex window-numbering which-key wgrep use-package unfill smartparens popwin mwim mozc-popup ivy-prescient iedit hungry-delete highlight-parentheses fuzzy expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-leader elpy ein diminish company-statistics company-quickhelp company-fuzzy auto-yasnippet auto-complete))
  '(skk-kutouten-type 'en)
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
@@ -23,6 +23,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Info-quoted ((t (:inherit fixed-pitch))))
+ '(fixed-pitch ((t (:family "SF Mono" :height 1.0))))
  '(lsp-ui-doc-background ((t (:background "#eaeaea"))))
  '(lsp-ui-doc-header ((t (:background "#808075" :foreground "white"))))
  '(org-agenda-date ((t (:foreground "#1662AF" :weight bold :height 1))))
@@ -32,3 +34,22 @@
  '(org-document-title ((t (:foreground "#000000" :weight bold :height 1.1))))
  '(org-level-1 ((t (:extend nil :background "#F0F0F0" :foreground "#3C3C3C" :overline "#A7A7A7" :weight bold :height 1.2))))
  '(pyim-page ((t (:inherit default :background "#808075" :foreground "white")))))
+;; (custom-theme-set-faces
+;;  'user
+;;  '(fixed-pitch ((t (:family "Sarasa Mono SC Nerd" :height 1.0))))
+;;  '(variable-pitch ((t (:family "Minion Pro" :height 1.0))))
+;;  '(mode-line ((t (:inherit variable-pitch :height 1.0))))
+;;  '(mode-line-inactive ((t (:inherit variable-pitch :height 1.0))))
+;;  ;; 下面是可选的，如果需要在 org-mode启用
+;;  '(Info-quoted ((t (:inherit fixed-pitch))))
+;;  '(org-block ((t (:inherit fixed-pitch))))
+;;  '(org-code ((t (:inherit (shadow fixed-pitch)))))
+;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
+;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+;;  '(org-table ((t (:inherit fixed-pitch))))
+;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1.0))))
+;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+;;  )
