@@ -42,14 +42,16 @@
 
 ;; Orderless：提供补全格式选择
 (use-package orderless
-  :after consult
+  :after (consult)
   :config
+  (setq search-default-mode nil)
   (defvar +orderless-dispatch-alist
     '((?% . char-fold-to-regexp)
       (?! . orderless-without-literal)
       (?`. orderless-initialism)
       (?= . orderless-literal)
-      (?~ . orderless-flex)))
+      (?~ . orderless-flex)
+      ))
 
   (defun +orderless--suffix-regexp ()
     (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
@@ -82,10 +84,14 @@
           (cons (cdr x) (substring word 1))
         (when-let (x (assq (aref word (1- (length word))) +orderless-dispatch-alist))
           (cons (cdr x) (substring word 0 -1)))))))
-  ;; Define orderless style with initialism by default
+  
+  ;; Define orderless style with initialism by default ; add migemo feature for japanese
   (orderless-define-completion-style +orderless-with-initialism
-    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
-
+    (orderless-matching-styles '(orderless-initialism
+                                 orderless-literal
+                                 orderless-regexp
+                                 )))
+  
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         ;;; Enable partial-completion for files.
@@ -94,6 +100,8 @@
         ;;; but rather prepended to the default completion-styles.
         ;; completion-category-overrides '((file (styles orderless partial-completion))) ;; orderless is tried first
         completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
+                                        (buffer (styles +orderless-with-initialism))
+                                        (consult-location (styles +orderless-with-initialism))
                                         ;; enable initialism by default for symbols
                                         (command (styles +orderless-with-initialism))
                                         (variable (styles +orderless-with-initialism))
@@ -133,6 +141,8 @@
                    (window-parameters (mode-line-format . none))))
     ;; 设定embark-collect-mode
     (evil-set-initial-state 'embark-collect-mode 'normal)
+    ;; help-key
+    ;; (embark-help-key "?")
     ))
 
 (use-package consult
@@ -143,6 +153,7 @@
          ([remap find-file] . find-file)
          ([remap open-recent-file] . consult-recent-file)
          ([remap evil-yank] . consult-yank-pop)
+         ("C-c f" . consult-find)
          ("C-s" . consult-line)
          ("C-c i" . consult-imenu)
          ("C-c o" . consult-file-externally)
