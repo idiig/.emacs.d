@@ -2,16 +2,17 @@
 ;; pyim
 (use-package pyim
   :defer t
+  :after (orderless)
   :diminish (pyim-isearch-mode)
   :init
   ;; 拼音检索字符串
   (progn
-    (defun eh-orderless-regexp (orig_func component)
+    (defun zh-orderless-regexp (orig_func component)
       (call-interactively #'pyim-activate)
       (call-interactively #'pyim-deactivate)
       (let ((result (funcall orig_func component)))
         (pyim-cregexp-build result)))
-    (advice-add 'orderless-regexp :around #'eh-orderless-regexp))
+    (advice-add 'orderless-regexp :around #'zh-orderless-regexp))
   :config
   (progn
     (setq default-input-method "pyim")
@@ -66,13 +67,23 @@
               (lambda ()
                 (require 'context-skk)))
 
-    ;; isearch
-    (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup) ; isearch で skk のセットアップ
-    (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup) ; isearch で skk のクリーンアップ
-    (setq skk-isearch-start-mode 'latin) ; isearch で skk の初期状態
-
     ;; カタカナを変換候補に入れる
     (setq skk-search-katakana 'jisx0201-kana)))
 
+;; (use-package migemo
+;;   :init
+;;   (defun jp-orderless-regexp (orig_func component)
+;;       (let ((result (funcall orig_func component)))
+;;         (migemo-get-pattern result)))
+;;   (advice-add 'orderless-regexp :around #'jp-orderless-regexp)
+;;   :config
+;;   (setq migemo-directory "/opt/homebrew/bin/cmigemo/utf-8/migemo-dict")
+;;   (setq migemo-command (executable-find "cmigemo"))
+;;   (setq migemo-options '("-q" "--emacs" "--nonewline"))
+;;   (setq migemo-coding-system 'utf-8-unix) ;; この指定が極めて重要
+;;   (setq migemo-user-dictionary nil)
+;;   (setq migemo-regex-dictionary nil)
+;;   (migemo-init)
+;;   )
 
 (provide 'idiig-cjk)
