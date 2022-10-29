@@ -91,4 +91,11 @@
   :after (consult corfu)
   :bind ("C-c y" . consult-yasnippet))
 
+;; 英语补全
+(use-package corfu-english-helper
+  :after corfu
+  :defer t
+  :load-path "~/.emacs.d/dependencies/corfu-english-helper/"
+  :commands toggle-corfu-english-helper)
+
 (provide 'idiig-text-completion)
