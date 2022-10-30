@@ -30,25 +30,25 @@
 ;; (cancel-timer global-hl-line-timer)
 
 ;; Theme
-;; (load-theme 'leuven t)
-(use-package parchment-theme
-  :config (load-theme 'parchment t))
+(load-theme 'leuven t)
+;; (use-package parchment-theme
+;;   :config (load-theme 'parchment t))
 
-;; mode-line
-(use-package doom-modeline
-  :custom
-  (doom-modeline-env-version nil)
-  (doom-modeline-buffer-file-name-style 'buffer-name)
-  (doom-modeline-icon nil)
-  (doom-modeline-major-mode-icon nil)
-  (doom-modeline-minor-modes nil)
-  (doom-modeline-project-detection 'project)
-  (doom-modeline-workspace-name nil)
-  :config
-  (progn
-    (doom-modeline-mode 1)
-    (line-number-mode 1)
-    (column-number-mode 0)))
+;; ;; mode-line
+;; (use-package doom-modeline
+;;   :custom
+;;   (doom-modeline-env-version nil)
+;;   (doom-modeline-buffer-file-name-style 'buffer-name)
+;;   (doom-modeline-icon nil)
+;;   (doom-modeline-major-mode-icon nil)
+;;   (doom-modeline-minor-modes nil)
+;;   (doom-modeline-project-detection 'project)
+;;   (doom-modeline-workspace-name nil)
+;;   :config
+;;   (progn
+;;     (doom-modeline-mode 1)
+;;     (line-number-mode 1)
+;;     (column-number-mode 0)))
 
 ;; 字体调整
 (cond ((display-graphic-p) ;; 避免终端打开时字体错误
@@ -111,15 +111,6 @@
   :diminish
   :defer t
   :hook (prog-mode . rainbow-mode))
-
-;; 弹窗比例
-(use-package golden-ratio
-  :defer t
-  :init
-  (progn
-    (with-eval-after-load 'golden-ratio
-      (dolist (mode '("dired-mode" "occur-mode" "grep-mode"))
-        (add-to-list 'golden-ratio-exclude-modes mode)))))
 
 ;; 80字数提示线
 (use-package fill-column-indicator
