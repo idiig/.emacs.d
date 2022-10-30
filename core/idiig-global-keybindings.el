@@ -37,14 +37,10 @@ buffer: _n_ext  _p_rivious"
 (defhydra hydra-window (:color red
                                :hint nil)
   "
-window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
+window: _[_:shrink _]_:enlarge _=_:balance"
   ("[" idiig/shrink-window-horizontally)
   ("]" idiig/enlarge-window-horizontally)
-  ("=" balance-windows-area)
-  ("1" winum-select-window-1)
-  ("2" winum-select-window-2)
-  ("3" winum-select-window-3)
-  ("4" winum-select-window-4))
+  ("=" balance-windows-area))
 
 ;; WhichKeyの古い関数をSpacemacsで使っている
 ;; https://note.com/5mingame2/n/n2e2872ad1384
@@ -58,40 +54,25 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
               'which-key-add-major-mode-key-based-replacements
               "2016-10-05")
 
-;; 提示快捷键
-(which-key-declare-prefixes "SPC SPC" "M-x")
-(which-key-declare-prefixes "SPC TAB" "last buffer")
-(which-key-declare-prefixes "SPC /" "quick search project")
-(which-key-declare-prefixes "SPC *" "quick search project input")
-(which-key-declare-prefixes "SPC b" "buffers")
-(which-key-declare-prefixes "SPC e" "eval")
-(which-key-declare-prefixes "SPC f" "files")
-(which-key-declare-prefixes "SPC j" "avy-jump")
-(which-key-declare-prefixes "SPC s" "search")
-(which-key-declare-prefixes "SPC w" "windows")
-(which-key-declare-prefixes "SPC o" "org")
-(which-key-declare-prefixes "SPC of" "feeds")
-(which-key-declare-prefixes "SPC oC" "org-clocks")
-(which-key-declare-prefixes "C-SPC SPC" "M-x")
-(which-key-declare-prefixes "C-SPC TAB" "last buffer")
-(which-key-declare-prefixes "C-SPC /" "quick search project")
-(which-key-declare-prefixes "C-SPC *" "quick search project input")
-(which-key-declare-prefixes "C-SPC b" "buffers")
-(which-key-declare-prefixes "C-SPC e" "eval")
-(which-key-declare-prefixes "C-SPC f" "files")
-(which-key-declare-prefixes "C-SPC j" "avy-jump")
-(which-key-declare-prefixes "C-SPC s" "search")
-(which-key-declare-prefixes "C-SPC sa" "ag")
-(which-key-declare-prefixes "C-SPC w" "windows")
-(which-key-declare-prefixes "C-SPC o" "org")
-(which-key-declare-prefixes "C-SPC of" "feeds")
-(which-key-declare-prefixes "C-SPC oC" "org-clocks")
+;; 给 major mode 定义 leader key
+(defvar idiig-leader-key "SPC"
+  "The leader key.")
+
+(defvar idiig-major-mode-leader-key ","
+  "Major mode leader key is a shortcut key which is the equivalent of
+pressing `<leader> m`. Set it to `nil` to disable it.")
+
+(defvar idiig-emacs-leader-key "M-m"
+  "The leader key accessible in `emacs state' and `insert state'")
+
+(defvar idiig-major-mode-emacs-leader-key "C-M-m"
+  "Major mode leader key accessible in `emacs state' and `insert state'")
 
 ;; 激活leader-key
 (use-package general :ensure t)
 (general-define-key
  :keymaps '(normal visual emacs motion)
- :prefix "SPC"
+ :prefix idiig-leader-key
  :non-normal-prefix "C-SPC"
  "" nil
  ;; (evil-leader/set-key ;; instead by general-define-key
@@ -176,113 +157,33 @@ window: _[_:shrink _]_:enlarge _=_:balance window:_1__2__3__4_"
  "ot" 'org-todo-list
  "op" 'org-pomodoro)
 
-;; 给 major mode 定义 leader key
-;; from spacemcas
-(defvar idiig-leader-key "SPC"
-  "The leader key.")
-
-(defvar idiig-major-mode-leader-key ","
-  "Major mode leader key is a shortcut key which is the equivalent of
-pressing `<leader> m`. Set it to `nil` to disable it.")
-
-(defvar idiig-emacs-leader-key "M-m"
-  "The leader key accessible in `emacs state' and `insert state'")
-
-(defvar idiig-major-mode-emacs-leader-key "C-M-m"
-  "Major mode leader key accessible in `emacs state' and `insert state'")
-
-(defun idiig//acceptable-leader-p (key)
-  "Return t if key is a string and non-empty."
-  (and (stringp key) (not (string= key ""))))
-
-(defun idiig//init-leader-mode-map (mode map &optional minor)
-  "Check for MAP-prefix. If it doesn't exist yet, use `bind-map'
-to create it and bind it to `idiig-major-mode-leader-key'
-and `idiig-major-mode-emacs-leader-key'. If MODE is a
-minor-mode, the third argument should be non nil."
-  (let* ((prefix (intern (format "%s-prefix" map)))
-         (leader1 (when (idiig//acceptable-leader-p
-                         idiig-major-mode-leader-key)
-                    idiig-major-mode-leader-key))
-         (leader2 (when (idiig//acceptable-leader-p
-                         idiig-leader-key)
-                    (concat idiig-leader-key " m")))
-         (emacs-leader1 (when (idiig//acceptable-leader-p
-                               idiig-major-mode-emacs-leader-key)
-                          idiig-major-mode-emacs-leader-key))
-         (emacs-leader2 (when (idiig//acceptable-leader-p
-                               idiig-emacs-leader-key)
-                          (concat idiig-emacs-leader-key " m")))
-         (leaders (delq nil (list leader1 leader2)))
-         (emacs-leaders (delq nil (list emacs-leader1 emacs-leader2))))
-    (or (boundp prefix)
-        (progn
-          (eval
-           `(bind-map ,map
-              :prefix-cmd ,prefix
-              ,(if minor :minor-modes :major-modes) (,mode)
-              :keys ,emacs-leaders
-              :evil-keys ,leaders
-              :evil-states (normal motion visual evilified)))
-          (boundp prefix)))))
-
-(defun idiig/set-leader-keys-for-major-mode (mode key def &rest bindings)
-  "Add KEY and DEF as key bindings under
-`idiig-major-mode-leader-key' and
-`idiig-major-mode-emacs-leader-key' for the major-mode
-MODE. MODE should be a quoted symbol corresponding to a valid
-major mode. The rest of the arguments are treated exactly like
-they are in `idiig/set-leader-keys'."
-  (let* ((map (intern (format "idiig-%s-map" mode))))
-    (when (idiig//init-leader-mode-map mode map)
-      (while key
-        (define-key (symbol-value map) (kbd key) def)
-        (setq key (pop bindings) def (pop bindings))))))
-(put 'idiig/set-leader-keys-for-major-mode 'lisp-indent-function 'defun)
-
-(defalias
-  'evil-leader/set-key-for-mode
-  'idiig/set-leader-keys-for-major-mode)
-
-;; set key for minor mode
-(defun idiig/set-leader-keys-for-minor-mode (mode key def &rest bindings)
-  "Add KEY and DEF as key bindings under
-`dotidiig-major-mode-leader-key' and
-`dotidiig-major-mode-emacs-leader-key' for the minor-mode
-MODE. MODE should be a quoted symbol corresponding to a valid
-minor mode. The rest of the arguments are treated exactly like
-they are in `idiig/set-leader-keys'."
-  (let* ((map (intern (format "idiig-%s-map" mode))))
-    (when (idiig//init-leader-mode-map mode map t)
-      (while key
-        (define-key (symbol-value map) (kbd key) def)
-        (setq key (pop bindings) def (pop bindings))))))
-(put 'idiig/set-leader-keys-for-minor-mode 'lisp-indent-function 'defun)
-
-;; declare prefix
-(defun idiig/declare-prefix-for-mode (mode prefix name &optional long-name)
-  "Declare a prefix PREFIX. MODE is the mode in which this prefix command should
-be added. PREFIX is a string describing a key sequence. NAME is a symbol name
-used as the prefix command."
-  (let  ((command (intern (concat (symbol-name mode) name)))
-         (full-prefix (concat idiig-leader-key " " prefix))
-         (full-prefix-emacs (concat idiig-emacs-leader-key " " prefix))
-         (is-major-mode-prefix (string-prefix-p "m" prefix))
-         (major-mode-prefix (concat idiig-major-mode-leader-key
-                                    " " (substring prefix 1)))
-         (major-mode-prefix-emacs
-          (concat idiig-major-mode-emacs-leader-key
-                  " " (substring prefix 1))))
-    (unless long-name (setq long-name name))
-    (let ((prefix-name (cons name long-name)))
-      (which-key-add-major-mode-key-based-replacements mode
-        full-prefix-emacs prefix-name
-        full-prefix prefix-name)
-      (when (and is-major-mode-prefix idiig-major-mode-leader-key)
-        (which-key-add-major-mode-key-based-replacements mode major-mode-prefix prefix-name))
-      (when (and is-major-mode-prefix idiig-major-mode-emacs-leader-key)
-        (which-key-add-major-mode-key-based-replacements
-          mode major-mode-prefix-emacs prefix-name)))))
-(put 'idiig/declare-prefix-for-mode 'lisp-indent-function 'defun)
+;; 提示快捷键
+(which-key-declare-prefixes "SPC SPC" "M-x")
+(which-key-declare-prefixes "SPC TAB" "last buffer")
+(which-key-declare-prefixes "SPC /" "quick search project")
+(which-key-declare-prefixes "SPC *" "quick search project input")
+(which-key-declare-prefixes "SPC b" "buffers")
+(which-key-declare-prefixes "SPC e" "eval")
+(which-key-declare-prefixes "SPC f" "files")
+(which-key-declare-prefixes "SPC j" "avy-jump")
+(which-key-declare-prefixes "SPC s" "search")
+(which-key-declare-prefixes "SPC w" "windows")
+(which-key-declare-prefixes "SPC o" "org")
+(which-key-declare-prefixes "SPC of" "feeds")
+(which-key-declare-prefixes "SPC oC" "org-clocks")
+(which-key-declare-prefixes "C-SPC SPC" "M-x")
+(which-key-declare-prefixes "C-SPC TAB" "last buffer")
+(which-key-declare-prefixes "C-SPC /" "quick search project")
+(which-key-declare-prefixes "C-SPC *" "quick search project input")
+(which-key-declare-prefixes "C-SPC b" "buffers")
+(which-key-declare-prefixes "C-SPC e" "eval")
+(which-key-declare-prefixes "C-SPC f" "files")
+(which-key-declare-prefixes "C-SPC j" "avy-jump")
+(which-key-declare-prefixes "C-SPC s" "search")
+(which-key-declare-prefixes "C-SPC sa" "ag")
+(which-key-declare-prefixes "C-SPC w" "windows")
+(which-key-declare-prefixes "C-SPC o" "org")
+(which-key-declare-prefixes "C-SPC of" "feeds")
+(which-key-declare-prefixes "C-SPC oC" "org-clocks")
 
 (provide 'idiig-global-keybindings)

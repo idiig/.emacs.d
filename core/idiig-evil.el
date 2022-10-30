@@ -157,6 +157,7 @@
 ;; Evil bindings 比如 evil-magit, agenda, etc.
 (use-package evil-collection
   :after evil
+  :diminish (evil-collection-unimpaired-mode)
   :custom
   ;; (evil-emacs-state-cursor '("#663311" box)) 
   ;; (evil-normal-state-cursor '("#005500" box)) 

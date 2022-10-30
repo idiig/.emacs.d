@@ -43,7 +43,9 @@
       (interactive)
       (corfu--goto -1)
       (goto-char (cadr completion-in-region--data)))
-    (global-corfu-mode)))
+    ;; (global-corfu-mode)
+    ;; (corfu-excluded-modes '(lsp-bridge-mode))
+    ))
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
@@ -54,42 +56,6 @@
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\|svg\\|eps\\)\\'")))
 
-;; yasnippet
-(use-package yasnippet
-  :commands (yas-global-mode yas-minor-mode yas-active-extra-mode)
-  :diminish
-  :init
-  (progn
-    ;; 没有undefine error
-    (defvar yas-global-mode nil)
-    ;; 多键位时给出补全项
-    (setq yas-prompt-functions '(yas-completing-promptq))
-    ;; minor mode键位重制
-    (setq yas-minor-mode-map (make-sparse-keymap))
-    ;; yas的一些函数
-    (defun idiig/load-yasnippet ()
-      (unless yas-global-mode (yas-global-mode 1))
-      (yas-minor-mode 1))
-    (defun idiig/force-yasnippet-off ()
-      (yas-minor-mode -1)
-      (setq yas-dont-activate t))
-    ;; hooks
-    (add-hook 'term-mode-hook 'idiig/force-yasnippet-off)
-    (add-hook 'shell-mode-hook 'idiig/force-yasnippet-off)
-    (add-hook 'eshell-mode-hook 'idiig/force-yasnippet-off)
-    (add-hook 'org-mode-hook 'idiig/load-yasnippet)
-    (add-hook 'prog-mode-hook 'idiig/load-yasnippet)
-    (add-hook 'markdown-mode-hook 'idiig/load-yasnippet)
-    (add-hook 'bibtex-mode-hook 'idiig/load-yasnippet))
-  :config
-  (progn
-    (use-package yasnippet-snippets)))
-
-;; consult-yasnippet 依赖 corfu
-(use-package consult-yasnippet
-  :after (consult corfu)
-  :bind ("C-c y" . consult-yasnippet))
-
 ;; 英语补全
 (use-package corfu-english-helper
   :after corfu
@@ -97,4 +63,22 @@
   :load-path "~/.emacs.d/dependencies/corfu-english-helper/"
   :commands toggle-corfu-english-helper)
 
-(provide 'idiig-text-completion)
+(use-package ispell
+  :defer t
+  :init
+  ;; ispell不检查部分
+  (defun idiig/org-ispell ()
+    "Configure `ispell-skip-region-alist' for `org-mode'."
+    (make-local-variable 'ispell-skip-region-alist)
+    (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
+    (add-to-list 'ispell-skip-region-alist '("~" "~"))
+    (add-to-list 'ispell-skip-region-alist '("=" "="))
+    (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
+  (add-hook 'org-mode-hook #'idiig/org-ispell)
+  :config
+  (setq ispell-program-name "/opt/homebrew/bin/aspell"))
+
+(use-package lsp-grammarly
+  :defer t)
+
+(provide 'idiig-text-helper)
