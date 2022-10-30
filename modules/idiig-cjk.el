@@ -70,20 +70,21 @@
     ;; カタカナを変換候補に入れる
     (setq skk-search-katakana 'jisx0201-kana)))
 
-;; (use-package migemo
-;;   :init
-;;   (defun jp-orderless-regexp (orig_func component)
-;;       (let ((result (funcall orig_func component)))
-;;         (migemo-get-pattern result)))
-;;   (advice-add 'orderless-regexp :around #'jp-orderless-regexp)
-;;   :config
-;;   (setq migemo-directory "/opt/homebrew/bin/cmigemo/utf-8/migemo-dict")
-;;   (setq migemo-command (executable-find "cmigemo"))
-;;   (setq migemo-options '("-q" "--emacs" "--nonewline"))
-;;   (setq migemo-coding-system 'utf-8-unix) ;; この指定が極めて重要
-;;   (setq migemo-user-dictionary nil)
-;;   (setq migemo-regex-dictionary nil)
-;;   (migemo-init)
-;;   )
+;; !!FIXME!!
+(use-package migemo
+  :init
+  (defun jp-orderless-regexp (orig_func component)
+    (let ((result (funcall orig_func component)))
+      (migemo-get-pattern result)))
+  ;; (advice-add 'orderless-regexp :around #'jp-orderless-regexp)
+  :config
+  (setq migemo-directory "/opt/homebrew/bin/cmigemo/utf-8/migemo-dict")
+  (setq migemo-command (executable-find "cmigemo"))
+  (setq migemo-options '("-q" "--emacs" "--nonewline"))
+  (setq migemo-coding-system 'utf-8-unix) ;; この指定が極めて重要
+  (setq migemo-user-dictionary nil)
+  (setq migemo-regex-dictionary nil)
+  (migemo-init)
+  )
 
 (provide 'idiig-cjk)
