@@ -24,9 +24,7 @@
   :load-path "~/.emacs.d/dependencies/lsp-bridge"
   :bind (:map acm-mode-map
               ("C-j" . acm-select-next)
-              ("C-k" . acm-select-prev)
-              ("C-a" . acm-select-first)
-              ("C-e" . acm-select-last))
+              ("C-k" . acm-select-prev))
   :custom
   (acm-enable-yas . nil)
   (acm-enable-doc . nil)
@@ -37,7 +35,7 @@
                          (lsp-bridge-mode)))
   :init
   (require 'lsp-bridge)
-  (setq lsp-bridge-completion-provider 'corfu)
+  (run-hooks 'corfu-mode-off-hook)
   (setq acm-enable-tabnine t)
   (setq lsp-bridge-enable-auto-format-code t)
   (setq lsp-bridge-python-command "/opt/homebrew/bin/python3")

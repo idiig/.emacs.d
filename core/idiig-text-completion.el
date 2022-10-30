@@ -30,8 +30,7 @@
 	      ("C-p" . corfu-previous)
 	      ("C-k" . corfu-previous)
               ([remap move-beginning-of-line] . #'corfu-beginning-of-prompt)
-              ([remap move-end-of-line] . #'corfu-end-of-prompt)
-              )
+              ([remap move-end-of-line] . #'corfu-end-of-prompt)) 
   :init
   (progn
     (defun corfu-beginning-of-prompt ()
