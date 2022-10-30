@@ -51,15 +51,14 @@
     (idiig/register-repl 'ess-site 'R)
     (idiig/register-repl 'ess-site 'SAS)
     (idiig/register-repl 'ess-site 'stata)
-    ;; Explicitly run prog-mode hooks since ess-mode does not derive from
-    ;; prog-mode major-mode
+    ;; ess mode 本身不会被识别为 prog mode 因此加入
     (add-hook 'ess-mode-hook 'idiig/run-prog-mode-hooks)
-    (add-hook 'ess-mode-hook 'company-mode)))
+    (add-hook 'ess-mode-hook 'flymake-mode-off-hook)))
 
 ;; R --------------------------------------------------------------------------
 (with-eval-after-load 'ess-site
   ;; Follow Hadley Wickham's R style guide
-  (setq inferior-ess-r-program (expand-file-name "~/anaconda3/bin/R"))
+  (setq inferior-ess-r-program (expand-file-name "/usr/local/bin/R"))
   (setq ess-first-continued-statement-offset 2
         ess-continued-statement-offset 0
         ess-expression-offset 2
@@ -77,7 +76,8 @@
   (evil-leader/set-key-for-mode 'ess-julia-mode
     "'"  'julia
     "si" 'julia)
-  (evil-leader/set-key-for-mode 'ess-mode
+  
+(evil-leader/set-key-for-mode 'ess-mode
     "'"  'idiig/ess-start-repl
     "si" 'idiig/ess-start-repl
     ;; noweb
@@ -106,28 +106,9 @@
   (define-key inferior-ess-mode-map (kbd "C-j") 'comint-next-input)
   (define-key inferior-ess-mode-map (kbd "C-k") 'comint-previous-input))
 
-(defun ess/init-ess-R-data-view ())
-
-(defun ess/init-ess-smart-equals ()
-  (use-package ess-smart-equals
-    :defer t
-    :if ess-enable-smart-equals
-    :init
-    (progn
-      (add-hook 'ess-mode-hook 'ess-smart-equals-mode)
-      (add-hook 'inferior-ess-mode-hook 'ess-smart-equals-mode))))
-
-(defun ess/pre-init-golden-ratio ()
-  (idiig|use-package-add-hook golden-ratio
-                                  :post-config
-                                  (dolist (f '(ess-eval-buffer-and-go
-                                               ess-eval-function-and-go
-                                               ess-eval-line-and-go))
-                                    (add-to-list 'golden-ratio-extra-commands f))))
-
-(defun ess/pre-init-org ()
-  (idiig|use-package-add-hook org
-                                  :post-config (add-to-list 'org-babel-load-languages '(R . t))))
-
+(use-package ess-smart-equals
+  :init (setq ess-smart-equals-extra-ops '(brace paren percent))
+  :after (:any ess-r-mode inferior-ess-r-mode ess-r-transcript-mode)
+  :config (ess-smart-equals-activate))
 
 (provide 'idiig-ess)
