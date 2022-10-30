@@ -38,6 +38,7 @@
 
 ;; 添加ag，tex等的路径
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setenv "PATH" (concat (getenv "PATH") ":/opt/hombrew/bin"))
 (setenv "PATH" "~/anaconda3/bin/")
 ;; (setenv "PATH" "~/anaconda3/envs/")
 (use-package exec-path-from-shell

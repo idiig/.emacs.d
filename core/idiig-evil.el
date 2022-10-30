@@ -99,9 +99,9 @@
     (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
     (define-key evil-normal-state-map (kbd "M-y") 'consult-yank-pop)
 
-    (define-key evil-insert-state-map "\C-e" 'end-of-line)
+    ;; (define-key evil-insert-state-map "\C-e" 'end-of-line)
     (define-key evil-insert-state-map "\C-n" 'next-line)
-    (define-key evil-insert-state-map "\C-k" 'kill-line)
+    ;; (define-key evil-insert-state-map "\C-k" 'kill-line)
     (define-key evil-emacs-state-map (kbd "s-f") 'forward-word)
     (define-key evil-insert-state-map (kbd "s-f") 'forward-word)
     (define-key evil-emacs-state-map (kbd "s-b") 'backward-word)
@@ -158,14 +158,14 @@
 (use-package evil-collection
   :after evil
   :custom
-  (evil-emacs-state-cursor '("#663311" box)) 
-  (evil-normal-state-cursor '("#005500" box)) 
-  (evil-visual-state-cursor '("#663311" box))
-  (evil-motion-state-cursor '("#005500" box))
+  ;; (evil-emacs-state-cursor '("#663311" box)) 
+  ;; (evil-normal-state-cursor '("#005500" box)) 
+  ;; (evil-visual-state-cursor '("#663311" box))
+  ;; (evil-motion-state-cursor '("#005500" box))
   ;; 具体可以看文档
   (evil-collection-company-use-tng nil)
   :config
   (evil-collection-init
-   '(magit calendar ibuffer custom dired)))
+   '(magit calendar ibuffer custom dired special)))
 
 (provide 'idiig-evil)
