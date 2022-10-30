@@ -58,14 +58,18 @@
 
 ;; 导入个别功能
 (require 'idiig-cjk)
-(require 'idiig-prog)
+(require 'idiig-prog-bridge)
+(require 'idiig-git)
 (require 'idiig-org)
 (require 'idiig-noter)
-(require 'idiig-git)
+(require 'idiig-text-checker)
+
+;; 常用语言
 (require 'idiig-tex)
+(require 'idiig-markdown)
+(require 'idiig-yaml)
 (require 'idiig-python)
 (require 'idiig-ess)
-(require 'idiig-text-checker)
 
 ;; custom文件
 (setq custom-file (expand-file-name "custom.el" idiig-core-dir))
