@@ -7,4 +7,8 @@
 /core/idiig-global-keybindings-ivy-ver.el
 /.org-id-locations
 /request
-*.dylib
+/dependencies/tree-sitter-langs/bin/*.dylib
+/dependencies/tree-sitter-langs/*.el
+/dependencies/tree-sitter-langs/*.elc
+/dependencies/tree-sitter-langs/bin/BUNDLE-VERSION
+/dependencies/tree-sitter-langs/queries/
