@@ -1,3 +1,9 @@
 [submodule "dependencies/lsp-bridge"]
 	path = dependencies/lsp-bridge
 	url = https://github.com/manateelazycat/lsp-bridge.git
+[submodule "dependencies/grammatical-edit"]
+	path = dependencies/grammatical-edit
+	url = https://github.com/manateelazycat/grammatical-edit.git
+[submodule "dependencies/elisp-tree-sitter"]
+	path = dependencies/elisp-tree-sitter
+	url = https://github.com/emacs-tree-sitter/elisp-tree-sitter.git
