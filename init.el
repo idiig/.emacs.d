@@ -53,16 +53,16 @@
 (require 'idiig-minibuffer-completion)  ;; minibuffer
 (require 'idiig-cursor)  ;; 光标操作
 ;; (require 'idiig-auto-complete)  ;; 自动补全
-(require 'idiig-text-completion)  ;; 代码和文本自动补全
+(require 'idiig-prog)  ;; 代码和文本自动补全
+;; (require 'idiig-text-completion)  
 (require 'idiig-global-keybindings)
 
 ;; 导入个别功能
 (require 'idiig-cjk)
-(require 'idiig-prog-bridge)
 (require 'idiig-git)
 (require 'idiig-org)
 (require 'idiig-noter)
-(require 'idiig-text-checker)
+;; (require 'idiig-text-helper)
 
 ;; 常用语言
 (require 'idiig-tex)

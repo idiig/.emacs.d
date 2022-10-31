@@ -2,6 +2,8 @@
   :defer t 
   :init  
   (progn
+    ;; 缩进
+    (setq python-indent-offset 4)
     ;; long quotes
     (defun python-electric-pair-string-delimiter ()
       (when (and electric-pair-mode
@@ -20,16 +22,14 @@
 (with-eval-after-load 'python
   (setq
    python-shell-interpreter "ipython3"
-   python-shell-interpreter-args "-i")
+   python-shell-interpreter-args "--simple-prompt"
+   org-babel-python-command '"ipython --simple-prompt")
   ;; 虚拟环境
   (use-package pyvenv
     :commands (pyvenv-workon pyvenv-activate)
     :init
     (evil-leader/set-key-for-mode 'python-mode "v" 'pyvenv-workon)
-    (setenv "WORKON_HOME" "~/anaconda3/envs"))
-
-  ;; 缩进
-  (setq python-indent-offset 4)
+    (setenv "WORKON_HOME" "~/.pyenv/versions"))
   
   ;; 测试 >>??
   (use-package pytest

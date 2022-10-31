@@ -1,3 +1,6 @@
+;; R程序的位置
+(defvar idiig-R-program-path "/usr/local/bin/R")
+
 ;; https://github.com/syl20bnr/idiig/blob/master/layers/%2Blang/ess/packages.el
 (use-package ess
   :commands (S-mode
@@ -53,12 +56,13 @@
     (idiig/register-repl 'ess-site 'stata)
     ;; ess mode 本身不会被识别为 prog mode 因此加入
     (add-hook 'ess-mode-hook 'idiig/run-prog-mode-hooks)
-    (add-hook 'ess-mode-hook 'flymake-mode-off-hook)))
+    (add-hook 'ess-mode-hook '(lambda () (flymake-mode nil)))))
+
 
 ;; R --------------------------------------------------------------------------
 (with-eval-after-load 'ess-site
   ;; Follow Hadley Wickham's R style guide
-  (setq inferior-ess-r-program (expand-file-name "/usr/local/bin/R"))
+  (setq inferior-ess-r-program (expand-file-name idiig-R-program-path))
   (setq ess-first-continued-statement-offset 2
         ess-continued-statement-offset 0
         ess-expression-offset 2

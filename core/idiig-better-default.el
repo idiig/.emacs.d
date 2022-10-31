@@ -38,8 +38,7 @@
 
 ;; 添加ag，tex等的路径
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-(setenv "PATH" (concat (getenv "PATH") ":/opt/hombrew/bin"))
-(setenv "PATH" "~/anaconda3/bin/")
+(setenv "PATH" (concat (getenv "PATH") ":/opt/homebrew/bin"))
 ;; (setenv "PATH" "~/anaconda3/envs/")
 (use-package exec-path-from-shell
   :defer t
@@ -330,7 +329,7 @@ current frame."
               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
   :config
   (progn
-    (setq-default hungry-delete-chars-to-skip " \t\f\v") ; 只删除到单行开头
+    (setq-default hungry-delete-chars-to-skip " \t\f\v\n")  ;; 删除的空白符号 
     (global-hungry-delete-mode t)))
 
 ;; 跳到代码之前而非最前
@@ -346,16 +345,12 @@ current frame."
   (global-set-key [remap fill-paragraph] #'unfill-toggle))
 
 (use-package emacs
-  ;; 自动括号补齐等括号设定
-  :hook
-  (org-mode . (lambda () (idiig/add-local-electric-pairs '(;(?= . ?=)
-                                                           (?~ . ?~)))))
   :init
   (electric-pair-mode t)
+  :config
   (setq electric-pair-preserve-balance nil)
   ;; https://www.reddit.com/r/emacs/comments/4xhxfw/how_to_tune_the_behavior_of_eletricpairmode/
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-  (show-paren-mode t)
   ;; mode-specific local-electric pairs
   (defconst idiig/default-electric-pairs electric-pair-pairs)
   (defun idiig/add-local-electric-pairs (pairs)
@@ -367,32 +362,14 @@ current frame."
   ;; 禁止 <>
   (add-function :before-until electric-pair-inhibit-predicate
                 (lambda (c) (eq c ?<   ;; >
-                                ))))
-
-(use-package smartparens
-  :diminish smartparens-mode
-  :init
+                                )))
+  "在括号内也可以高亮括号"
   (define-advice show-paren-function (:around (fn) fix-show-paren-function)
-    "在括号内也可以高亮括号"
     (cond ((looking-at-p "\\s(") (funcall fn))
 	  (t (save-excursion
 	       (ignore-errors (backward-up-list))
 	       (funcall fn)))))
-  :config
-  (setq sp-base-key-bindings 'paredit)
-  (setq sp-autoskip-closing-pair 'always)
-  (setq sp-hybrid-kill-entire-symbol nil)
-  "在lisp时关闭一些quote pair(基于smartparent)"
-  (sp-local-pair 'emacs-lisp-mode "`" nil :actions nil)
-  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  "开启一些pair"
-  ;; (require 'smartparens-config)
-  ;; (sp-pair "=" "=" :actions '(wrap))
-  ;; (sp-pair "<" ">" :actions '(wrap))
-  ;; (sp-pair "$" "$" :actions '(wrap))
-  (sp-use-paredit-bindings)
-  (smartparens-global-mode t)
-  (show-smartparens-global-mode 1))
+  (show-paren-mode t))
 
 ;; posframe: 弹窗设置
 (use-package posframe)
@@ -410,12 +387,6 @@ current frame."
   :diminish winum-mode
   :custom (winum-auto-setup-mode-line nil)
   :init
-  (push '(("\\(.*\\)1" . "winum-select-window-1") .
-          ("\\11..4". "select window 1..4"))
-        which-key-replacement-alist)
-  (push '((nil . "winum-select-window-[2-9]") . t)
-        which-key-replacement-alist)
-  :config
   (winum-mode))
 
 ;; 窗口变化与选择

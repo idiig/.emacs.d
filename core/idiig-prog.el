@@ -15,6 +15,62 @@
           . (,feature . ,repl-func))
         idiig-repl-list))
 
+;; 自动括号补齐等括号，括号高亮设定
+(use-package tree-sitter
+  ;; :load-path "/path-to/emacs-tree-sitter/core"
+  ;; :hook (prog-mode . tree-sitter-mode)
+  :init
+  (use-package tree-sitter-langs
+    :load-path "~/.emacs.d/dependencies/tree-sitter-langs")
+  (tree-sitter-load 'elisp "elisp")
+  (add-to-list 'tree-sitter-major-mode-language-alist '(emacs-lisp-mode . elisp))
+  :config
+  (global-tree-sitter-mode)
+  ;; 开启语法高亮
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  ;; 文本描述（doc）高亮设定
+  (add-function :before-until (local 'tree-sitter-hl-face-mapping-function)
+                (lambda (capture-name)
+	          (pcase capture-name
+	            ("doc" 'font-lock-comment-face)))))
+
+(use-package grammatical-edit
+  :load-path "~/.emacs.d/dependencies/grammatical-edit"
+  :hook (prog-mode . (lambda () (grammatical-edit-mode 1)))
+  :config
+  (define-key grammatical-edit-mode-map (kbd "(") 'grammatical-edit-open-round)
+  (define-key grammatical-edit-mode-map (kbd "[") 'grammatical-edit-open-bracket)
+  (define-key grammatical-edit-mode-map (kbd "{") 'grammatical-edit-open-curly)
+  (define-key grammatical-edit-mode-map (kbd ")") 'grammatical-edit-close-round)
+  (define-key grammatical-edit-mode-map (kbd "]") 'grammatical-edit-close-bracket)
+  (define-key grammatical-edit-mode-map (kbd "}") 'grammatical-edit-close-curly)
+  (define-key grammatical-edit-mode-map (kbd "=") 'grammatical-edit-equal)
+  
+  (define-key grammatical-edit-mode-map (kbd "%") 'grammatical-edit-match-paren)
+  (define-key grammatical-edit-mode-map (kbd "\"") 'grammatical-edit-double-quote)
+  (define-key grammatical-edit-mode-map (kbd "'") 'grammatical-edit-single-quote)
+
+  (define-key grammatical-edit-mode-map (kbd "SPC") 'grammatical-edit-space)
+  (define-key grammatical-edit-mode-map (kbd "RET") 'grammatical-edit-newline)
+
+  (define-key grammatical-edit-mode-map (kbd "M-o") 'grammatical-edit-backward-delete)
+  (define-key grammatical-edit-mode-map (kbd "C-d") 'grammatical-edit-forward-delete)
+  (define-key grammatical-edit-mode-map (kbd "C-k") 'grammatical-edit-kill)
+
+  (define-key grammatical-edit-mode-map (kbd "M-\"") 'grammatical-edit-wrap-double-quote)
+  (define-key grammatical-edit-mode-map (kbd "M-'") 'grammatical-edit-wrap-single-quote)
+  (define-key grammatical-edit-mode-map (kbd "M-[") 'grammatical-edit-wrap-bracket)
+  (define-key grammatical-edit-mode-map (kbd "M-{") 'grammatical-edit-wrap-curly)
+  (define-key grammatical-edit-mode-map (kbd "M-(") 'grammatical-edit-wrap-round)
+  (define-key grammatical-edit-mode-map (kbd "M-)") 'grammatical-edit-unwrap)
+
+  (define-key grammatical-edit-mode-map (kbd "M-p") 'grammatical-edit-jump-right)
+  (define-key grammatical-edit-mode-map (kbd "M-n") 'grammatical-edit-jump-left)
+  (define-key grammatical-edit-mode-map (kbd "M-:") 'grammatical-edit-jump-out-pair-and-newline)
+  
+  ;; (define-key grammatical-edit-mode-map (kbd "C-j") 'grammatical-edit-jump-up)
+  )
+
 ;; yasnippet
 (use-package yasnippet
   :commands (yas-global-mode yas-minor-mode yas-active-extra-mode)
@@ -52,9 +108,9 @@
   :bind (:map acm-mode-map
               ("C-j" . acm-select-next)
               ("C-k" . acm-select-prev))
-  ;; :custom
-  ;; (acm-enable-yas . nil)
-  ;; (acm-enable-doc . nil)
+  :custom
+  (acm-enable-yas . nil)
+  (acm-enable-doc . nil)
   ;; (acm-enable-icon . nil)
   :hook (prog-mode . (lambda ()
                        ;; hook任意语言
@@ -65,7 +121,11 @@
   :config
   (progn
     (setq acm-enable-tabnine t)
-    (setq lsp-bridge-enable-auto-format-code t)
-    (setq lsp-bridge-python-command "/opt/homebrew/bin/python3")))
+    ;; (setq lsp-bridge-enable-log t)
+    ;; (setq lsp-bridge-enable-auto-format-code t)
+    (setq lsp-bridge-python-command "/Users/idiig/.pyenv/shims/python")
+    ;; (setq lsp-bridge-python-command "/opt/homebrew/opt/python@3.10/bin/python3.10")
+    ;; (setq lsp-bridge-org-babel-lang-list '(python emacs-lisp latex sh))
+    ))
 
 (provide 'idiig-prog)
