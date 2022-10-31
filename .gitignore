@@ -7,3 +7,4 @@
 /core/idiig-global-keybindings-ivy-ver.el
 /.org-id-locations
 /request
+*.dylib
