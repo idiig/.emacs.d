@@ -42,18 +42,6 @@ window: _[_:shrink _]_:enlarge _=_:balance"
   ("]" idiig/enlarge-window-horizontally)
   ("=" balance-windows-area))
 
-;; WhichKeyの古い関数をSpacemacsで使っている
-;; https://note.com/5mingame2/n/n2e2872ad1384
-(defalias 'which-key-declare-prefixes 'which-key-add-key-based-replacements)
-(make-obsolete 'which-key-declare-prefixes
-              'which-key-add-key-based-replacements
-              "2016-10-05")
-(defalias 'which-key-declare-prefixes-for-mode
- 'which-key-add-major-mode-key-based-replacements)
-(make-obsolete 'which-key-declare-prefixes-for-mode
-              'which-key-add-major-mode-key-based-replacements
-              "2016-10-05")
-
 ;; 给 major mode 定义 leader key
 (defvar idiig-leader-key "SPC"
   "The leader key.")
@@ -228,59 +216,5 @@ they are in `idiig/set-leader-keys'."
         (setq key (pop bindings) def (pop bindings))))))
 (put 'idiig/set-leader-keys-for-minor-mode 'lisp-indent-function 'defun)
 
-;; ;; declare prefix
-;; (defun idiig/declare-prefix-for-mode (mode prefix name &optional long-name)
-;;   "Declare a prefix PREFIX. MODE is the mode in which this prefix command should
-;; be added. PREFIX is a string describing a key sequence. NAME is a symbol name
-;; used as the prefix command."
-;;   (let  ((command (intern (concat (symbol-name mode) name)))
-;;          (full-prefix (concat idiig-leader-key " " prefix))
-;;          (full-prefix-emacs (concat idiig-emacs-leader-key " " prefix))
-;;          (is-major-mode-prefix (string-prefix-p "m" prefix))
-;;          (major-mode-prefix (concat idiig-major-mode-leader-key
-;;                                     " " (substring prefix 1)))
-;;          (major-mode-prefix-emacs
-;;           (concat idiig-major-mode-emacs-leader-key
-;;                   " " (substring prefix 1))))
-;;     (unless long-name (setq long-name name))
-;;     (let ((prefix-name (cons name long-name)))
-;;       (which-key-add-major-mode-key-based-replacements mode
-;;         full-prefix-emacs prefix-name
-;;         full-prefix prefix-name)
-;;       (when (and is-major-mode-prefix idiig-major-mode-leader-key)
-;;         (which-key-add-major-mode-key-based-replacements mode major-mode-prefix prefix-name))
-;;       (when (and is-major-mode-prefix idiig-major-mode-emacs-leader-key)
-;;         (which-key-add-major-mode-key-based-replacements
-;;           mode major-mode-prefix-emacs prefix-name)))))
-;; (put 'idiig/declare-prefix-for-mode 'lisp-indent-function 'defun)
-
-;; ;; 提示快捷键
-;; (which-key-declare-prefixes "SPC SPC" "M-x")
-;; (which-key-declare-prefixes "SPC TAB" "last buffer")
-;; (which-key-declare-prefixes "SPC /" "quick search project")
-;; (which-key-declare-prefixes "SPC *" "quick search project input")
-;; (which-key-declare-prefixes "SPC b" "buffers")
-;; (which-key-declare-prefixes "SPC e" "eval")
-;; (which-key-declare-prefixes "SPC f" "files")
-;; (which-key-declare-prefixes "SPC j" "avy-jump")
-;; (which-key-declare-prefixes "SPC s" "search")
-;; (which-key-declare-prefixes "SPC w" "windows")
-;; (which-key-declare-prefixes "SPC o" "org")
-;; (which-key-declare-prefixes "SPC of" "feeds")
-;; (which-key-declare-prefixes "SPC oC" "org-clocks")
-;; (which-key-declare-prefixes "C-SPC SPC" "M-x")
-;; (which-key-declare-prefixes "C-SPC TAB" "last buffer")
-;; (which-key-declare-prefixes "C-SPC /" "quick search project")
-;; (which-key-declare-prefixes "C-SPC *" "quick search project input")
-;; (which-key-declare-prefixes "C-SPC b" "buffers")
-;; (which-key-declare-prefixes "C-SPC e" "eval")
-;; (which-key-declare-prefixes "C-SPC f" "files")
-;; (which-key-declare-prefixes "C-SPC j" "avy-jump")
-;; (which-key-declare-prefixes "C-SPC s" "search")
-;; (which-key-declare-prefixes "C-SPC sa" "ag")
-;; (which-key-declare-prefixes "C-SPC w" "windows")
-;; (which-key-declare-prefixes "C-SPC o" "org")
-;; (which-key-declare-prefixes "C-SPC of" "feeds")
-;; (which-key-declare-prefixes "C-SPC oC" "org-clocks")
 
 (provide 'idiig-global-keybindings)

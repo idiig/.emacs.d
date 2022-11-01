@@ -155,32 +155,23 @@
     "xv" (idiig|org-emphasize idiig/org-verbatim ?=))
   )
 
-(defun idiig//org-declare-prefixes-for-mode ()
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mC" "clocks")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC md" "schedule")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mi" "insert/add/set")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC ms" "subtree")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mt" "table")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mtd" "table delete")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mtt" "table toggle")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mti" "table insert")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mb" "babel")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mT" "toggle")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mx" "region manipulation")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mf" "feed")
-  (which-key-declare-prefixes-for-mode 'org-mode "SPC mz" "zetteldeft")
-  (which-key-declare-prefixes-for-mode 'org-mode ",C" "clocks")
-  (which-key-declare-prefixes-for-mode 'org-mode ",d" "schedule")
-  (which-key-declare-prefixes-for-mode 'org-mode ",i" "insert/add/set")
-  (which-key-declare-prefixes-for-mode 'org-mode ",s" "subtree")
-  (which-key-declare-prefixes-for-mode 'org-mode ",t" "table")
-  (which-key-declare-prefixes-for-mode 'org-mode ",td" "table delete")
-  (which-key-declare-prefixes-for-mode 'org-mode ",tt" "table toggle")
-  (which-key-declare-prefixes-for-mode 'org-mode ",ti" "table insert")
-  (which-key-declare-prefixes-for-mode 'org-mode ",b" "babel")
-  (which-key-declare-prefixes-for-mode 'org-mode ",T" "toggle")
-  (which-key-declare-prefixes-for-mode 'org-mode ",x" "region manipulation")
-  (which-key-declare-prefixes-for-mode 'org-mode ",f" "feed"))
+;; org-agenda keybinding
+(defun idiig//org-agenda-set-keys ()
+    (evil-leader/set-key-for-mode 'org-agenda-mode
+      "," 'org-agenda-ctrl-c-ctrl-c
+      "a" 'org-agenda
+      "c" 'org-agenda-capture
+      "Cc" 'org-agenda-clock-cancel
+      "Ci" 'org-agenda-clock-in
+      "Co" 'org-agenda-clock-out
+      "Cj" 'org-agenda-clock-goto
+      "dd" 'org-agenda-deadline
+      "ds" 'org-agenda-schedule
+      "ie" 'org-agenda-set-effort
+      "ip" 'org-agenda-set-property
+      "iP" 'org-agenda-priority
+      "it" 'org-agenda-set-tags
+      "sr" 'org-agenda-refile))
 
 ;; org functions
 ;; evil surround 对应 org src
@@ -210,7 +201,7 @@
   (progn
     (newline-and-indent)
     (insert (format "#+BEGIN_SRC %s\n" src-code-type))
-    (newline-and-indent)
+    (newline)
     (insert "#+END_SRC\n")
     (previous-line 2)
     (org-edit-src-code)))
@@ -343,29 +334,7 @@ parent."
                   "-activate" "org.gnu.Emacs"))
   (progn
     (setq org-agenda-restore-windows-after-quit t)
-    (which-key-declare-prefixes-for-mode 'org-agenda-mode
-      ",C" "clock"
-      "SPC mC" "clock"
-      ",d" "schedule/deadline"
-      "SPC md" "schedule/deadline"
-      ",i" "tag/property/priority"
-      "SPC md" "tag/property/priority"
-      ",s" "refile")
-    (evil-leader/set-key-for-mode 'org-agenda-mode
-      "," 'org-agenda-ctrl-c-ctrl-c
-      "a" 'org-agenda
-      "c" 'org-agenda-capture
-      "Cc" 'org-agenda-clock-cancel
-      "Ci" 'org-agenda-clock-in
-      "Co" 'org-agenda-clock-out
-      "Cj" 'org-agenda-clock-goto
-      "dd" 'org-agenda-deadline
-      "ds" 'org-agenda-schedule
-      "ie" 'org-agenda-set-effort
-      "ip" 'org-agenda-set-property
-      "iP" 'org-agenda-priority
-      "it" 'org-agenda-set-tags
-      "sr" 'org-agenda-refile))
+    (idiig//org-agenda-set-keys))
   :config
   (with-eval-after-load 'evil-org-agenda
     (evil-define-key 'motion org-agenda-mode-map "j" 'org-agenda-next-line)
@@ -478,27 +447,27 @@ See `org-capture-templates' for more information."
                    (function org-hugo-new-subtree-post-capture-template)))))
 
 ;; 提醒事项
-;; (use-package appt
-;;   :ensure nil
-;;   :after org-agenda
-;;   :init
-;;   (setq appt-time-msg-list nil)    ;; clear existing appt list
-;;   (setq appt-display-interval '10)  ;; warn every 5 minutes from t - appt-message-warning-time
-;;   (setq
-;;    appt-message-warning-time '20  ;; send first warning 15 minutes before appointment
-;;    appt-display-mode-line nil     ;; don't show in the modeline
-;;    appt-display-format 'window)   ;; pass warnings to the designated window function
-;;   :config
-;;   (appt-activate 1)                ;; activate appointment notification
-;;   ;; (display-time)                   ;; activate time display
-;;   (org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
-;;   (run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
-;;   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
-;;   (defun idiig-appt-display (min-to-app new-time msg)
-;;     (notify-osx
-;;      (format "Appointment in %s minutes" min-to-app)    ;; passed to -title in terminal-notifier call
-;;      (format "%s" msg)))                                ;; passed to -message in terminal-notifier call
-;;   (setq appt-disp-window-function (function idiig-appt-display)))
+(use-package appt
+  :ensure nil
+  :after (org org-agenda)
+  :init
+  (setq appt-time-msg-list nil)    ;; clear existing appt list
+  (setq appt-display-interval '10)  ;; warn every 5 minutes from t - appt-message-warning-time
+  (setq
+   appt-message-warning-time '20  ;; send first warning 15 minutes before appointment
+   appt-display-mode-line nil     ;; don't show in the modeline
+   appt-display-format 'window)   ;; pass warnings to the designated window function
+  :config
+  (appt-activate 1)                ;; activate appointment notification
+  ;; (display-time)                   ;; activate time display
+  (org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
+  (run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
+  (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
+  (defun idiig-appt-display (min-to-app new-time msg)
+    (notify-osx
+     (format "Appointment in %s minutes" min-to-app)    ;; passed to -title in terminal-notifier call
+     (format "%s" msg)))                                ;; passed to -message in terminal-notifier call
+  (setq appt-disp-window-function (function idiig-appt-display)))
 
 ;; pomodoro 和时间相关
 (use-package org-pomodoro
@@ -706,7 +675,7 @@ See `org-capture-templates' for more information."
   :init
   (progn
     ;; default的语言设置
-    (setq org-babel-default-header-args:bash
+    (setq org-babel-default-header-args:emacs-lisp
           '((:cache . "yes")
             ))))
 
@@ -781,7 +750,7 @@ See `org-capture-templates' for more information."
     
     ;; keybindings
     (idiig//org-set-keys)
-    (idiig//org-declare-prefixes-for-mode)
+    ;; (idiig//org-declare-prefixes-for-mode)
 
     (setq org-refile-use-outline-path 'file)
     (setq org-outline-path-complete-in-steps nil)
@@ -899,18 +868,6 @@ holding contextual information."
                  (cdr ids) "")))
           (if (org-export-low-level-p headline info)
               ;; This is a deep sub-tree: export it as a list item.
-              (let* ((type (if numberedp 'ordered 'unordered))
-                     (itemized-body
-                      (org-html-format-list-item
-                       contents type nil info nil
-                       (concat (org-html--anchor preferred-id nil nil info)
-                               extra-ids
-                               full-text))))
-                (concat (and (org-export-first-sibling-p headline info)
-                             (org-html-begin-plain-list type))
-                        itemized-body
-                        (and (org-export-last-sibling-p headline info)
-                             (org-html-end-plain-list type))))
             (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
                   (first-content (car (org-element-contents headline))))
               ;; Standard headline.  Export it as a section.

@@ -166,10 +166,6 @@
       "lp" 'pubmed-insert-bibtex-from-pmid)
 
     ;; org mode keybindings
-    (which-key-declare-prefixes-for-mode 'org-mode
-      ",r" "org-ref/roam"
-      "SPC mr" "org-ref/roam")
-
     (evil-leader/set-key-for-mode 'org-mode
       "rn" 'org-ref-open-notes-at-point
       "rp" 'org-ref-open-pdf-at-point
@@ -197,8 +193,6 @@
     (setq deft-directory "~/Nutstore/org-files/roam")
     (setq deft-text-mode 'org-mode)
     ;; keybindings
-    (which-key-declare-prefixes "SPC od" "deft")
-    (which-key-declare-prefixes "C-SPC od" "deft")
     (evil-leader/set-key "odd" 'deft)
     (evil-leader/set-key "odc" 'deft-new-file)
     (evil-define-key 'normal deft-mode-map "q" 'quit-window)
@@ -220,18 +214,12 @@
 ;;   (progn
 ;;     (zetteldeft-set-classic-keybindings)
 ;;     ;; zetteldeft actions in deft mode
-;;     (which-key-declare-prefixes-for-mode 'deft-mode
-;;       ",z" "zetteldeft"
-;;       "SPC mz" "zetteldeft")
 ;;     (evil-leader/set-key-for-mode 'deft-mode
 ;;       "zT" 'zetteldeft-tag-buffer
 ;;       "zn" 'zetteldeft-new-file
 ;;       )
 
 ;;     ;; zetteldeft actions in org mode
-;;     (which-key-declare-prefixes-for-mode 'org-mode
-;;       ",z" "zetteldeft"
-;;       "SPC mz" "zetteldeft")
 ;;     (evil-leader/set-key-for-mode 'org-mode
 ;;       "zc" 'zetteldeft-search-current-id
 ;;       "zf" 'zetteldeft-follow-link
@@ -285,12 +273,6 @@
                            :node (org-roam-node-create :title title)
                            :props '(:finalize find-file))))
     ;; keybindings
-    ;; (which-key-declare-prefixes-for-mode 'org-mode "SPC mr" "org-roam")
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrd" "org-roam-dailies")
-    (which-key-declare-prefixes-for-mode 'org-mode "SPC mrt" "org-roam-tags")
-    ;; (which-key-declare-prefixes-for-mode 'org-mode ",r" "org-roam")
-    (which-key-declare-prefixes-for-mode 'org-mode ",rd" "org-roam-dailies")
-    (which-key-declare-prefixes-for-mode 'org-mode ",rt" "org-roam-tags")
     (evil-leader/set-key-for-mode 'org-mode
       "rb" 'org-roam-switch-to-buffer
       "rdy" 'org-roam-dailies-find-yesterday

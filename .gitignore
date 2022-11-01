@@ -12,3 +12,4 @@
 /dependencies/tree-sitter-langs/*.elc
 /dependencies/tree-sitter-langs/bin/BUNDLE-VERSION
 /dependencies/tree-sitter-langs/queries/
+/dependencies/.DS_Store

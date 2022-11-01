@@ -374,14 +374,6 @@ current frame."
 ;; posframe: 弹窗设置
 (use-package posframe)
 
-;; which key
-(use-package which-key
-  :diminish which-key-mode
-  :custom
-  (which-key-idle-delay 0.4)
-  :config
-  (which-key-mode 1))
-
 ;; 数字键选择窗口
 (use-package winum
   :diminish winum-mode
@@ -410,26 +402,5 @@ current frame."
   :diminish
   :config
   (global-undo-tree-mode))
-
-;; ;; minibuffer 自动切US
-;; (use-package sis
-;;   :config
-;;   (sis-ism-lazyman-config
-;;    "com.apple.keylayout.US"
-;;    "com.apple.inputmethod.SCIM.ITABC")
-;;   ;; (setq sis-respect-go-english-triggers
-;;   ;;       (list 'evil-leader/leader) ; isearch-forward 命令时默认进入en
-;;   ;;       ;;sis-respect-restore-triggers
-;;   ;;       ;;(list 'isearch-exit 'isearch-abort)
-;;   ;;       ) ; isearch-forward 恢复, isearch-exit `<Enter>', isearch-abor `C-g'
-;;   (setq sis-prefix-override-keys '("C-c" "C-x" "C-h" "SPC" ",")) ;; 转英文的前缀
-;;   ;; ;; enable the /cursor color/ mode
-;;   ;; (sis-global-cursor-color-mode t)
-;;   ;; enable the /respect/ mode
-;;   (sis-global-respect-mode t)
-;;   ;; enable the /context/ mode for all buffers
-;;   (sis-global-context-mode t)
-;;   ;; enable the /inline english/ mode for all buffers
-;;   (sis-global-inline-mode t))
 
 (provide 'idiig-better-default)

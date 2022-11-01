@@ -74,10 +74,6 @@
     (setq magit-completing-read-function 'magit-builtin-completing-read)
     (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
     ;; key bindings
-    (which-key-declare-prefixes "SPC gf" "git-file")
-    (which-key-declare-prefixes "SPC g" "git")
-    (which-key-declare-prefixes "C-SPC gf" "git-file")
-    (which-key-declare-prefixes "C-SPC g" "git")
     (evil-leader/set-key 
       "ga"  'magit-remote-add
       "gp"  'magit-push-current-to-upstream
@@ -93,19 +89,8 @@
       "gm"  'magit-dispatch
       "gs"  'magit-status
       "gS"  'magit-stage-file
-      "gU"  'magit-unstage-file)
-    (defhydra magit-blame-addition (:color red
-                                           :hint nil)
-      "
-Press [_b_] again to blame further in the history, [_q_] to go up or quit."
-      ("b" magit-blame-addition)
-      ;; here we use the :exit keyword because we should exit the
-      ;; micro-state only if the magit-blame-quit effectively disable
-      ;; the magit-blame mode.
-      ("q" nil :exit (progn (when (bound-and-true-p magit-blame-mode)
-                              (magit-blame-quit))
-                            (not (bound-and-true-p magit-blame-mode))))
-      )
+      "gU"  'magit-unstage-file
+      "gb"  'magit-blame-addition)  
     :config
     (progn
       ;; Speeding up magit
@@ -174,18 +159,6 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
   :defer t
   :init
   (progn
-    (which-key-declare-prefixes "SPC gH" "highlight")
-    (which-key-declare-prefixes "C-SPC gH" "highlight")
-    ;; TODO abstract this to a function
-    (let ((descr
-           '(("smeargle" . "highlight by last update time")
-             ("smeargle-commits" . "highlight by age of changes")
-             ("smeargle-clear" . "clear"))))
-      (dolist (nd descr)
-        ;; ensure the target matches the whole string
-        (push (cons (cons nil (concat "\\`" (car nd) "\\'"))
-                    (cons nil (cdr nd)))
-              which-key-replacement-alist)))
     (evil-leader/set-key
       "gHc" 'smeargle-clear
       "gHh" 'smeargle-commits
@@ -196,8 +169,6 @@ Press [_b_] again to blame further in the history, [_q_] to go up or quit."
   :defer t
   :init
   (progn
-    (which-key-declare-prefixes "SPC gl" "links")
-    (which-key-declare-prefixes "C-SPC gl" "links")
     (evil-leader/set-key
       "glc" 'git-link-commit
       "glC" 'idiig//git-link-commit-copy-url-only
