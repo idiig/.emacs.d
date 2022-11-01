@@ -157,21 +157,21 @@
 
 ;; org-agenda keybinding
 (defun idiig//org-agenda-set-keys ()
-    (evil-leader/set-key-for-mode 'org-agenda-mode
-      "," 'org-agenda-ctrl-c-ctrl-c
-      "a" 'org-agenda
-      "c" 'org-agenda-capture
-      "Cc" 'org-agenda-clock-cancel
-      "Ci" 'org-agenda-clock-in
-      "Co" 'org-agenda-clock-out
-      "Cj" 'org-agenda-clock-goto
-      "dd" 'org-agenda-deadline
-      "ds" 'org-agenda-schedule
-      "ie" 'org-agenda-set-effort
-      "ip" 'org-agenda-set-property
-      "iP" 'org-agenda-priority
-      "it" 'org-agenda-set-tags
-      "sr" 'org-agenda-refile))
+  (evil-leader/set-key-for-mode 'org-agenda-mode
+    "," 'org-agenda-ctrl-c-ctrl-c
+    "a" 'org-agenda
+    "c" 'org-agenda-capture
+    "Cc" 'org-agenda-clock-cancel
+    "Ci" 'org-agenda-clock-in
+    "Co" 'org-agenda-clock-out
+    "Cj" 'org-agenda-clock-goto
+    "dd" 'org-agenda-deadline
+    "ds" 'org-agenda-schedule
+    "ie" 'org-agenda-set-effort
+    "ip" 'org-agenda-set-property
+    "iP" 'org-agenda-priority
+    "it" 'org-agenda-set-tags
+    "sr" 'org-agenda-refile))
 
 ;; org functions
 ;; evil surround 对应 org src
@@ -336,6 +336,16 @@ parent."
     (setq org-agenda-restore-windows-after-quit t)
     (idiig//org-agenda-set-keys))
   :config
+  ;; define the refile targets
+  (setq org-agenda-dir "~/Nutstore/org-files")
+  (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+  (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
+  (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+  (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
+  (setq org-agenda-files (list org-agenda-dir))
+  
   (with-eval-after-load 'evil-org-agenda
     (evil-define-key 'motion org-agenda-mode-map "j" 'org-agenda-next-line)
     (evil-define-key 'motion org-agenda-mode-map "k" 'org-agenda-previous-line)
@@ -771,16 +781,6 @@ See `org-capture-templates' for more information."
     (setq org-log-done 'time)
     (setq org-imenu-depth 8)
 
-    ;; define the refile targets
-    (setq org-agenda-dir "~/Nutstore/org-files")
-    (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
-    (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-    (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
-    (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
-    (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
-    (setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
-    (setq org-agenda-files (list org-agenda-dir))
-
     ;; 时钟
     ;; Change task state to STARTED when clocking in
     (setq org-clock-in-switch-to-state "STARTED")
@@ -868,34 +868,34 @@ holding contextual information."
                  (cdr ids) "")))
           (if (org-export-low-level-p headline info)
               ;; This is a deep sub-tree: export it as a list item.
-            (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
-                  (first-content (car (org-element-contents headline))))
-              ;; Standard headline.  Export it as a section.
-              (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
-                      (org-html--container headline info)
-                      (org-export-get-reference headline info)
-                      (concat (format "outline-%d" level)
-                              (and extra-class " ")
-                              extra-class)
-                      (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
-                              level
-                              preferred-id
-                              extra-ids
-                              (concat
-                               (and numberedp
-                                    (format
-                                     "<span class=\"section-number-%d\">%s</span> "
-                                     level
-                                     (mapconcat #'number-to-string numbers ".")))
-                               full-text)
-                              level)
-                      ;; When there is no section, pretend there is an
-                      ;; empty one to get the correct <div
-                      ;; class="outline-...> which is needed by
-                      ;; `org-info.js'.
-                      (if (eq (org-element-type first-content) 'section) contents
-                        (concat (org-html-section first-content "" info) contents))
-                      (org-html--container headline info)))))))
+              (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
+                    (first-content (car (org-element-contents headline))))
+                ;; Standard headline.  Export it as a section.
+                (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
+                        (org-html--container headline info)
+                        (org-export-get-reference headline info)
+                        (concat (format "outline-%d" level)
+                                (and extra-class " ")
+                                extra-class)
+                        (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
+                                level
+                                preferred-id
+                                extra-ids
+                                (concat
+                                 (and numberedp
+                                      (format
+                                       "<span class=\"section-number-%d\">%s</span> "
+                                       level
+                                       (mapconcat #'number-to-string numbers ".")))
+                                 full-text)
+                                level)
+                        ;; When there is no section, pretend there is an
+                        ;; empty one to get the correct <div
+                        ;; class="outline-...> which is needed by
+                        ;; `org-info.js'.
+                        (if (eq (org-element-type first-content) 'section) contents
+                          (concat (org-html-section first-content "" info) contents))
+                        (org-html--container headline info)))))))
     ))
 
 (provide 'idiig-org)
