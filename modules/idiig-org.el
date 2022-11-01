@@ -747,6 +747,7 @@ See `org-capture-templates' for more information."
   (define-key global-map "\C-cc" 'org-capture)
   :config
   (progn
+    (add-hook 'org-mode-hook 'idiig/run-prog-mode-hooks)
     (require 'org-compat)
     (require 'org)
     (add-to-list 'org-modules 'org-habit)
@@ -817,7 +818,7 @@ See `org-capture-templates' for more information."
     (when org-inline-image-overlays
       (org-redisplay-inline-images))
 
-    ;; copy from chinese layer
+    ;; copy from chinese layer 防止中文一段过长
     (defadvice org-html-paragraph (before org-html-paragraph-advice
                                           (paragraph contents info) activate)
       "Join consecutive Chinese lines into a single long line without
@@ -868,34 +869,46 @@ holding contextual information."
                  (cdr ids) "")))
           (if (org-export-low-level-p headline info)
               ;; This is a deep sub-tree: export it as a list item.
-              (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
-                    (first-content (car (org-element-contents headline))))
-                ;; Standard headline.  Export it as a section.
-                (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
-                        (org-html--container headline info)
-                        (org-export-get-reference headline info)
-                        (concat (format "outline-%d" level)
-                                (and extra-class " ")
-                                extra-class)
-                        (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
-                                level
-                                preferred-id
-                                extra-ids
-                                (concat
-                                 (and numberedp
-                                      (format
-                                       "<span class=\"section-number-%d\">%s</span> "
-                                       level
-                                       (mapconcat #'number-to-string numbers ".")))
-                                 full-text)
-                                level)
-                        ;; When there is no section, pretend there is an
-                        ;; empty one to get the correct <div
-                        ;; class="outline-...> which is needed by
-                        ;; `org-info.js'.
-                        (if (eq (org-element-type first-content) 'section) contents
-                          (concat (org-html-section first-content "" info) contents))
-                        (org-html--container headline info)))))))
+              (let* ((type (if numberedp 'ordered 'unordered))
+                     (itemized-body
+                      (org-html-format-list-item
+                       contents type nil info nil
+                       (concat (org-html--anchor preferred-id nil nil info)
+                               extra-ids
+                               full-text))))
+                (concat (and (org-export-first-sibling-p headline info)
+                             (org-html-begin-plain-list type))
+                        itemized-body
+                        (and (org-export-last-sibling-p headline info)
+                             (org-html-end-plain-list type))))
+            (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
+                  (first-content (car (org-element-contents headline))))
+              ;; Standard headline.  Export it as a section.
+              (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
+                      (org-html--container headline info)
+                      (org-export-get-reference headline info)
+                      (concat (format "outline-%d" level)
+                              (and extra-class " ")
+                              extra-class)
+                      (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
+                              level
+                              preferred-id
+                              extra-ids
+                              (concat
+                               (and numberedp
+                                    (format
+                                     "<span class=\"section-number-%d\">%s</span> "
+                                     level
+                                     (mapconcat #'number-to-string numbers ".")))
+                               full-text)
+                              level)
+                      ;; When there is no section, pretend there is an
+                      ;; empty one to get the correct <div
+                      ;; class="outline-...> which is needed by
+                      ;; `org-info.js'.
+                      (if (eq (org-element-type first-content) 'section) contents
+                        (concat (org-html-section first-content "" info) contents))
+                      (org-html--container headline info)))))))
     ))
 
 (provide 'idiig-org)
