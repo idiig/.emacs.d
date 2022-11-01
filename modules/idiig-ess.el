@@ -1,6 +1,43 @@
 ;; R程序的位置
 (defvar idiig-R-program-path "/usr/local/bin/R")
 
+;; ESS keybinding
+(defun idiig//ess-set-keys ()
+
+  (evil-leader/set-key-for-mode 'ess-julia-mode
+    "'"  'julia
+    "si" 'julia)
+  (dolist (mode '(ess-r-mode ess-stata-mode))
+    (evil-leader/set-key-for-mode mode
+      "'"  'idiig/ess-start-repl
+      "si" 'idiig/ess-start-repl
+      ;; noweb
+      "cC" 'ess-eval-chunk-and-go
+      "cc" 'ess-eval-chunk
+      "cd" 'ess-eval-chunk-and-step
+      "cm" 'ess-noweb-mark-chunk
+      "cN" 'ess-noweb-previous-chunk
+      "cn" 'ess-noweb-next-chunk
+      ;; REPL
+      "sB" 'ess-eval-buffer-and-go
+      "sb" 'ess-eval-buffer
+      "sD" 'ess-eval-function-or-paragraph-and-step
+      "sd" 'ess-eval-region-or-line-and-step
+      "sL" 'ess-eval-line-and-go
+      "sl" 'ess-eval-line
+      "sR" 'ess-eval-region-and-go
+      "sr" 'ess-eval-region
+      "sT" 'ess-eval-function-and-go
+      "st" 'ess-eval-function
+      ;; R helpers
+      "hd" 'ess-R-dv-pprint
+      "ht" 'ess-R-dv-ctable
+      )
+    (define-key ess-mode-map (kbd "<s-return>") 'ess-eval-line)
+    (define-key inferior-ess-mode-map (kbd "C-j") 'comint-next-input)
+    (define-key inferior-ess-mode-map (kbd "C-k") 'comint-previous-input)
+    ))
+
 ;; https://github.com/syl20bnr/idiig/blob/master/layers/%2Blang/ess/packages.el
 (use-package ess
   :commands (S-mode
@@ -47,6 +84,8 @@
          ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
          ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode))
   ;; :commands (R stata julia SAS)
+  ;; :init
+  ;; (add-to-list 'org-babel-load-languages '(R . t))
   :config
   (progn
     (require 'ess-site)
@@ -56,7 +95,8 @@
     (idiig/register-repl 'ess-site 'stata)
     ;; ess mode 本身不会被识别为 prog mode 因此加入
     (add-hook 'ess-mode-hook 'idiig/run-prog-mode-hooks)
-    (add-hook 'ess-mode-hook '(lambda () (flymake-mode nil)))))
+    ;; 关闭flymake   
+    (setq ess-use-flymake nil)))
 
 
 ;; R --------------------------------------------------------------------------
@@ -76,39 +116,9 @@
      ((string= "S" ess-language) (call-interactively 'R))
      ((string= "STA" ess-language) (call-interactively 'stata))
      ((string= "SAS" ess-language) (call-interactively 'SAS))))
-
-  (evil-leader/set-key-for-mode 'ess-julia-mode
-    "'"  'julia
-    "si" 'julia)
   
-(evil-leader/set-key-for-mode 'ess-mode
-    "'"  'idiig/ess-start-repl
-    "si" 'idiig/ess-start-repl
-    ;; noweb
-    "cC" 'ess-eval-chunk-and-go
-    "cc" 'ess-eval-chunk
-    "cd" 'ess-eval-chunk-and-step
-    "cm" 'ess-noweb-mark-chunk
-    "cN" 'ess-noweb-previous-chunk
-    "cn" 'ess-noweb-next-chunk
-    ;; REPL
-    "sB" 'ess-eval-buffer-and-go
-    "sb" 'ess-eval-buffer
-    "sD" 'ess-eval-function-or-paragraph-and-step
-    "sd" 'ess-eval-region-or-line-and-step
-    "sL" 'ess-eval-line-and-go
-    "sl" 'ess-eval-line
-    "sR" 'ess-eval-region-and-go
-    "sr" 'ess-eval-region
-    "sT" 'ess-eval-function-and-go
-    "st" 'ess-eval-function
-    ;; R helpers
-    "hd" 'ess-R-dv-pprint
-    "ht" 'ess-R-dv-ctable
-    )
-  (define-key ess-mode-map (kbd "<s-return>") 'ess-eval-line)
-  (define-key inferior-ess-mode-map (kbd "C-j") 'comint-next-input)
-  (define-key inferior-ess-mode-map (kbd "C-k") 'comint-previous-input))
+  (idiig//ess-set-keys)
+  )
 
 (use-package ess-smart-equals
   :init (setq ess-smart-equals-extra-ops '(brace paren percent))
