@@ -62,7 +62,7 @@
 (require 'idiig-git)
 (require 'idiig-org)
 (require 'idiig-noter)
-;; (require 'idiig-text-helper)
+(require 'idiig-text-helper)
 
 ;; 常用语言
 (require 'idiig-tex)
