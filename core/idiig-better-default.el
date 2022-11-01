@@ -75,7 +75,9 @@
           "\\.sub$"
           "\\.srt$"
           "\\.ass$"
-          ".*png$"))
+          ".*png$"
+          "Nutstore/org-files/"
+          "bookmarks"))
   (setq recentf-max-saved-items 2048)
   :config
   (recentf-mode 1))
