@@ -125,7 +125,15 @@
     ;; (setq lsp-bridge-enable-auto-format-code t)
     (setq lsp-bridge-python-command "/Users/idiig/.pyenv/shims/python")
     ;; (setq lsp-bridge-python-command "/opt/homebrew/opt/python@3.10/bin/python3.10")
-    ;; (setq lsp-bridge-org-babel-lang-list '(python emacs-lisp latex sh))
-    ))
+    ;; 增加org-babel语言
+    (setq lsp-bridge-org-babel-lang-list '("clojure" 
+                                           "latex" 
+                                           "python"
+                                           "R"
+                                           "hmtl"
+                                           "sh"
+                                           "emacs-lisp"
+                                           "org"
+                                           "css"))))
 
 (provide 'idiig-prog)
