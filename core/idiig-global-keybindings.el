@@ -157,6 +157,103 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
  "ot" 'org-todo-list
  "op" 'org-pomodoro)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;         便利设定          ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun idiig//acceptable-leader-p (key)
+  "Return t if key is a string and non-empty."
+  (and (stringp key) (not (string= key ""))))
+
+(defun idiig//init-leader-mode-map (mode map &optional minor)
+  "Check for MAP-prefix. If it doesn't exist yet, use `bind-map'
+to create it and bind it to `idiig-major-mode-leader-key'
+and `idiig-major-mode-emacs-leader-key'. If MODE is a
+minor-mode, the third argument should be non nil."
+  (let* ((prefix (intern (format "%s-prefix" map)))
+         (leader1 (when (idiig//acceptable-leader-p
+                         idiig-major-mode-leader-key)
+                    idiig-major-mode-leader-key))
+         (leader2 (when (idiig//acceptable-leader-p
+                         idiig-leader-key)
+                    (concat idiig-leader-key " m")))
+         (emacs-leader1 (when (idiig//acceptable-leader-p
+                               idiig-major-mode-emacs-leader-key)
+                          idiig-major-mode-emacs-leader-key))
+         (emacs-leader2 (when (idiig//acceptable-leader-p
+                               idiig-emacs-leader-key)
+                          (concat idiig-emacs-leader-key " m")))
+         (leaders (delq nil (list leader1 leader2)))
+         (emacs-leaders (delq nil (list emacs-leader1 emacs-leader2))))
+    (or (boundp prefix)
+        (progn
+          (eval
+           `(bind-map ,map
+              :prefix-cmd ,prefix
+              ,(if minor :minor-modes :major-modes) (,mode)
+              :keys ,emacs-leaders
+              :evil-keys ,leaders
+              :evil-states (normal motion visual evilified)))
+          (boundp prefix)))))
+
+(defun idiig/set-leader-keys-for-major-mode (mode key def &rest bindings)
+  "Add KEY and DEF as key bindings under
+`idiig-major-mode-leader-key' and
+`idiig-major-mode-emacs-leader-key' for the major-mode
+MODE. MODE should be a quoted symbol corresponding to a valid
+major mode. The rest of the arguments are treated exactly like
+they are in `idiig/set-leader-keys'."
+  (let* ((map (intern (format "idiig-%s-map" mode))))
+    (when (idiig//init-leader-mode-map mode map)
+      (while key
+        (define-key (symbol-value map) (kbd key) def)
+        (setq key (pop bindings) def (pop bindings))))))
+(put 'idiig/set-leader-keys-for-major-mode 'lisp-indent-function 'defun)
+
+(defalias
+  'evil-leader/set-key-for-mode
+  'idiig/set-leader-keys-for-major-mode)
+
+;; set key for minor mode
+(defun idiig/set-leader-keys-for-minor-mode (mode key def &rest bindings)
+  "Add KEY and DEF as key bindings under
+`dotidiig-major-mode-leader-key' and
+`dotidiig-major-mode-emacs-leader-key' for the minor-mode
+MODE. MODE should be a quoted symbol corresponding to a valid
+minor mode. The rest of the arguments are treated exactly like
+they are in `idiig/set-leader-keys'."
+  (let* ((map (intern (format "idiig-%s-map" mode))))
+    (when (idiig//init-leader-mode-map mode map t)
+      (while key
+        (define-key (symbol-value map) (kbd key) def)
+        (setq key (pop bindings) def (pop bindings))))))
+(put 'idiig/set-leader-keys-for-minor-mode 'lisp-indent-function 'defun)
+
+;; ;; declare prefix
+;; (defun idiig/declare-prefix-for-mode (mode prefix name &optional long-name)
+;;   "Declare a prefix PREFIX. MODE is the mode in which this prefix command should
+;; be added. PREFIX is a string describing a key sequence. NAME is a symbol name
+;; used as the prefix command."
+;;   (let  ((command (intern (concat (symbol-name mode) name)))
+;;          (full-prefix (concat idiig-leader-key " " prefix))
+;;          (full-prefix-emacs (concat idiig-emacs-leader-key " " prefix))
+;;          (is-major-mode-prefix (string-prefix-p "m" prefix))
+;;          (major-mode-prefix (concat idiig-major-mode-leader-key
+;;                                     " " (substring prefix 1)))
+;;          (major-mode-prefix-emacs
+;;           (concat idiig-major-mode-emacs-leader-key
+;;                   " " (substring prefix 1))))
+;;     (unless long-name (setq long-name name))
+;;     (let ((prefix-name (cons name long-name)))
+;;       (which-key-add-major-mode-key-based-replacements mode
+;;         full-prefix-emacs prefix-name
+;;         full-prefix prefix-name)
+;;       (when (and is-major-mode-prefix idiig-major-mode-leader-key)
+;;         (which-key-add-major-mode-key-based-replacements mode major-mode-prefix prefix-name))
+;;       (when (and is-major-mode-prefix idiig-major-mode-emacs-leader-key)
+;;         (which-key-add-major-mode-key-based-replacements
+;;           mode major-mode-prefix-emacs prefix-name)))))
+;; (put 'idiig/declare-prefix-for-mode 'lisp-indent-function 'defun)
+
 ;; ;; 提示快捷键
 ;; (which-key-declare-prefixes "SPC SPC" "M-x")
 ;; (which-key-declare-prefixes "SPC TAB" "last buffer")
