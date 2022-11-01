@@ -153,6 +153,7 @@
          ([remap find-file] . find-file)
          ([remap open-recent-file] . consult-recent-file)
          ([remap evil-yank] . consult-yank-pop)
+         ("C-c y" . consult-yasnippet)
          ("C-c f" . consult-find)
          ("C-s" . consult-line)
          ("C-c i" . consult-imenu)
