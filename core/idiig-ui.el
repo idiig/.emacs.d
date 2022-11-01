@@ -30,7 +30,12 @@
 ;; (cancel-timer global-hl-line-timer)
 
 ;; Theme
-(load-theme 'leuven t)
+(use-package leuven-theme
+  :config
+  (load-theme 'leuven t)
+  (setq org-fontify-whole-heading-line t)
+  ;; (setq leuven-scale-org-agenda-structure nil)
+  )
 ;; (use-package parchment-theme
 ;;   :config (load-theme 'parchment t))
 
