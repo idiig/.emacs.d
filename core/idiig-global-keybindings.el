@@ -9,7 +9,6 @@
 (global-set-key (kbd "C-s-'") 'avy-goto-char-2)
 (global-set-key (kbd "M-'") 'avy-goto-char-2)
 (global-set-key (kbd "C-M-/") 'fci-mode)  ;; 80字提示线
-;; (bind-key* "C-c k" 'which-key-show-top-level)  ;; which-key top level
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line) ;; 跳到代码最前
 (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)  ;; 跳到代码最后
 (global-set-key (kbd "C-=") 'er/expand-region) ;; 扩大选取
@@ -18,7 +17,6 @@
 ;; 自定义功能 
 (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)  ;; 全局自动缩进
 (global-set-key (kbd "C-M-¥") 'indent-region-or-buffer)  ;; 全局自动缩进
-;; (global-set-key (kbd "C-c C-e") 'occur-dwim)  
 (global-set-key (kbd "C-w") 'backward-kill-word-or-region);; 删除word 
 (bind-key* "C-." 'idiig/insert-space-after-point) ;; 点后插入空白
 (global-set-key [(shift return)] 'idiig/smart-open-line) ;; 行末尾加白行
@@ -180,7 +178,7 @@ minor-mode, the third argument should be non nil."
               ,(if minor :minor-modes :major-modes) (,mode)
               :keys ,emacs-leaders
               :evil-keys ,leaders
-              :evil-states (normal motion visual evilified)))
+              :evil-states (normal motion visual)))
           (boundp prefix)))))
 
 (defun idiig/set-leader-keys-for-major-mode (mode key def &rest bindings)
