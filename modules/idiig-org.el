@@ -525,7 +525,10 @@ See `org-capture-templates' for more information."
   (progn
 
     ;; hogo
-    (use-package ox-hugo) 
+    (use-package ox-hugo
+      :config
+      (plist-put org-hugo-citations-plist
+                 :bibliography-section-heading "Bibliography"))
 
     ;; TeX
     (use-package ox-latex
