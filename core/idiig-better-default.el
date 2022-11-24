@@ -76,7 +76,7 @@
           "\\.srt$"
           "\\.ass$"
           ".*png$"
-          "Nutstore/org-files/"
+          ;; "Nutstore/org-files/"
           "bookmarks"))
   (setq recentf-max-saved-items 2048)
   :config
