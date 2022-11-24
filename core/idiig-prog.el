@@ -36,7 +36,9 @@
 
 (use-package grammatical-edit
   :load-path "~/.emacs.d/dependencies/grammatical-edit"
-  :hook (prog-mode . (lambda () (grammatical-edit-mode 1)))
+  :hook (prog-mode . (lambda () 
+                       (unless (derived-mode-p 'org-mode 'org-mode)
+                                  (grammatical-edit-mode 1))))
   :config
   (define-key grammatical-edit-mode-map (kbd "(") 'grammatical-edit-open-round)
   (define-key grammatical-edit-mode-map (kbd "[") 'grammatical-edit-open-bracket)
