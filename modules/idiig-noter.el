@@ -1,42 +1,10 @@
-;; ivy bibtex
-(use-package ivy-bibtex
-  :defer t
-  :hook (
-         (org-mode-hook . (lambda () (require 'ivy-bibtex)))
-         (markdown-mode-hook . (lambda () (require 'ivy-bibtex)))
-         (LaTeX-mode-hook . (lambda () (require 'ivy-bibtex)))
-         )
-  :config
-  (progn
-    (setq
-     bibtex-completion-notes-path "~/Nutstore/org-files/roam"
-     bibtex-completion-bibliography "~/Nutstore/bibfolder/bibliography.bib"
-     bibtex-completion-pdf-field "file"
-     bibtex-completion-notes-template-multiple-files
-     (concat
-      "#+TITLE: ${title}\n"
-      "#+ROAM_KEY: cite:${citekey}\n"
-      ;; "* TODO Notes\n"
-      ":PROPERTIES:\n"
-      ":Custom_ID: ${citekey}\n"
-      ":NOTER_DOCUMENT: ${file}\n"
-      ":AUTHOR: ${author-abbrev}\n"
-      ":JOURNAL: ${journaltitle}\n"
-      ":YEAR: ${year}\n"
-      ":DOI: ${doi}\n"
-      ":URL: ${url}\n"
-      ":END:\n\n"
-      )
-     )))
-
 (use-package citar
-  ;; :straight (citar :type git :host github :repo "emacs-citar/citar" :includes (citar-org))
-  ;; :after org markdown latex
-  :commands (org-cite-insert)
+  :after oc
+  ;; :commands (org-cite-insert)
   ;; :after org markdown latex
   :bind
-  ((:map org-mode-map :package org ("C-c [" . #'org-cite-insert))
-   (:map markdown-mode-map ("C-c [" . #'org-cite-insert))
+  ((:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
+   (:map markdown-mode-map ("C-c b" . #'org-cite-insert))
    ;; (:map latex-mode-map ("C-c [" . #'org-cite-insert))
    )
   :custom
@@ -44,17 +12,18 @@
   (org-cite-global-bibliography
    '("~/Nutstore/bibfolder/bibliography.bib"))
   (citar-bibliography org-cite-global-bibliography)
-  (org-cite-export-processors
-   '((md . (csl "modern-language-association.csl"))   ; Footnote reliant
-     (latex . biblatex)                                 ; For humanities
-     (odt . (csl "modern-language-association.csl"))  ; Footnote reliant
-     (t . (csl "modern-language-association.csl"))      ; Fallback
-     ))
+  ;; Style file
+  (org-cite-csl-styles-dir
+   (expand-file-name "~/Nutstore/bibfolder/styles/"))
+  ;; Active citar
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)
+  ;; Note
+  (citar-notes-paths (list "~/Nutstore/org-files/roam")) ; List of directories for reference nodes
+  (citar-open-note-function 'orb-citar-edit-note) ; Open notes in `org-roam'
+  (citar-at-point-function 'embark-act)           ; Use `embark'
   :init
-  ;; keybindings
   (progn
     (evil-leader/set-key-for-mode 'org-mode
       ;;   "rn" 'org-ref-open-notes-at-point
@@ -71,114 +40,35 @@
 
     ;; template
     (setq citar-templates
-          '((main . "${author editor:30}     ${date year issued:4}     ${title:48}")
-            (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords:*}")
+          '((main . "${author editor:20}     ${date year issued:4}     ${title:60}")
+            (suffix . "    ${=key= id:20}    ${=type=:12}")
             (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-            (note . "Notes on ${author editor}, ${title}")))
-    ))
+            (note . "Notes on ${author editor}, ${title}")
+            ))
+    )
+  :config
+  ;; Cite processor
+  (use-package oc-biblatex
+      :ensure org-contrib)
+  (setq org-cite-export-processors '(
+     (md . (csl "apa.csl"))
+     (latex biblatex)
+     (odt . (csl "apa.csl"))
+     (t . (csl "apa.csl")) 
+     ))
+  )
 
-;; org-ref 设定
+;; citar embark
+(use-package citar-embark
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
+
+;; cross-ref
 (use-package org-ref
   :diminish
   :after org
-  :commands (org-ref-bibtex-next-entry
-             org-ref-bibtex-previous-entry
-             org-ref-open-in-browser
-             org-ref-open-bibtex-notes
-             org-ref-open-bibtex-pdf
-             org-ref-bibtex-hydra/body
-             org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
-             org-ref-sort-bibtex-entry
-             arxiv-add-bibtex-entry
-             arxiv-get-pdf-add-bibtex-entry
-             doi-utils-add-bibtex-entry-from-doi
-             isbn-to-bibtex
-             pubmed-insert-bibtex-from-pmid)
-  :defer t
-  :init
-  (defun org-ref-open-pdf-at-point ()
-    "Open the pdf for bibtex key under point if it exists."
-    (interactive)
-    (let* ((results (org-ref-get-bibtex-key-and-file))
-           (key (car results))
-           (pdf-file (car (bibtex-completion-find-pdf key))))
-      (if (file-exists-p pdf-file)
-          (org-open-file pdf-file)
-        (message "No PDF found for %s" key))))
-  (progn
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (require 'org-ref-ivy)                
-                (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-                      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-                      org-ref-insert-label-function 'org-ref-insert-label-link
-                      org-ref-insert-ref-function 'org-ref-insert-ref-link
-                      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body))
-                      )
-                )
-              )
-    (setq reftex-default-bibliography '("~/Nutstore/bibfolder/bibliography.bib"))
-    ;; see org-ref for use of these variables
-    (setq
-     ;; org-ref-bibliography-notes "~/Nutstore/org-files/bibnote.org"
-     org-ref-default-bibliography '"~/Nutstore/bibfolder/bibliography.bib"
-     org-ref-pdf-directory "~/Nutstore/bibfolder/bibpdf"
-     )
-    (setq org-ref-note-title-format
-          "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :NOTER_DOCUMENT: %F\n :ROAM_KEY: cite:%k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
-          )
-    (setq org-ref-notes-directory "~/Nutstore/org-files/roam"
-          org-ref-notes-function 'orb-edit-notes)
-    (setq org-ref-default-citation-link "citep")
-
-    ;; basic keybindings
-    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-cite-link)
-    ;; (define-key org-mode-map (kbd "s-[") 'org-ref-citation-hydra/body)
-    
-    ;; bibtex keybindings
-    (evil-define-key 'normal bibtex-mode-map
-      (kbd "C-j") 'org-ref-bibtex-next-entry
-      (kbd "C-k") 'org-ref-bibtex-previous-entry
-      "M-j" 'org-ref-bibtex-next-entry
-      "M-k" 'org-ref-bibtex-previous-entry)
-
-    ;; bibtex-mode keybindings
-    (evil-leader/set-key-for-mode 'bibtex-mode
-      ;; Navigation
-      "j" 'org-ref-bibtex-next-entry
-      "k" 'org-ref-bibtex-previous-entry
-
-      ;; Open
-      "b" 'org-ref-open-in-browser
-      "n" 'org-ref-open-bibtex-notes
-      "p" 'org-ref-open-bibtex-pdf
-
-      ;; Misc
-      "h" 'org-ref-bibtex-hydra/body
-      "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
-      "s" 'org-ref-sort-bibtex-entry
-
-      ;; Lookup utilities
-      "la" 'arxiv-add-bibtex-entry
-      "lA" 'arxiv-get-pdf-add-bibtex-entry
-      "ld" 'doi-utils-add-bibtex-entry-from-doi
-      "li" 'isbn-to-bibtex
-      "lp" 'pubmed-insert-bibtex-from-pmid)
-
-    ;; org mode keybindings
-    (evil-leader/set-key-for-mode 'org-mode
-      "rn" 'org-ref-open-notes-at-point
-      "rp" 'org-ref-open-pdf-at-point
-      "ic" 'org-ref-insert-cite-link)
-
-    ;; markdown-mode keybindings
-    (evil-leader/set-key-for-mode 'markdown-mode
-      "ic" 'org-ref-insert-cite-link)
-
-    ;; latex-mode keybindings 
-    (evil-leader/set-key-for-mode 'latex-mode
-      "ic" 'org-ref-insert-cite-link))
-  )
+  :commands org-insert-link)
 
 ;; deft
 (use-package deft
@@ -364,8 +254,8 @@
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
   (progn
-    (require 'org-ref)
-    (require 'yasnippet-snippets)
+    ;; (require 'org-ref)
+    ;; (require 'yasnippet-snippets)
     (setq org-roam-bibtex-preformat-keywords
           '("citekey" "keywords" "title" "file" "author" "doi" "url")
           orb-process-file-field t
