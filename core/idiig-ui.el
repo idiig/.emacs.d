@@ -2,7 +2,7 @@
 (tool-bar-mode -1) ;; 关闭工具栏
 ;; (menu-bar-mode -1) ;; 关闭shell的工具栏
 (scroll-bar-mode -1) ;; 关闭文件滑动控件
-(global-linum-mode -1) ;; 不显示行号
+;; (global-linum-mode -1) ;; 不显示行号
 (setq cursor-type 'bar) ;; 更改光标的样式（不能生效，解决方案见第二集）
 (setq inhibit-splash-screen 1) ;; 关闭启动帮助画面
 (set-face-attribute 'default nil :height 160) ;; 更改显示字体大小 16pt

@@ -60,8 +60,10 @@
 
 ;; citar embark
 (use-package citar-embark
+  :diminish
   :after citar embark
   :no-require
+  ;; :commands (embark-act embark-dwim)
   :config (citar-embark-mode))
 
 ;; cross-ref

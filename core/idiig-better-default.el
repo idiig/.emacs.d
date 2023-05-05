@@ -39,7 +39,7 @@
 ;; 添加ag，tex等的路径
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setenv "PATH" (concat (getenv "PATH") ":/opt/homebrew/bin"))
-;; (setenv "PATH" "~/anaconda3/envs/")
+(setenv "PATH" "~/.pyenv/shims/python")
 (use-package exec-path-from-shell
   :defer t
   :custom
