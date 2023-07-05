@@ -183,11 +183,11 @@
     ;; C-s C-s 检索历史记录
     (defvar my-consult-line-map
       (let ((map (make-sparse-keymap)))
-        (define-key map "\C-s" #'previous-history-element)
+        (define-key map "C-s" #'previous-history-element)
         map))
     (consult-customize consult-line :keymap my-consult-line-map)
     ;; ;; 禁止自动显示consult文件的内容
-    (setq consult-preview-key (kbd "C-v"))
+    (setq consult-preview-key "C-v")
     ;; 应用 Orderless 的正则解析到 consult-grep/ripgrep/find
     (defun consult--orderless-regexp-compiler (input type &rest _config)
       (setq input (orderless-pattern-compiler input))
