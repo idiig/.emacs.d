@@ -14,3 +14,4 @@
 /dependencies/tree-sitter-langs/queries/
 /dependencies/.DS_Store
 /eln-cache/
+*.el#
