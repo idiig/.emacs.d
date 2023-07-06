@@ -132,6 +132,8 @@
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   :config
   (progn
     ;; 关闭modeline
@@ -143,7 +145,8 @@
     (evil-set-initial-state 'embark-collect-mode 'normal)
     ;; help-key
     ;; (embark-help-key "?")
-    ))
+    )
+  )
 
 (use-package consult
   :hook (after-init . (lambda () (require 'consult)))
@@ -210,7 +213,8 @@
 
 ;; embark-export弹出occur和grep mode的buffer
 (use-package embark-consult
-  :after (embark consult)
+  :ensure t
+  :after (consult)
   :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
 
 ;; grep搜索+集体修改
