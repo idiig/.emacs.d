@@ -3,13 +3,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(connection-local-criteria-alist
+   '(((:application eshell)
+      eshell-connection-default-profile)))
+ '(connection-local-profile-alist
+   '((eshell-connection-default-profile
+      (eshell-path-env-list))))
  '(dap-breakpoints-file "/Users/idiig/.emacs.d/.cache/.dap-breakpoints")
  '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(lsp-session-file "/Users/idiig/.emacs.d/.cache/.lsp-session-v1")
  '(lsp-warn-no-matched-clients nil)
  '(org-agenda-files
-   '("/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/index.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
+   '("/Users/idiig/Nutstore/org-files/all-posts.org" "/Users/idiig/Nutstore/org-files/bibnote.org" "/Users/idiig/Nutstore/org-files/gtd.org" "/Users/idiig/Nutstore/org-files/inbox.org" "/Users/idiig/Nutstore/org-files/journal.org" "/Users/idiig/Nutstore/org-files/notes.org"))
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown 'repeated-after-deadline)
  '(org-export-with-sub-superscripts '{})
