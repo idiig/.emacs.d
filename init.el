@@ -15,6 +15,12 @@
 (defvar idiig-cache-dir (expand-file-name  ".cache" idiig-dir))      ;; 用户数据文件夹
 (defvar idiig-savefile-dir (expand-file-name "savefile" idiig-cache-dir)) ;; 自动保存文件夹
 
+;; Cloud folder
+(defvar idiig-cloud-dir "~/Nutstore")  ;; 云服务文件夹
+
+;; org file 
+(defvar idiig-org-dir (expand-file-name "org-files" idiig-cloud-dir))
+
 ;; 添加到加载路径
 (add-to-list 'load-path idiig-core-dir)
 (add-to-list 'load-path idiig-modules-dir)
