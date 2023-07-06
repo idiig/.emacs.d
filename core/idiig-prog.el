@@ -122,10 +122,11 @@
   (require 'lsp-bridge)
   :config
   (progn
-    (setq acm-enable-tabnine t)
+    (setq acm-enable-tabnine nil)
     ;; (setq lsp-bridge-enable-log t)
     ;; (setq lsp-bridge-enable-auto-format-code t)
-    (setq lsp-bridge-python-command "/Users/idiig/.pyenv/shims/python3")
+    (setq lsp-bridge-python-command "python3")
+    ;; (setq lsp-bridge-python-command "/Users/idiig/.pyenv/shims/python3")
     ;; (setq lsp-bridge-python-command "/opt/homebrew/opt/python@3.10/bin/python3.10")
     ;; 增加org-babel语言
     (setq lsp-bridge-org-babel-lang-list '("clojure" 
