@@ -133,7 +133,7 @@
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   :config
   (progn
     ;; 关闭modeline
@@ -163,7 +163,8 @@
          ("C-c o" . consult-file-externally)
          ("C-x p f" . consult-ripgrep)
          (:map minibuffer-local-map
-               ("C-c h" . consult-history)))
+               ("C-c h" . consult-history)
+               ("C-s" . #'previous-history-element)))
   :init
   (defun idiig/consult-buffer-region-or-symbol ()
     "consult-line当前字符或选中区域."
@@ -183,12 +184,11 @@
       (consult-ripgrep default-inputp input)))
   :config
   (progn
-    ;; C-s C-s 检索历史记录
-    (defvar my-consult-line-map
-      (let ((map (make-sparse-keymap)))
-        (define-key map "C-s" #'previous-history-element)
-        map))
-    (consult-customize consult-line :keymap my-consult-line-map)
+    ;; (defvar my-consult-line-map
+    ;;   (let ((map (make-sparse-keymap)))
+    ;;     (define-key map "C-s" #'previous-history-element)
+    ;;     map))
+    ;; (consult-customize consult-line :keymap my-consult-line-map)
     ;; ;; 禁止自动显示consult文件的内容
     (setq consult-preview-key "C-v")
     ;; 应用 Orderless 的正则解析到 consult-grep/ripgrep/find
@@ -215,7 +215,7 @@
 (use-package embark-consult
   :ensure t
   :after (consult)
-  :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
+)
 
 ;; grep搜索+集体修改
 (use-package wgrep
