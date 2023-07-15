@@ -912,6 +912,13 @@ holding contextual information."
                       (if (eq (org-element-type first-content) 'section) contents
                         (concat (org-html-section first-content "" info) contents))
                       (org-html--container headline info)))))))
+    ;; org mobile
+    (setq org-mobile-directory "~/Nutstore/org-files/")
+    (setq org-mobile-inbox-for-pull "~/Nutstore/org-files/index.org")
+    (advice-add 'org-agenda-quit :before 'org-mobile-push)
+    (advice-add 'org-agenda-quit :before 'org-mobile-pull)
+    (advice-add 'org-capture :before 'org-mobile-push)
+    (advice-add 'org-capture :before 'org-mobile-pull)
     ))
 
 (provide 'idiig-org)
